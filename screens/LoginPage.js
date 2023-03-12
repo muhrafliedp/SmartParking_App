@@ -111,7 +111,7 @@ const LoginScreen = ({ navigation }) => {
           paddingTop: 50,
         }}
       >
-        <Button title="Login" onPress={handleLogin} />
+        <Button title="Login" color="#003565" onPress={handleLogin} />
       </View>
     </View>
   );

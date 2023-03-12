@@ -8,7 +8,7 @@ const SplashScreen = ({ navigation }) => {
   return (
     <View
       style={{
-        flex: 1,
+        flex: 2,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
@@ -24,8 +24,11 @@ const SplashScreen = ({ navigation }) => {
         source={require("../assets/images/Logo.png")}
         style={{ width: 200, height: 200 }}
       />
-      <Text style={{ fontSize: 25, color: "#465bd8" }}>
-        Smart Parking System
+      <Text style={{ fontSize: 22, fontWeight: 900, color: "#003565" }}>
+        SMART PARKING SYSTEM
+      </Text>
+      <Text style={{ fontSize: 18, fontWeight: 300, color: "black" }}>
+        ~ by 1% Club ~
       </Text>
     </View>
   );

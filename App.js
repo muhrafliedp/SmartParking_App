@@ -8,6 +8,9 @@ import {
   LoginScreen,
   DashboardPage,
   DashboardPage2,
+  ParkDashboard,
+  PaymentDashboard,
+  PaymentHistory,
 } from "./screens";
 
 // const Stack = createNativeStackNavigator();
@@ -21,6 +24,9 @@ const App = () => {
         <Tab.Screen name="LoginPage" component={LoginScreen} />
         <Tab.Screen name="DashboardPage" component={DashboardPage} />
         <Tab.Screen name="DashboardPage2" component={DashboardPage2} />
+        <Tab.Screen name="ParkDashboard" component={ParkDashboard} />
+        <Tab.Screen name="PaymentDashboard" component={PaymentDashboard} />
+        <Tab.Screen name="PaymentHistory" component={PaymentHistory} />
       </Tab.Navigator>
     </NavigationContainer>
   );
