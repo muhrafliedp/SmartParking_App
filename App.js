@@ -6,15 +6,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   SplashScreen,
   LoginScreen,
-  DashboardPage,
-  DashboardPage2,
-  ParkDashboard,
-  PaymentDashboard,
   PaymentHistory,
   DashboardPageOut,
   DashboardPageIn,
   ParkDashboardOut,
   PaymentDashboardOut,
+  ParkDashboardIn,
 } from "./screens";
 
 // const Stack = createNativeStackNavigator();
@@ -29,6 +26,7 @@ const App = () => {
         <Tab.Screen name="DashboardPageOut" component={DashboardPageOut} />
         <Tab.Screen name="DashboardPageIn" component={DashboardPageIn} />
         <Tab.Screen name="ParkDashboardOut" component={ParkDashboardOut} />
+        <Tab.Screen name="ParkDashboardIn" component={ParkDashboardIn} />
         <Tab.Screen
           name="PaymentDashboardOut"
           component={PaymentDashboardOut}
