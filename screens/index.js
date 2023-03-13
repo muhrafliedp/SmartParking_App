@@ -7,3 +7,4 @@ export { default as ParkDashboardIn } from "./ParkDashboardIn";
 export { default as PaymentDashboardOut } from "./PaymentDashboardOut";
 export { default as PaymentDashboardIn } from "./PaymentDashboardIn";
 export { default as PaymentHistory } from "./PaymentHistory";
+export { default as PaymentVerificationPage } from "./PaymentVerificationPage";

@@ -1,22 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, Button } from "react-native";
-import moment from "moment";
 
 const PaymentDashboardOut = ({ navigation }) => {
-  const [currentDate, setCurrentDate] = useState("");
-
   const handleIsClicked = () => {
     // If enter detected, navigate to dashboard page 2 screen
     navigation.navigate("PaymentHistory");
   };
-
-  useEffect(() => {
-    var date = moment()
-      .utcOffset("+07:00")
-      .format("dddd, DD MMMM YYYY | hh:mm:ss A");
-
-    setCurrentDate(date);
-  }, []);
 
   return (
     <View
@@ -40,26 +29,6 @@ const PaymentDashboardOut = ({ navigation }) => {
         </Text>
         <Text style={{ fontSize: 20 }}>masuk kawasan parkir</Text>
       </View>
-
-      {/* <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          paddingLeft: 30,
-          paddingTop: 40,
-        }}
-      >
-        <Text style={{ fontWeight: 900, fontSize: 20 }}>Informasi Parkir</Text>
-        <Text style={{ fontWeight: 900, fontSize: 17, color: "red" }}>
-          {currentDate}
-        </Text>
-        <Text style={{ paddingTop: 25, fontSize: 16 }}>
-          Kuota parkir saat ini :
-        </Text>
-        <Text style={{ paddingTop: 45, fontSize: 16 }}>
-          Prediksi kuota parkir 1 JAM mendatang :
-        </Text>
-      </View> */}
 
       <View
         style={{
