@@ -12,6 +12,7 @@ import {
   ParkDashboardOut,
   PaymentDashboardOut,
   ParkDashboardIn,
+  PaymentDashboardIn,
 } from "./screens";
 
 // const Stack = createNativeStackNavigator();
@@ -31,6 +32,7 @@ const App = () => {
           name="PaymentDashboardOut"
           component={PaymentDashboardOut}
         />
+        <Tab.Screen name="PaymentDashboardIn" component={PaymentDashboardIn} />
         <Tab.Screen name="PaymentHistory" component={PaymentHistory} />
       </Tab.Navigator>
     </NavigationContainer>

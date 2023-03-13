@@ -5,4 +5,5 @@ export { default as DashboardPageIn } from "./DashboardPageIn";
 export { default as ParkDashboardOut } from "./ParkDashboardOut";
 export { default as ParkDashboardIn } from "./ParkDashboardIn";
 export { default as PaymentDashboardOut } from "./PaymentDashboardOut";
+export { default as PaymentDashboardIn } from "./PaymentDashboardIn";
 export { default as PaymentHistory } from "./PaymentHistory";
