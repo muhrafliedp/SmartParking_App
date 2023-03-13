@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Button } from "react-native";
 import moment from "moment";
+// import { NavigationContainer } from "@react-navigation/native";
+// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+// import DashboardPage2 from "./DashboardPage2";
 
-const PaymentDashboard = ({ navigation }) => {
+// const Tab = createBottomTabNavigator();
+
+const DashboardPageOut = ({ navigation }) => {
   const [currentDate, setCurrentDate] = useState("");
 
-  const handleIsClicked = () => {
+  const handleIsEntered = () => {
     // If enter detected, navigate to dashboard page 2 screen
-    navigation.navigate("PaymentHistory");
+    navigation.navigate("DashboardPageIn");
   };
 
   useEffect(() => {
@@ -23,7 +28,7 @@ const PaymentDashboard = ({ navigation }) => {
       style={{
         flex: 1,
         flexDirection: "column",
-        justifyContent: "center",
+        paddingTop: 30,
       }}
     >
       <View
@@ -41,7 +46,7 @@ const PaymentDashboard = ({ navigation }) => {
         <Text style={{ fontSize: 20 }}>masuk kawasan parkir</Text>
       </View>
 
-      {/* <View
+      <View
         style={{
           flex: 1,
           flexDirection: "column",
@@ -59,7 +64,7 @@ const PaymentDashboard = ({ navigation }) => {
         <Text style={{ paddingTop: 45, fontSize: 16 }}>
           Prediksi kuota parkir 1 JAM mendatang :
         </Text>
-      </View> */}
+      </View>
 
       <View
         style={{
@@ -69,11 +74,7 @@ const PaymentDashboard = ({ navigation }) => {
           paddingTop: 50,
         }}
       >
-        <Button
-          title="Riwayat Pembayaran"
-          color="#003565"
-          onPress={handleIsClicked}
-        />
+        <Button title="enter" color="green" onPress={handleIsEntered} />
       </View>
     </View>
 
@@ -86,4 +87,4 @@ const PaymentDashboard = ({ navigation }) => {
   );
 };
 
-export default PaymentDashboard;
+export default DashboardPageOut;

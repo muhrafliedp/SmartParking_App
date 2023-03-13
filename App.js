@@ -11,6 +11,10 @@ import {
   ParkDashboard,
   PaymentDashboard,
   PaymentHistory,
+  DashboardPageOut,
+  DashboardPageIn,
+  ParkDashboardOut,
+  PaymentDashboardOut,
 } from "./screens";
 
 // const Stack = createNativeStackNavigator();
@@ -22,10 +26,13 @@ const App = () => {
       <Tab.Navigator screenOptions={{ headerShown: false }}>
         <Tab.Screen name="SplashScreen" component={SplashScreen} />
         <Tab.Screen name="LoginPage" component={LoginScreen} />
-        <Tab.Screen name="DashboardPage" component={DashboardPage} />
-        <Tab.Screen name="DashboardPage2" component={DashboardPage2} />
-        <Tab.Screen name="ParkDashboard" component={ParkDashboard} />
-        <Tab.Screen name="PaymentDashboard" component={PaymentDashboard} />
+        <Tab.Screen name="DashboardPageOut" component={DashboardPageOut} />
+        <Tab.Screen name="DashboardPageIn" component={DashboardPageIn} />
+        <Tab.Screen name="ParkDashboardOut" component={ParkDashboardOut} />
+        <Tab.Screen
+          name="PaymentDashboardOut"
+          component={PaymentDashboardOut}
+        />
         <Tab.Screen name="PaymentHistory" component={PaymentHistory} />
       </Tab.Navigator>
     </NavigationContainer>

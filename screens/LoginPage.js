@@ -18,7 +18,7 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = () => {
     // Authenticate user's credentials here
     // If valid, navigate to main app screen
-    navigation.navigate("DashboardPage");
+    navigation.navigate("DashboardPageOut");
   };
 
   return (

@@ -6,12 +6,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // const Tab = createBottomTabNavigator();
 
-const DashboardPage2 = ({ navigation }) => {
+const DashboardPageIn = ({ navigation }) => {
   const [currentDate, setCurrentDate] = useState("");
 
   const handleIsExit = () => {
     // If leave detected, navigate to dashboard page screen
-    navigation.goBack("DashboardPage");
+    navigation.goBack("DashboardPageOut");
   };
 
   useEffect(() => {
@@ -111,4 +111,4 @@ const DashboardPage2 = ({ navigation }) => {
   );
 };
 
-export default DashboardPage2;
+export default DashboardPageIn;

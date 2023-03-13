@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, StatusBar, Image } from "react-native";
 
-const ParkDashboard = () => {
+const ParkDashboardOut = () => {
   return (
     <View
       style={{
@@ -83,6 +83,6 @@ const ParkDashboard = () => {
   );
 };
 
-export default ParkDashboard;
+export default ParkDashboardOut;
 
 const style = StyleSheet.create({});
