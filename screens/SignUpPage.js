@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as Font from "expo-font";
 import { KeyboardAvoidingView } from "react-native-web";
 
@@ -72,6 +73,11 @@ const SignUpScreen = ({ navigation }) => {
           }}
         >
           <View style={styles.inputBox}>
+            <MaterialCommunityIcons
+              name="account"
+              color={"#818181"}
+              size={26}
+            />
             <TextInput
               style={styles.input}
               placeholder="Masukan Username"
@@ -83,6 +89,7 @@ const SignUpScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.inputBox}>
+            <MaterialCommunityIcons name="lock" color={"#818181"} size={26} />
             <TextInput
               style={styles.input}
               placeholder="Masukan Password"
@@ -95,7 +102,7 @@ const SignUpScreen = ({ navigation }) => {
           </View>
 
           <View style={{ marginTop: 20 }}>
-            <Text style={{ fontSize: 16, marginBottom: 15 }}>
+            <Text style={{ fontSize: 15, marginBottom: 15 }}>
               Jenis Civitas Kampus:{" "}
             </Text>
             <RadioButtonGroup
@@ -108,7 +115,7 @@ const SignUpScreen = ({ navigation }) => {
                 value="Dosen"
                 label={
                   <Text
-                    style={{ marginBottom: 15, marginLeft: 15, fontSize: 16 }}
+                    style={{ marginBottom: 15, marginLeft: 15, fontSize: 15 }}
                   >
                     Dosen
                   </Text>
@@ -119,7 +126,7 @@ const SignUpScreen = ({ navigation }) => {
                 value="Mahasiswa"
                 label={
                   <Text
-                    style={{ marginBottom: 15, marginLeft: 15, fontSize: 16 }}
+                    style={{ marginBottom: 15, marginLeft: 15, fontSize: 15 }}
                   >
                     Mahasiswa
                   </Text>
@@ -129,16 +136,21 @@ const SignUpScreen = ({ navigation }) => {
               <RadioButtonItem
                 value="Lainnya"
                 label={
-                  <Text style={{ marginLeft: 15, fontSize: 16 }}>Lainnya</Text>
+                  <Text style={{ marginLeft: 15, fontSize: 15 }}>Lainnya</Text>
                 }
               />
             </RadioButtonGroup>
           </View>
 
           <View style={styles.inputBox}>
+            <MaterialCommunityIcons
+              name="card-account-details-outline"
+              color={"#818181"}
+              size={26}
+            />
             <TextInput
               style={styles.input}
-              placeholder="Masukan NIM Anda"
+              placeholder="Masukan NIP/NIM Anda"
               secureTextEntry={true}
               placeholderTextColor="#818181"
               onChangeText={(text) => {

@@ -12,7 +12,7 @@ const DashboardPageOut = ({ navigation }) => {
 
   const handleIsEntered = () => {
     // If enter detected, navigate to dashboard page 2 screen
-    navigation.navigate("DashboardPageIn");
+    navigation.navigate("User-In");
   };
 
   useEffect(() => {

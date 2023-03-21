@@ -11,7 +11,7 @@ const DashboardPageIn = ({ navigation }) => {
 
   const handleIsExit = () => {
     // If leave detected, navigate to dashboard page screen
-    navigation.goBack("DashboardPageOut");
+    navigation.goBack("User-Out");
   };
 
   useEffect(() => {

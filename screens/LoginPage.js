@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import {
   View,
   Text,
+  Image,
   TextInput,
   Button,
   StyleSheet,
   StatusBar,
   TouchableOpacity,
 } from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as Font from "expo-font";
 import { KeyboardAvoidingView } from "react-native-web";
 
@@ -45,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
           flex: 1,
           flexDirection: "column",
           backgroundColor: "#fff",
-          paddingVertical: "40%",
+          paddingVertical: "25%",
           paddingHorizontal: "3%",
         }}
       >
@@ -56,13 +58,17 @@ const LoginScreen = ({ navigation }) => {
             alignItems: "center",
           }}
         >
+          <Image
+            source={require("../assets/images/Logo.png")}
+            style={{ width: 120, height: 120, marginBottom: 20 }}
+          />
           <Text
             style={{
               fontSize: 30,
               color: "#000000",
             }}
           >
-            Masuk
+            Halaman Login
           </Text>
         </View>
 
@@ -73,17 +79,12 @@ const LoginScreen = ({ navigation }) => {
             paddingHorizontal: "15%",
           }}
         >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#ededed",
-              borderRadius: 10,
-              height: 60,
-              paddingLeft: 20,
-            }}
-          >
+          <View style={styles.inputBox}>
+            <MaterialCommunityIcons
+              name="account"
+              color={"#818181"}
+              size={26}
+            />
             <TextInput
               style={styles.input}
               placeholder="Masukan Username"
@@ -94,18 +95,8 @@ const LoginScreen = ({ navigation }) => {
             />
           </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#ededed",
-              borderRadius: 10,
-              height: 60,
-              paddingLeft: 20,
-              marginTop: 20,
-            }}
-          >
+          <View style={styles.inputBox}>
+            <MaterialCommunityIcons name="lock" color={"#818181"} size={26} />
             <TextInput
               style={styles.input}
               placeholder="Masukan Password"
@@ -118,9 +109,10 @@ const LoginScreen = ({ navigation }) => {
           </View>
         </View>
       </View>
+
       <View
         style={{
-          flex: 1,
+          flex: 0.2,
           flexDirection: "column",
           backgroundColor: "#ddd",
           paddingHorizontal: "15%",
@@ -175,5 +167,15 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "90%",
     paddingLeft: 20,
+  },
+  inputBox: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ededed",
+    borderRadius: 10,
+    height: 60,
+    paddingLeft: 20,
+    marginBottom: 15,
   },
 });
