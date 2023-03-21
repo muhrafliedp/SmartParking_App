@@ -2,9 +2,9 @@ import React from "react";
 import { View, StyleSheet, Text, StatusBar, Image } from "react-native";
 
 const SplashScreen = ({ navigation }) => {
-  // setTimeout(() => {
-  //   navigation.replace("LoginPage");
-  // }, 3000);
+  setTimeout(() => {
+    navigation.replace("LoginPage");
+  }, 3000);
   return (
     <View
       style={{

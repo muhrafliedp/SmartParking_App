@@ -2,6 +2,7 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   SplashScreen,
   LoginScreen,
@@ -16,38 +17,48 @@ import {
   SignUpScreen,
 } from "./screens";
 
-// const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function HomeStack() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { backgroundColor: "#2E2E2E" },
+        tabBarActiveBackgroundColor: "#003565",
+        tabBarHideOnKeyboard: true,
+      }}
+    >
+      <Tab.Screen name="DashboardPageOut" component={DashboardPageOut} />
+      <Tab.Screen name="DashboardPageIn" component={DashboardPageIn} />
+      <Tab.Screen name="ParkDashboardOut" component={ParkDashboardOut} />
+      <Tab.Screen name="ParkDashboardIn" component={ParkDashboardIn} />
+      <Tab.Screen name="PaymentDashboardOut" component={PaymentDashboardOut} />
+      <Tab.Screen name="PaymentDashboardIn" component={PaymentDashboardIn} />
+      <Tab.Screen name="PaymentHistory" component={PaymentHistory} />
+      <Tab.Screen
+        name="PaymentVerificationPage"
+        component={PaymentVerificationPage}
+      />
+    </Tab.Navigator>
+  );
+}
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator
+      <Stack.Navigator
         screenOptions={{
           headerShown: false,
-          tabBarStyle: { backgroundColor: "#2E2E2E" },
-          tabBarActiveBackgroundColor: "#003565",
           tabBarHideOnKeyboard: true,
         }}
       >
-        <Tab.Screen name="SplashScreen" component={SplashScreen} />
-        <Tab.Screen name="LoginPage" component={LoginScreen} />
-        <Tab.Screen name="SignUpPage" component={SignUpScreen} />
-        <Tab.Screen name="DashboardPageOut" component={DashboardPageOut} />
-        <Tab.Screen name="DashboardPageIn" component={DashboardPageIn} />
-        <Tab.Screen name="ParkDashboardOut" component={ParkDashboardOut} />
-        <Tab.Screen name="ParkDashboardIn" component={ParkDashboardIn} />
-        <Tab.Screen
-          name="PaymentDashboardOut"
-          component={PaymentDashboardOut}
-        />
-        <Tab.Screen name="PaymentDashboardIn" component={PaymentDashboardIn} />
-        <Tab.Screen name="PaymentHistory" component={PaymentHistory} />
-        <Tab.Screen
-          name="PaymentVerificationPage"
-          component={PaymentVerificationPage}
-        />
-      </Tab.Navigator>
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen name="LoginPage" component={LoginScreen} />
+        <Stack.Screen name="SignUpPage" component={SignUpScreen} />
+        <Stack.Screen name="HomeStack" component={HomeStack} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
