@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Text, View, StyleSheet } from "react-native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -14,6 +13,7 @@ import {
   ParkDashboardIn,
   PaymentDashboardIn,
   PaymentVerificationPage,
+  SignUpScreen,
 } from "./screens";
 
 // const Stack = createNativeStackNavigator();
@@ -22,9 +22,17 @@ const Tab = createBottomTabNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: { backgroundColor: "#2E2E2E" },
+          tabBarActiveBackgroundColor: "#003565",
+          tabBarHideOnKeyboard: true,
+        }}
+      >
         <Tab.Screen name="SplashScreen" component={SplashScreen} />
         <Tab.Screen name="LoginPage" component={LoginScreen} />
+        <Tab.Screen name="SignUpPage" component={SignUpScreen} />
         <Tab.Screen name="DashboardPageOut" component={DashboardPageOut} />
         <Tab.Screen name="DashboardPageIn" component={DashboardPageIn} />
         <Tab.Screen name="ParkDashboardOut" component={ParkDashboardOut} />

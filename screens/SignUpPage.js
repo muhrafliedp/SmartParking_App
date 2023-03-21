@@ -8,34 +8,32 @@ import {
   StatusBar,
   TouchableOpacity,
 } from "react-native";
+import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import * as Font from "expo-font";
 import { KeyboardAvoidingView } from "react-native-web";
 
-const LoginScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
+    civitas_type: "",
+    id_number: "",
   });
-
-  const handleLogin = () => {
-    // Authenticate user's credentials here
-    // If valid, navigate to main app screen
-    navigation.navigate("DashboardPageOut");
-  };
+  const [current, setCurrent] = useState("test");
 
   const handleSignUp = () => {
     // Authenticate user's credentials here
     // If valid, navigate to main app screen
-    navigation.navigate("SignUpPage");
-
-    // auth
-    //   .createUserWithEmailAndPassword(email, password)
-    //   .then((userCredentials) => {
-    //     const user = userCredentials.user;
-    //     console.log(user.email);
-    //   })
-    //   .catch((error) => alert(error.message));
+    navigation.navigate("LoginPage");
   };
+
+  // auth
+  //   .createUserWithusernameAndPassword(username, password)
+  //   .then((userCredentials) => {
+  //     const user = userCredentials.user;
+  //     console.log(user.username);
+  //   })
+  //   .catch((error) => alert(error.message));
 
   return (
     <View style={{ flex: 1, backgroundColor: "#", flexDirection: "column" }}>
@@ -45,7 +43,7 @@ const LoginScreen = ({ navigation }) => {
           flex: 1,
           flexDirection: "column",
           backgroundColor: "#fff",
-          paddingVertical: "40%",
+          paddingVertical: "10%",
           paddingHorizontal: "3%",
         }}
       >
@@ -62,50 +60,29 @@ const LoginScreen = ({ navigation }) => {
               color: "#000000",
             }}
           >
-            Masuk
+            Register Akun
           </Text>
         </View>
 
         <View
           style={{
             flexDirection: "column",
-            paddingTop: 50,
+            paddingTop: 10,
             paddingHorizontal: "15%",
           }}
         >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#ededed",
-              borderRadius: 10,
-              height: 60,
-              paddingLeft: 20,
-            }}
-          >
+          <View style={styles.inputBox}>
             <TextInput
               style={styles.input}
               placeholder="Masukan Username"
               placeholderTextColor="#818181"
               onChangeText={(text) => {
-                setFormData((prevState) => ({ prevState, email: text }));
+                setFormData((prevState) => ({ prevState, username: text }));
               }}
             />
           </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#ededed",
-              borderRadius: 10,
-              height: 60,
-              paddingLeft: 20,
-              marginTop: 20,
-            }}
-          >
+          <View style={styles.inputBox}>
             <TextInput
               style={styles.input}
               placeholder="Masukan Password"
@@ -116,20 +93,73 @@ const LoginScreen = ({ navigation }) => {
               }}
             />
           </View>
+
+          <View style={{ marginTop: 20 }}>
+            <Text style={{ fontSize: 16, marginBottom: 15 }}>
+              Jenis Civitas Kampus:{" "}
+            </Text>
+            <RadioButtonGroup
+              containerStyle={{ marginBottom: 20 }}
+              selected={current}
+              onSelected={(value) => setCurrent(value)}
+              radioBackground="#003565"
+            >
+              <RadioButtonItem
+                value="Dosen"
+                label={
+                  <Text
+                    style={{ marginBottom: 15, marginLeft: 15, fontSize: 16 }}
+                  >
+                    Dosen
+                  </Text>
+                }
+                style={{ marginBottom: 15 }}
+              />
+              <RadioButtonItem
+                value="Mahasiswa"
+                label={
+                  <Text
+                    style={{ marginBottom: 15, marginLeft: 15, fontSize: 16 }}
+                  >
+                    Mahasiswa
+                  </Text>
+                }
+                style={{ marginBottom: 15 }}
+              />
+              <RadioButtonItem
+                value="Lainnya"
+                label={
+                  <Text style={{ marginLeft: 15, fontSize: 16 }}>Lainnya</Text>
+                }
+              />
+            </RadioButtonGroup>
+          </View>
+
+          <View style={styles.inputBox}>
+            <TextInput
+              style={styles.input}
+              placeholder="Masukan NIM Anda"
+              secureTextEntry={true}
+              placeholderTextColor="#818181"
+              onChangeText={(text) => {
+                setFormData((prevState) => ({ prevState, id_number: text }));
+              }}
+            />
+          </View>
         </View>
       </View>
       <View
         style={{
-          flex: 1,
+          flex: 0.1,
           flexDirection: "column",
           backgroundColor: "#ddd",
           paddingHorizontal: "15%",
-          paddingTop: 20,
+          paddingTop: 15,
           alignItems: "center",
         }}
       >
         <TouchableOpacity
-          onPress={handleLogin}
+          onPress={handleSignUp}
           style={{
             backgroundColor: "#003565",
             width: "100%",
@@ -139,11 +169,11 @@ const LoginScreen = ({ navigation }) => {
           }}
         >
           <Text style={{ color: "white", fontWeight: 700, fontSize: 16 }}>
-            Login
+            Register
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={handleSignUp}
           style={{
             backgroundColor: "white",
@@ -159,7 +189,7 @@ const LoginScreen = ({ navigation }) => {
           <Text style={{ color: "#003565", fontWeight: 700, fontSize: 16 }}>
             Register
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {/* <Button title="Login" color="#003565" onPress={handleLogin} />
         <Button title="Register" color="grey" onPress={handleRegister} /> */}
       </View>
@@ -167,7 +197,7 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   input: {
@@ -175,5 +205,15 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "90%",
     paddingLeft: 20,
+  },
+  inputBox: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ededed",
+    borderRadius: 10,
+    height: 55,
+    paddingLeft: 20,
+    marginTop: 15,
   },
 });

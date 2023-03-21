@@ -5,7 +5,7 @@ import moment from "moment";
 
 const PaymentDashboardIn = () => {
   const [currentDate, setCurrentDate] = useState("");
-  const [current, setCurrent] = useState("test");
+  const [current, setCurrent] = useState("");
 
   //   const handleIsEntered = () => {
   //     // If enter detected, navigate to dashboard page 2 screen
