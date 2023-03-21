@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import moment from "moment";
 
-const PaymentDashboardIn = () => {
+const PaymentDashboardIn = ({ navigation }) => {
   const [currentDate, setCurrentDate] = useState("");
   const [current, setCurrent] = useState("");
 
-  //   const handleIsEntered = () => {
-  //     // If enter detected, navigate to dashboard page 2 screen
-  //     navigation.navigate("DashboardPageIn");
-  //   };
+  const handleIsVerified = () => {
+    // If enter detected, navigate to dashboard page 2 screen
+    navigation.navigate("PaymentVerification");
+  };
 
   useEffect(() => {
     var date = moment()
@@ -110,24 +110,17 @@ const PaymentDashboardIn = () => {
         </View>
       </View>
 
-      {/* <View
+      <View
         style={{
-          flex: 0.1,
           flexDirection: "column",
           paddingHorizontal: "15%",
           paddingTop: 50,
+          paddingBottom: 20,
         }}
       >
-        <Button title="enter" color="green" onPress={handleIsEntered} />
-      </View> */}
+        <Button title="Bayar" color="green" onPress={handleIsVerified} />
+      </View>
     </View>
-
-    // <NavigationContainer>
-    //   <Tab.Navigator>
-    //     <Tab.Screen name="outside park area" component={DashboardPage} />
-    //     <Tab.Screen name="inside park area" component={DashboardPage2} />
-    //   </Tab.Navigator>
-    // </NavigationContainer>
   );
 };
 

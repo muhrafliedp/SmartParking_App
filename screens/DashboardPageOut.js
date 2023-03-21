@@ -68,22 +68,15 @@ const DashboardPageOut = ({ navigation }) => {
 
       <View
         style={{
-          flex: 0.1,
           flexDirection: "column",
           paddingHorizontal: "15%",
           paddingTop: 50,
+          paddingBottom: 20,
         }}
       >
         <Button title="enter" color="green" onPress={handleIsEntered} />
       </View>
     </View>
-
-    // <NavigationContainer>
-    //   <Tab.Navigator>
-    //     <Tab.Screen name="outside park area" component={DashboardPage} />
-    //     <Tab.Screen name="inside park area" component={DashboardPage2} />
-    //   </Tab.Navigator>
-    // </NavigationContainer>
   );
 };
 

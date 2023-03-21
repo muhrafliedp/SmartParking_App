@@ -7,12 +7,17 @@ const PaymentDashboardOut = ({ navigation }) => {
     navigation.navigate("PaymentHistory");
   };
 
+  const handleIsEntered = () => {
+    // If enter detected, navigate to dashboard page 2 screen
+    navigation.navigate("Payment-In");
+  };
+
   return (
     <View
       style={{
         flex: 1,
         flexDirection: "column",
-        justifyContent: "center",
+        paddingTop: 310,
       }}
     >
       <View
@@ -32,7 +37,6 @@ const PaymentDashboardOut = ({ navigation }) => {
 
       <View
         style={{
-          flex: 0.1,
           flexDirection: "column",
           paddingHorizontal: "15%",
           paddingTop: 50,
@@ -44,14 +48,17 @@ const PaymentDashboardOut = ({ navigation }) => {
           onPress={handleIsClicked}
         />
       </View>
-    </View>
 
-    // <NavigationContainer>
-    //   <Tab.Navigator>
-    //     <Tab.Screen name="outside park area" component={DashboardPage} />
-    //     <Tab.Screen name="inside park area" component={DashboardPage2} />
-    //   </Tab.Navigator>
-    // </NavigationContainer>
+      <View
+        style={{
+          flexDirection: "column",
+          paddingHorizontal: "15%",
+          paddingTop: 302,
+        }}
+      >
+        <Button title="enter" color="green" onPress={handleIsEntered} />
+      </View>
+    </View>
   );
 };
 

@@ -7,7 +7,7 @@ export default class PaymentHistory extends Component {
     super(props);
     handleIsClicked = () => {
       // If enter detected, navigate to dashboard page 2 screen
-      navigation.goBack("PaymentDashboard");
+      navigation.navigate("Payment-Out");
     };
     this.state = {
       HeadTable: ["Tanggal", "Masuk", "Keluar", "Plat", "Bill (Rp)"],

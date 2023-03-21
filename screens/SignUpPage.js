@@ -151,7 +151,6 @@ const SignUpScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               placeholder="Masukan NIP/NIM Anda"
-              secureTextEntry={true}
               placeholderTextColor="#818181"
               onChangeText={(text) => {
                 setFormData((prevState) => ({ prevState, id_number: text }));

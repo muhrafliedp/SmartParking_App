@@ -1,7 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Text, StatusBar, Image } from "react-native";
+import { View, StyleSheet, Text, StatusBar, Image, Button } from "react-native";
 
-const ParkDashboardIn = () => {
+const ParkDashboardIn = ({ navigation }) => {
+  const handleIsExit = () => {
+    // If leave detected, navigate to dashboard page screen
+    navigation.goBack("Park-Out");
+  };
   return (
     <View
       style={{
@@ -61,7 +65,7 @@ const ParkDashboardIn = () => {
           flexDirection: "row",
           alignItems: "center",
           paddingHorizontal: "10%",
-          paddingTop: 123,
+          paddingTop: 93,
         }}
       >
         <Text style={{ fontSize: 20 }}>Kamu</Text>
@@ -80,24 +84,35 @@ const ParkDashboardIn = () => {
         style={{
           columnGap: 15,
           flexDirection: "row",
-          paddingTop: 30,
+          paddingTop: 20,
           paddingLeft: 23,
         }}
       >
         <Image
           source={require("../assets/images/CCTV_logo.png")}
-          style={{ width: 75, height: 75 }}
+          style={{ width: 50, height: 50 }}
         />
         <Text
           style={{
             fontSize: 16,
             fontWeight: 600,
-            paddingVertical: 23,
+            paddingVertical: 13,
             color: "black",
           }}
         >
           Monitoring parkir via CCTV.
         </Text>
+      </View>
+
+      <View
+        style={{
+          flexDirection: "column",
+          paddingHorizontal: "15%",
+          paddingTop: 8,
+          paddingBottom: 20,
+        }}
+      >
+        <Button title="exit" color="red" onPress={handleIsExit} />
       </View>
     </View>
   );

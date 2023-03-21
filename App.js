@@ -30,7 +30,7 @@ function HomeStack() {
       activeColor="white"
       inactiveColor="#2E2E2E"
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="User-Out"
         component={DashboardPageOut}
         options={{
@@ -39,12 +39,12 @@ function HomeStack() {
             <MaterialCommunityIcons name="update" color={"#003565"} size={26} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
-        name="User-In"
-        component={DashboardPageIn}
+        name="Information"
+        component={InformationStack}
         options={{
-          tabBarLabel: "Inform- In",
+          tabBarLabel: "Information",
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="account-clock"
@@ -54,7 +54,7 @@ function HomeStack() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Park-Out"
         component={ParkDashboardOut}
         options={{
@@ -67,12 +67,12 @@ function HomeStack() {
             />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
-        name="Park-In"
-        component={ParkDashboardIn}
+        name="ParkDashboard"
+        component={ParkDashboardStack}
         options={{
-          tabBarLabel: "Park-   In",
+          tabBarLabel: "Parking",
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="car-info"
@@ -82,7 +82,7 @@ function HomeStack() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Payment-Out"
         component={PaymentDashboardOut}
         options={{
@@ -123,12 +123,12 @@ function HomeStack() {
             />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
-        name="PaymentVerif"
-        component={PaymentVerificationPage}
+        name="PaymentDashboard"
+        component={PaymentDashboardStack}
         options={{
-          tabBarLabel: "Payment-Verif",
+          tabBarLabel: "Payment",
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="credit-card-check-outline"
@@ -139,6 +139,53 @@ function HomeStack() {
         }}
       />
     </Tab.Navigator>
+  );
+}
+
+function InformationStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+      }}
+    >
+      <Stack.Screen name="User-Out" component={DashboardPageOut} />
+      <Stack.Screen name="User-In" component={DashboardPageIn} />
+    </Stack.Navigator>
+  );
+}
+
+function ParkDashboardStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+      }}
+    >
+      <Stack.Screen name="Park-Out" component={ParkDashboardOut} />
+      <Stack.Screen name="Park-In" component={ParkDashboardIn} />
+    </Stack.Navigator>
+  );
+}
+
+function PaymentDashboardStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+      }}
+    >
+      <Stack.Screen name="Payment-Out" component={PaymentDashboardOut} />
+      <Stack.Screen name="Payment-In" component={PaymentDashboardIn} />
+      <Stack.Screen name="PaymentHistory" component={PaymentHistory} />
+      <Stack.Screen
+        name="PaymentVerification"
+        component={PaymentVerificationPage}
+      />
+    </Stack.Navigator>
   );
 }
 

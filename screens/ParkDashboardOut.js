@@ -1,7 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text, StatusBar, Image } from "react-native";
+import { View, StyleSheet, Text, StatusBar, Image, Button } from "react-native";
 
-const ParkDashboardOut = () => {
+const ParkDashboardOut = ({ navigation }) => {
+  const handleIsEntered = () => {
+    // If enter detected, navigate to dashboard page 2 screen
+    navigation.navigate("Park-In");
+  };
+
   return (
     <View
       style={{
@@ -60,24 +65,35 @@ const ParkDashboardOut = () => {
         style={{
           columnGap: 15,
           flexDirection: "row",
-          paddingTop: 180,
+          paddingTop: 110,
           paddingLeft: 23,
         }}
       >
         <Image
           source={require("../assets/images/CCTV_logo.png")}
-          style={{ width: 75, height: 75 }}
+          style={{ width: 50, height: 50 }}
         />
         <Text
           style={{
             fontSize: 16,
             fontWeight: 600,
-            paddingVertical: 23,
+            paddingVertical: 13,
             color: "black",
           }}
         >
           Monitoring parkir via CCTV.
         </Text>
+      </View>
+
+      <View
+        style={{
+          flexDirection: "column",
+          paddingHorizontal: "15%",
+          paddingTop: 38,
+          paddingBottom: 20,
+        }}
+      >
+        <Button title="enter" color="green" onPress={handleIsEntered} />
       </View>
     </View>
   );
