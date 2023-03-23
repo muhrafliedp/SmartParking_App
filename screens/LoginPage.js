@@ -15,9 +15,15 @@ import { KeyboardAvoidingView } from "react-native-web";
 
 const LoginScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(true);
+
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleLogin = () => {
     // Authenticate user's credentials here
@@ -31,10 +37,10 @@ const LoginScreen = ({ navigation }) => {
     navigation.navigate("SignUpPage");
 
     // auth
-    //   .createUserWithEmailAndPassword(email, password)
+    //   .createUserWithusernameAndPassword(username, password)
     //   .then((userCredentials) => {
     //     const user = userCredentials.user;
-    //     console.log(user.email);
+    //     console.log(user.username);
     //   })
     //   .catch((error) => alert(error.message));
   };
@@ -47,7 +53,7 @@ const LoginScreen = ({ navigation }) => {
           flex: 1,
           flexDirection: "column",
           backgroundColor: "#fff",
-          paddingVertical: "25%",
+          paddingVertical: "15%",
           paddingHorizontal: "3%",
         }}
       >
@@ -60,22 +66,26 @@ const LoginScreen = ({ navigation }) => {
         >
           <Image
             source={require("../assets/images/Logo.png")}
-            style={{ width: 120, height: 120, marginBottom: 20 }}
+            style={{ width: 120, height: 120, marginBottom: 10 }}
           />
+          <Text style={{ fontSize: 22, fontWeight: 900, color: "#003565" }}>
+            SMART PARKING SYSTEM
+          </Text>
           <Text
             style={{
-              fontSize: 30,
+              marginTop: 50,
+              fontSize: 25,
               color: "#000000",
             }}
           >
-            Halaman Login
+            Masuk
           </Text>
         </View>
 
         <View
           style={{
             flexDirection: "column",
-            paddingTop: 50,
+            paddingTop: 20,
             paddingHorizontal: "15%",
           }}
         >
@@ -90,22 +100,36 @@ const LoginScreen = ({ navigation }) => {
               placeholder="Masukan Username"
               placeholderTextColor="#818181"
               onChangeText={(text) => {
-                setFormData((prevState) => ({ prevState, email: text }));
+                setFormData((prevState) => ({ prevState, username: text }));
               }}
             />
           </View>
 
           <View style={styles.inputBox}>
-            <MaterialCommunityIcons name="lock" color={"#818181"} size={26} />
+            <MaterialCommunityIcons
+              name="lock-open"
+              color={"#818181"}
+              size={26}
+            />
             <TextInput
               style={styles.input}
               placeholder="Masukan Password"
-              secureTextEntry={true}
+              secureTextEntry={showPassword}
               placeholderTextColor="#818181"
               onChangeText={(text) => {
                 setFormData((prevState) => ({ prevState, password: text }));
               }}
             />
+            <TouchableOpacity
+              style={{ marginLeft: -40 }}
+              onPress={togglePassword}
+            >
+              <MaterialCommunityIcons
+                name={showPassword ? "eye" : "eye-off"}
+                color={"#818181"}
+                size={26}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -170,7 +194,7 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     flexDirection: "row",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ededed",
     borderRadius: 10,

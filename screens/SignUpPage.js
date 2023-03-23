@@ -17,10 +17,18 @@ const SignUpScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
+    confirmPassword: "",
     civitas_type: "",
     id_number: "",
   });
   const [current, setCurrent] = useState("test");
+  const [isError, setIsError] = useState("");
+
+  const [showPassword, setShowPassword] = useState(true);
+
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSignUp = () => {
     // Authenticate user's credentials here
@@ -35,6 +43,17 @@ const SignUpScreen = ({ navigation }) => {
   //     console.log(user.username);
   //   })
   //   .catch((error) => alert(error.message));
+
+  const checkValidation = (e) => {
+    setFormData(confirmPassword);
+    if (password != confirmPassword) {
+      setIsError(
+        "Masukan konfirmasi password harus sama dengan masukan password!"
+      );
+    } else {
+      setIsError("");
+    }
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: "#", flexDirection: "column" }}>
@@ -93,12 +112,53 @@ const SignUpScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               placeholder="Masukan Password"
-              secureTextEntry={true}
+              secureTextEntry={showPassword}
               placeholderTextColor="#818181"
               onChangeText={(text) => {
                 setFormData((prevState) => ({ prevState, password: text }));
               }}
             />
+            <TouchableOpacity
+              style={{ marginLeft: -40 }}
+              onPress={togglePassword}
+            >
+              <MaterialCommunityIcons
+                name={showPassword ? "eye" : "eye-off"}
+                color={"#818181"}
+                size={26}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.inputBox}>
+            <MaterialCommunityIcons
+              name="lock-check"
+              color={"#818181"}
+              size={26}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Konfirmasi Password"
+              secureTextEntry={showPassword}
+              placeholderTextColor="#818181"
+              onChangeText={(text) => {
+                setFormData((prevState) => ({
+                  prevState,
+                  confirmPassword: text,
+                }));
+                (e) => checkValidation(e);
+              }}
+            />
+            <TouchableOpacity
+              style={{ marginLeft: -40 }}
+              onPress={togglePassword}
+            >
+              <MaterialCommunityIcons
+                name={showPassword ? "eye" : "eye-off"}
+                color={"#818181"}
+                size={26}
+              />
+            </TouchableOpacity>
           </View>
 
           <View style={{ marginTop: 20 }}>
@@ -219,7 +279,7 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     flexDirection: "row",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ededed",
     borderRadius: 10,
