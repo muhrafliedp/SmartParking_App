@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,14 +14,12 @@ import * as Font from "expo-font";
 import { KeyboardAvoidingView } from "react-native-web";
 
 const SignUpScreen = ({ navigation }) => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    confirmPassword: "",
-    civitas_type: "",
-    id_number: "",
-  });
-  const [current, setCurrent] = useState("test");
+  const [idNumber, setIdNumber] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [civitasType, setCivitasType] = useState("");
+
   const [isError, setIsError] = useState("");
 
   const [showPassword, setShowPassword] = useState(true);
@@ -30,22 +28,66 @@ const SignUpScreen = ({ navigation }) => {
     setShowPassword(!showPassword);
   };
 
+  // componentDidMount = () => {
+  //   getDataUser();
+  // };
+
+  // const getDataUser = () => {
+  //   fetch("https://1parkingclub.000webhostapp.com/getData.php?op=getUser")
+  //     .then((response) => response.json())
+  //     .then((json) => {
+  //       console.log("Hasil yang didapat: " + JSON.stringify(json.data.result));
+  //       // setFormData({ listData: json.data.result });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
   const handleSignUp = () => {
     // Authenticate user's credentials here
     // If valid, navigate to main app screen
-    navigation.navigate("LoginPage");
+    if (idNumber.length == 0 || username.length == 0 || password.length == 0) {
+      alert("Silakan masukan data dengan lengkap!");
+    } else {
+      fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php?op=createUser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          // x-www-form-urlencoded
+          body:
+            "id_number=" +
+            idNumber +
+            "&username=" +
+            username +
+            "&password=" +
+            password +
+            "&civitas_type=" +
+            civitasType,
+        }
+      )
+        .then((response) => response.json())
+        .then((json) => {
+          setIdNumber("");
+          setUsername("");
+          setPassword("");
+          setConfirmPassword("");
+          setCivitasType("");
+          // getDataUser();
+        })
+        .then(alert("Pengguna berhasil terdaftarkan, silakan Login!"))
+        .catch((error) => {
+          alert("Error" + error);
+        });
+      navigation.navigate("LoginPage");
+    }
   };
 
-  // auth
-  //   .createUserWithusernameAndPassword(username, password)
-  //   .then((userCredentials) => {
-  //     const user = userCredentials.user;
-  //     console.log(user.username);
-  //   })
-  //   .catch((error) => alert(error.message));
-
   const checkValidation = (e) => {
-    setFormData(confirmPassword);
+    setConfirmPassword(confirmPassword);
     if (password != confirmPassword) {
       setIsError(
         "Masukan konfirmasi password harus sama dengan masukan password!"
@@ -102,7 +144,7 @@ const SignUpScreen = ({ navigation }) => {
               placeholder="Masukan Username"
               placeholderTextColor="#818181"
               onChangeText={(text) => {
-                setFormData((prevState) => ({ prevState, username: text }));
+                setUsername(text);
               }}
             />
           </View>
@@ -115,7 +157,7 @@ const SignUpScreen = ({ navigation }) => {
               secureTextEntry={showPassword}
               placeholderTextColor="#818181"
               onChangeText={(text) => {
-                setFormData((prevState) => ({ prevState, password: text }));
+                setPassword(text);
               }}
             />
             <TouchableOpacity
@@ -142,10 +184,7 @@ const SignUpScreen = ({ navigation }) => {
               secureTextEntry={showPassword}
               placeholderTextColor="#818181"
               onChangeText={(text) => {
-                setFormData((prevState) => ({
-                  prevState,
-                  confirmPassword: text,
-                }));
+                setConfirmPassword(text);
                 (e) => checkValidation(e);
               }}
             />
@@ -165,10 +204,11 @@ const SignUpScreen = ({ navigation }) => {
             <Text style={{ fontSize: 15, marginBottom: 15 }}>
               Jenis Civitas Kampus:{" "}
             </Text>
+
             <RadioButtonGroup
               containerStyle={{ marginBottom: 20 }}
-              selected={current}
-              onSelected={(value) => setCurrent(value)}
+              selected={civitasType}
+              onSelected={(value) => setCivitasType(value)}
               radioBackground="#003565"
             >
               <RadioButtonItem
@@ -213,7 +253,7 @@ const SignUpScreen = ({ navigation }) => {
               placeholder="Masukan NIP/NIM Anda"
               placeholderTextColor="#818181"
               onChangeText={(text) => {
-                setFormData((prevState) => ({ prevState, id_number: text }));
+                setIdNumber(text);
               }}
             />
           </View>
@@ -243,26 +283,6 @@ const SignUpScreen = ({ navigation }) => {
             Register
           </Text>
         </TouchableOpacity>
-
-        {/* <TouchableOpacity
-          onPress={handleSignUp}
-          style={{
-            backgroundColor: "white",
-            width: "100%",
-            padding: 8,
-            borderRadius: 10,
-            marginTop: 10,
-            borderColor: "#003565",
-            borderWidth: 2,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ color: "#003565", fontWeight: 700, fontSize: 16 }}>
-            Register
-          </Text>
-        </TouchableOpacity> */}
-        {/* <Button title="Login" color="#003565" onPress={handleLogin} />
-        <Button title="Register" color="grey" onPress={handleRegister} /> */}
       </View>
     </View>
   );
@@ -279,7 +299,6 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     flexDirection: "row",
-    // justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ededed",
     borderRadius: 10,
