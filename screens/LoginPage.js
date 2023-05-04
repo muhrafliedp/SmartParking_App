@@ -13,11 +13,13 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import * as Font from "expo-font";
 import { KeyboardAvoidingView } from "react-native-web";
 
+// async getDataUser = () => {
+//   await fetch('https://1parkingclub.000webhostapp.com/getData.php?op=searchUserByUsername')
+// }
+
 const LoginScreen = ({ navigation }) => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(true);
 
@@ -25,24 +27,41 @@ const LoginScreen = ({ navigation }) => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = () => {
+  async function handleLogin() {
     // Authenticate user's credentials here
     // If valid, navigate to main app screen
-    navigation.navigate("HomeStack");
-  };
+    var valid = false;
+    if (username == "" || password == "") {
+      alert("Masukan username dan password terlebih dahulu!");
+    } else {
+      await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php/?op=getUser&username=" +
+          username +
+          "&password=" +
+          password
+      )
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(username);
+          console.log(password);
+          console.log(json.data.result);
+          valid = json.data.result;
+          setUsername(username);
+          setPassword(password);
+        });
+    }
+    if (await valid) {
+      alert("Akun pengguna berhasil Login!");
+      navigation.navigate("HomeStack");
+    } else {
+      alert("Username dan Password yang Anda masukkan SALAH!");
+    }
+  }
 
   const handleSignUp = () => {
     // Authenticate user's credentials here
     // If valid, navigate to main app screen
     navigation.navigate("SignUpPage");
-
-    // auth
-    //   .createUserWithusernameAndPassword(username, password)
-    //   .then((userCredentials) => {
-    //     const user = userCredentials.user;
-    //     console.log(user.username);
-    //   })
-    //   .catch((error) => alert(error.message));
   };
 
   return (
@@ -100,7 +119,7 @@ const LoginScreen = ({ navigation }) => {
               placeholder="Masukan Username"
               placeholderTextColor="#818181"
               onChangeText={(text) => {
-                setFormData((prevState) => ({ prevState, username: text }));
+                setUsername(text);
               }}
             />
           </View>
@@ -117,7 +136,7 @@ const LoginScreen = ({ navigation }) => {
               secureTextEntry={showPassword}
               placeholderTextColor="#818181"
               onChangeText={(text) => {
-                setFormData((prevState) => ({ prevState, password: text }));
+                setPassword(text);
               }}
             />
             <TouchableOpacity

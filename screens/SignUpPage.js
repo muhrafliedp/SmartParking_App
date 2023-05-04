@@ -10,8 +10,6 @@ import {
 } from "react-native";
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import * as Font from "expo-font";
-import { KeyboardAvoidingView } from "react-native-web";
 
 const SignUpScreen = ({ navigation }) => {
   const [idNumber, setIdNumber] = useState("");
@@ -20,7 +18,7 @@ const SignUpScreen = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [civitasType, setCivitasType] = useState("");
 
-  const [isError, setIsError] = useState("");
+  // const [isError, setIsError] = useState("");
 
   const [showPassword, setShowPassword] = useState(true);
 
@@ -28,22 +26,7 @@ const SignUpScreen = ({ navigation }) => {
     setShowPassword(!showPassword);
   };
 
-  // componentDidMount = () => {
-  //   getDataUser();
-  // };
-
-  // const getDataUser = () => {
-  //   fetch("https://1parkingclub.000webhostapp.com/getData.php?op=getUser")
-  //     .then((response) => response.json())
-  //     .then((json) => {
-  //       console.log("Hasil yang didapat: " + JSON.stringify(json.data.result));
-  //       // setFormData({ listData: json.data.result });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
+  // Belum ditambahin validasi idNumber yg sudah ada dari DB (fungsinya bisa samain dari LoginPage)
   const handleSignUp = () => {
     // Authenticate user's credentials here
     // If valid, navigate to main app screen
@@ -57,7 +40,6 @@ const SignUpScreen = ({ navigation }) => {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
-          // x-www-form-urlencoded
           body:
             "id_number=" +
             idNumber +
@@ -76,7 +58,6 @@ const SignUpScreen = ({ navigation }) => {
           setPassword("");
           setConfirmPassword("");
           setCivitasType("");
-          // getDataUser();
         })
         .then(alert("Pengguna berhasil terdaftarkan, silakan Login!"))
         .catch((error) => {
@@ -86,16 +67,16 @@ const SignUpScreen = ({ navigation }) => {
     }
   };
 
-  const checkValidation = (e) => {
-    setConfirmPassword(confirmPassword);
-    if (password != confirmPassword) {
-      setIsError(
-        "Masukan konfirmasi password harus sama dengan masukan password!"
-      );
-    } else {
-      setIsError("");
-    }
-  };
+  // const checkValidation = () => {
+  //   setConfirmPassword(confirmPassword);
+  //   if (password != confirmPassword) {
+  //     setIsError(
+  //       "Masukan konfirmasi password harus sama dengan masukan password!"
+  //     );
+  //   } else {
+  //     setIsError("");
+  //   }
+  // };
 
   return (
     <View style={{ flex: 1, backgroundColor: "#", flexDirection: "column" }}>
@@ -185,7 +166,7 @@ const SignUpScreen = ({ navigation }) => {
               placeholderTextColor="#818181"
               onChangeText={(text) => {
                 setConfirmPassword(text);
-                (e) => checkValidation(e);
+                // checkValidation();
               }}
             />
             <TouchableOpacity
@@ -199,6 +180,9 @@ const SignUpScreen = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
+          {/* <View>
+            <Text style={{ color: "red" }}>{isError}</Text>
+          </View> */}
 
           <View style={{ marginTop: 20 }}>
             <Text style={{ fontSize: 15, marginBottom: 15 }}>
