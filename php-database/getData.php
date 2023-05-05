@@ -8,6 +8,10 @@
         default:normal(); break;
         case 'createUser':createUser(); break;
         case 'getUser':searchUserByUsername();break;
+        case 'createAreaParkir':createAreaParkir(); break;
+        case 'getAreaParkir':getAreaParkir();break;
+        case 'createKendaraan':createKendaraan();break;
+        case 'getKendaraan':getKendaraan();break;
     }
 
     function normal(){
@@ -62,6 +66,86 @@
             }
         }
         $data['data']['result'] = $result;
+        echo json_encode($data);
+    }
+
+    function createAreaParkir(){
+        global $conn;
+        
+        // $id_parking_lot = $_POST['id_parking_lot'];
+        $parking_area = $_POST['parking_area'];
+        $max_park_slot = $_POST['max_park_slot'];
+        $current_park_slot = $_POST['current_park_slot'];
+        $predict_park_slot = $_POST['predict_park_slot'];
+        
+        $result = "Data Informasi Area Parkir gagal ditambahkan!";
+        if($parking_area and $max_park_slot){
+            $sql2 = "INSERT INTO AreaParkir(parking_area,max_park_slot,current_park_slot,predict_park_slot) VALUES ('$parking_area','$max_park_slot','$current_park_slot','$predict_park_slot')";
+            $q2 = mysqli_query($conn, $sql2);
+            if($q2){
+                $result = "Data Informasi Area Parkir berhasil ditambahkan!";
+            }
+        }
+        $data['data']['result'] = $result;
+        echo json_encode($data);
+    }
+    
+    function getAreaParkir(){
+        global $conn;
+        
+        $parking_area = $_GET['parking_area'];
+        $sql1 = "SELECT * FROM AreaParkir WHERE parking_area = '$parking_area' ORDER BY id_parking_lot DESC";
+        $q1 = mysqli_query($conn,$sql1);
+        $hasil = array();
+        while($r1 = mysqli_fetch_assoc($q1)){
+            $hasil[] = [
+                'id_parking_lot' => $r1['id_parking_lot'],
+                'parking_area' => $r1['parking_area'],
+                'max_park_slot' => $r1['max_park_slot'],
+                'current_park_slot' => $r1['current_park_slot'],
+                'predict_park_slot' => $r1['predict_park_slot'],
+            ];
+        }
+        $data['data']['result'] = $hasil;
+        echo json_encode($data);
+    }
+    
+    function createKendaraan(){
+        global $conn;
+        
+        $vehicle_number = $_POST['vehicle_number'];
+        $vehicle_type = $_POST['vehicle_type'];
+        $vehicle_location_status = $_POST['vehicle_location_status'];
+        $id_number = $_POST['id_number'];
+        
+        $result = "Data Kendaraan gagal ditambahkan, mohon diperiksa apakah NIM atau NIP belum terdaftar?";
+        if($vehicle_number and $vehicle_type and $vehicle_location_status and $id_number){
+            $sql1 = "INSERT INTO Kendaraan(vehicle_number,vehicle_type,vehicle_location_status,id_number) VALUES ('$vehicle_number','$vehicle_type','$vehicle_location_status','$id_number')";
+            $q1 = mysqli_query($conn, $sql1);
+            if($q1){
+                $result = "Data Kendaraan berhasil ditambahkan!";
+            }
+        }
+        $data['data']['result'] = $result;
+        echo json_encode($data);
+    }
+    
+    function getKendaraan(){
+        global $conn;
+        
+        $id_number = $_GET['id_number'];
+        $sql1 = "SELECT * FROM Kendaraan WHERE id_number = '$id_number'";
+        $q1 = mysqli_query($conn,$sql1);
+        $hasil = array();
+        while($r1 = mysqli_fetch_assoc($q1)){
+            $hasil[] = [
+                'vehicle_number' => $r1['vehicle_number'],
+                'vehicle_type' => $r1['vehicle_type'],
+                'vehicle_location_status' => $r1['vehicle_location_status'],
+                'id_number' => $r1['id_number'],
+            ];
+        }
+        $data['data']['result'] = $hasil;
         echo json_encode($data);
     }
 
