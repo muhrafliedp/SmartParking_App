@@ -12,6 +12,8 @@
         case 'getAreaParkir':getAreaParkir();break;
         case 'createKendaraan':createKendaraan();break;
         case 'getKendaraan':getKendaraan();break;
+        case 'createRiwayatParkir':createRiwayatParkir();break;
+        case 'getRiwayatParkir':getRiwayatParkir();break;
     }
 
     function normal(){
@@ -143,6 +145,49 @@
                 'vehicle_type' => $r1['vehicle_type'],
                 'vehicle_location_status' => $r1['vehicle_location_status'],
                 'id_number' => $r1['id_number'],
+            ];
+        }
+        $data['data']['result'] = $hasil;
+        echo json_encode($data);
+    }
+    
+    function createRiwayatParkir(){
+        global $conn;
+        
+        $enter_time = $_POST['enter_time'];
+        $leave_time = $_POST['leave_time'];
+        $park_slot_location = $_POST['park_slot_location'];
+        $parking_lot = $_POST['parking_lot'];
+        $fee_bill = $_POST['fee_bill'];
+        $vehicle_number = $_POST['vehicle_number'];
+        
+        $result = "Data Riwayat Parkir gagal ditambahkan, mohon diperiksa apakah Nomor Kendaraan tidak terdaftar?";
+        if($vehicle_number and $parking_lot){
+            $sql1 = "INSERT INTO RiwayatParkir(enter_time,leave_time,park_slot_location,fee_bill,parking_lot,vehicle_number) VALUES ('$enter_time','$leave_time','$park_slot_location','$fee_bill','$parking_lot','$vehicle_number')";
+            $q1 = mysqli_query($conn, $sql1);
+            if($q1){
+                $result = "Data Riwayat Parkir berhasil ditambahkan!";
+            }
+        }
+        $data['data']['result'] = $result;
+        echo json_encode($data);
+    }
+    
+    function getRiwayatParkir(){
+        global $conn;
+        
+        $vehicle_number = $_GET['vehicle_number'];
+        $sql1 = "SELECT * FROM RiwayatParkir WHERE vehicle_number = '$vehicle_number'";
+        $q1 = mysqli_query($conn,$sql1);
+        $hasil = array();
+        while($r1 = mysqli_fetch_assoc($q1)){
+            $hasil[] = [
+                'enter_time' => $r1['enter_time'],
+                'leave_time' => $r1['leave_time'],
+                'park_slot_location' => $r1['park_slot_location'],
+                'parking_lot' => $r1['parking_lot'],
+                'fee_bill' => $r1['fee_bill'],
+                'vehicle_number' => $r1['vehicle_number'],
             ];
         }
         $data['data']['result'] = $hasil;
