@@ -14,8 +14,8 @@ const DashboardPageIn = ({ navigation }) => {
   const [currentParkSlot, setCurrentParkSlot] = useState("");
   const [predictParkSlot, setPredictParkSlot] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
-  const [enterTime, setEnterTime] = useState("");
   const [vehicleLocationStatus, setVehicleLocationStatus] = useState("");
+  const [vehicleEnterTime, setVehicleEnterTime] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
   const componentDidMount = () => {
@@ -33,7 +33,7 @@ const DashboardPageIn = ({ navigation }) => {
     try {
       const [response1, response2] = await Promise.all([
         fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php/?op=getAreaParkir&parking_area=Parkir Timur Seni Rupa"
+          "https://1parkingclub.000webhostapp.com/getData.php?op=getAreaParkir&parking_area=Parkir Timur Seni Rupa"
         ),
         fetch(
           "https://1parkingclub.000webhostapp.com/getData.php?op=getKendaraan&id_number=18219035"
@@ -46,10 +46,12 @@ const DashboardPageIn = ({ navigation }) => {
       const vehicleNumber = json2.data.result[0].vehicle_number;
       const vehicleLocationStatus =
         json2.data.result[0].vehicle_location_status;
+      const vehicleEnterTime = json2.data.result[0].vehicle_enter_time;
       setCurrentParkSlot(currentParkSlot);
       setPredictParkSlot(predictParkSlot);
       setVehicleNumber(vehicleNumber);
       setVehicleLocationStatus(vehicleLocationStatus);
+      setVehicleEnterTime(vehicleEnterTime);
     } catch (error) {
       console.log(error);
     }
@@ -210,7 +212,7 @@ const DashboardPageIn = ({ navigation }) => {
                 marginLeft: -50,
               }}
             >
-              {enterTime ? enterTime : "Loading..."}
+              {vehicleEnterTime ? vehicleEnterTime : "Loading..."}
             </Text>
           </View>
 
