@@ -1,60 +1,79 @@
-import React, { Component } from "react";
-import { StyleSheet, View, ScrollView, Button } from "react-native";
+import React, { Component, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Button,
+  RefreshControl,
+  SafeAreaView,
+} from "react-native";
 import { Table, TableWrapper, Row } from "react-native-table-component";
 
 export default class PaymentHistory extends Component {
   constructor({ props, navigation }) {
     super(props);
+
     handleIsClicked = () => {
       // If enter detected, navigate to dashboard page 2 screen
       navigation.navigate("Payment-Out");
     };
+
     this.state = {
-      HeadTable: ["Tanggal", "Masuk", "Keluar", "Plat", "Bill (Rp)"],
-      widthArr: [80, 65, 65, 95, 70],
-      DataTable: [
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
-        ["12-03-2023", "12:23:23", "16:23:23", "AA XXXX BCD", 2000],
+      HeadTable: [
+        "No",
+        "Waktu Masuk",
+        "Waktu Keluar",
+        "Plat",
+        "Tempat Parkir",
+        "Bill (Rp)",
       ],
+      widthArr: [30, 100, 100, 95, 100, 70],
+      DataTable: [],
+      refreshing: false,
     };
   }
+
+  componentDidMount() {
+    this.getDataParking();
+  }
+
+  getDataParking() {
+    fetch(
+      "https://1parkingclub.000webhostapp.com/getData.php?op=getAllRiwayatParkir"
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({ DataTable: json.map((row) => Object.values(row)) });
+        // console.log(json);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  onRefresh() {
+    this.setState({ refreshing: true });
+    this.getDataParking();
+    this.setState({ refreshing: false });
+  }
+
   render() {
-    const state = this.state;
     return (
-      <View style={styles.container}>
-        <ScrollView horizontal={true}>
+      <SafeAreaView style={styles.container}>
+        <ScrollView
+          horizontal={true}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.onRefresh()}
+            />
+          }
+        >
           <View>
             <Table borderStyle={{ borderColor: "#C1C0B9" }}>
               <Row
-                data={state.HeadTable}
-                widthArr={state.widthArr}
+                data={this.state.HeadTable}
+                widthArr={this.state.widthArr}
                 style={styles.head}
                 textStyle={styles.textHead}
               />
@@ -65,7 +84,7 @@ export default class PaymentHistory extends Component {
                   <Row
                     key={index}
                     data={dataRow}
-                    widthArr={state.widthArr}
+                    widthArr={this.state.widthArr}
                     style={[
                       styles.row,
                       index % 2 && { backgroundColor: "#ffffff" },
@@ -86,10 +105,11 @@ export default class PaymentHistory extends Component {
         >
           <Button title="kembali" color="#003565" onPress={handleIsClicked} />
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
