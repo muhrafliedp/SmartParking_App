@@ -14,6 +14,7 @@
         case 'getKendaraan':getKendaraan();break;
         case 'createRiwayatParkir':createRiwayatParkir();break;
         case 'getRiwayatParkir':getRiwayatParkir();break;
+        case 'getAllRiwayatParkir':getAllRiwayatParkir();break;
     }
 
     function normal(){
@@ -144,6 +145,7 @@
                 'vehicle_number' => $r1['vehicle_number'],
                 'vehicle_type' => $r1['vehicle_type'],
                 'vehicle_location_status' => $r1['vehicle_location_status'],
+                'vehicle_enter_time' => $r1['vehicle_enter_time'],
                 'id_number' => $r1['id_number'],
             ];
         }
@@ -192,6 +194,32 @@
         }
         $data['data']['result'] = $hasil;
         echo json_encode($data);
+    }
+    
+    function getAllRiwayatParkir(){
+        global $conn;
+        
+        $sql1 = "SELECT * FROM RiwayatParkir";
+        $q1 = mysqli_query($conn,$sql1);
+        $hasil = array();
+        
+        if($q1->num_rows > 0) {
+            while($r1 = $q1->fetch_assoc()){
+                $hasil[] = [
+                    'id_park_history' => $r1['id_park_history'],
+                    'enter_time' => $r1['enter_time'],
+                    'leave_time' => $r1['leave_time'],
+                    'vehicle_number' => $r1['vehicle_number'],
+                    'parking_lot' => $r1['parking_lot'],
+                    'fee_bill' => $r1['fee_bill'],
+                    'park_slot_location' => $r1['park_slot_location'],
+                ];
+            }
+        }
+        // while($r1 = mysqli_fetch_array($q1)){
+
+        // $data['data']['result'] = $hasil;
+        echo json_encode($hasil);
     }
 
     mysqli_close($conn);
