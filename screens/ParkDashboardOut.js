@@ -81,10 +81,10 @@ const ParkDashboardOut = ({ navigation }) => {
         <Text>{JSON.stringify(matrix)}</Text> */}
 
         <Image
-          source={require("../assets/images/parkMap.png")}
+          source={require("../assets/images/in-example.png")}
           style={{
             width: 360,
-            height: 409,
+            height: 436.72,
             marginHorizontal: 23,
           }}
         />
@@ -107,14 +107,19 @@ const ParkDashboardOut = ({ navigation }) => {
             paddingLeft: 23,
           }}
         >
-          ...
+          1. Maju ke depan sejauh 4 meter.{"\n"}
+          2. Belok ke kiri.{"\n"}
+          3. Maju ke depan sejauh 2 meter.{"\n"}
+          4. Belok ke kanan.{"\n"}
+          5. Maju ke depan sejauh 1 meter.{"\n"}
+          6. Slot parkir ada di sebelah kiri.
         </Text>
 
         <View
           style={{
             columnGap: 15,
             flexDirection: "row",
-            paddingTop: 110,
+            paddingTop: 20,
             paddingLeft: 23,
           }}
         >

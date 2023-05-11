@@ -40,10 +40,10 @@ const ParkDashboardIn = ({ navigation }) => {
         </View>
 
         <Image
-          source={require("../assets/images/parkMap.png")}
+          source={require("../assets/images/out-example.png")}
           style={{
             width: 360,
-            height: 409,
+            height: 436.72,
             marginHorizontal: 23,
           }}
         />
@@ -66,7 +66,10 @@ const ParkDashboardIn = ({ navigation }) => {
             paddingLeft: 23,
           }}
         >
-          ...
+          1. Maju ke depan sejauh 1 meter.{"\n"}
+          2. Belok ke kanan.{"\n"}
+          3. Maju ke depan sejauh 4 meter.{"\n"}
+          4. Sudah sampai pintu keluar
         </Text>
 
         <View
@@ -74,7 +77,7 @@ const ParkDashboardIn = ({ navigation }) => {
             flexDirection: "row",
             alignItems: "center",
             paddingHorizontal: "10%",
-            paddingTop: 93,
+            paddingTop: 20,
           }}
         >
           <Text style={{ fontSize: 20 }}>Kamu</Text>
