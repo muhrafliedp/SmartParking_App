@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,23 +6,42 @@ import {
   StatusBar,
   Image,
   Button,
+  RefreshControl,
+  SafeAreaView,
   ScrollView,
 } from "react-native";
 
 const ParkDashboardIn = ({ navigation }) => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+
+    // fetch or update data here
+    setTimeout(() => {
+      // setData(`updated data at ${new Date().toLocaleTimeString()}`);
+      setRefreshing(false);
+    }, 2000);
+  };
+
   const handleIsExit = () => {
     // If leave detected, navigate to dashboard page screen
     navigation.goBack("Park-Out");
   };
+
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         flexDirection: "column",
         paddingTop: 30,
       }}
     >
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
+      >
         <View
           style={{
             flexDirection: "row",
@@ -126,7 +145,7 @@ const ParkDashboardIn = ({ navigation }) => {
       >
         <Button title="tidak parkir" color="red" onPress={handleIsExit} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

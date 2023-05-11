@@ -7,10 +7,23 @@ import {
   Image,
   Button,
   ScrollView,
-  FlatList,
+  RefreshControl,
+  SafeAreaView,
 } from "react-native";
 
 const ParkDashboardOut = ({ navigation }) => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+
+    // fetch or update data here
+    setTimeout(() => {
+      // setData(`updated data at ${new Date().toLocaleTimeString()}`);
+      setRefreshing(false);
+    }, 2000);
+  };
+
   const handleIsEntered = () => {
     // If enter detected, navigate to dashboard page 2 screen
     navigation.navigate("Park-In");
@@ -49,14 +62,18 @@ const ParkDashboardOut = ({ navigation }) => {
   // );
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         flexDirection: "column",
         paddingTop: 30,
       }}
     >
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
+      >
         <View
           style={{
             flexDirection: "row",
@@ -150,7 +167,7 @@ const ParkDashboardOut = ({ navigation }) => {
       >
         <Button title="sedang parkir" color="green" onPress={handleIsEntered} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
