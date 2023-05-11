@@ -15,6 +15,7 @@
         case 'createRiwayatParkir':createRiwayatParkir();break;
         case 'getRiwayatParkir':getRiwayatParkir();break;
         case 'getAllRiwayatParkir':getAllRiwayatParkir();break;
+        case 'getTextPeta':getTextPeta();break;
     }
 
     function normal(){
@@ -220,6 +221,23 @@
 
         // $data['data']['result'] = $hasil;
         echo json_encode($hasil);
+    }
+
+    function getTextPeta(){
+        global $conn;
+        
+        $sql = "SELECT file_map, file_text FROM FilePeta WHERE map_id = 1";
+        $result = mysqli_query($conn, $sql);
+        
+        if (mysqli_num_rows($result) > 0) {
+            // Output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                $file_text = $row["file_text"];
+            }
+        } else {
+            echo "0 results";
+        }
+
     }
 
     mysqli_close($conn);
