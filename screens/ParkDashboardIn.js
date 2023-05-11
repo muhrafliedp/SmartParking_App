@@ -31,12 +31,12 @@ const ParkDashboardIn = ({ navigation }) => {
             paddingBottom: 30,
           }}
         >
-          <Text style={{ fontSize: 20 }}>Kamu</Text>
+          <Text style={{ fontSize: 20 }}>Kendaraan kamu</Text>
           <Text style={{ fontSize: 20, color: "green", fontWeight: 900 }}>
             {" "}
             TELAH{" "}
           </Text>
-          <Text style={{ fontSize: 20 }}>masuk kawasan parkir</Text>
+          <Text style={{ fontSize: 20 }}>diparkirkan</Text>
         </View>
 
         <Image
@@ -121,7 +121,7 @@ const ParkDashboardIn = ({ navigation }) => {
           paddingBottom: 20,
         }}
       >
-        <Button title="exit" color="red" onPress={handleIsExit} />
+        <Button title="tidak parkir" color="red" onPress={handleIsExit} />
       </View>
     </View>
   );

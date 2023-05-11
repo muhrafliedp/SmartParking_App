@@ -65,12 +65,12 @@ const ParkDashboardOut = ({ navigation }) => {
             paddingBottom: 30,
           }}
         >
-          <Text style={{ fontSize: 20 }}>Kamu</Text>
+          <Text style={{ fontSize: 20 }}>Kendaraan kamu</Text>
           <Text style={{ fontSize: 20, color: "red", fontWeight: 900 }}>
             {" "}
             BELUM{" "}
           </Text>
-          <Text style={{ fontSize: 20 }}>masuk kawasan parkir</Text>
+          <Text style={{ fontSize: 20 }}>diparkirkan</Text>
         </View>
 
         {/* <FlatList
@@ -97,7 +97,7 @@ const ParkDashboardOut = ({ navigation }) => {
             paddingLeft: 23,
           }}
         >
-          Rekomendasi lokasi parkir terdekat:
+          Rekomendasi lokasi parkir oleh sistem:
         </Text>
         <Text
           style={{
@@ -143,7 +143,7 @@ const ParkDashboardOut = ({ navigation }) => {
           paddingBottom: 20,
         }}
       >
-        <Button title="enter" color="green" onPress={handleIsEntered} />
+        <Button title="sedang parkir" color="green" onPress={handleIsEntered} />
       </View>
     </View>
   );
