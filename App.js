@@ -18,6 +18,8 @@ import {
   PaymentVerificationPage,
   SignUpScreen,
 } from "./screens";
+// import registerNNPushToken from "native-notify";
+import AccountDashboard from "./screens/AccountDashboard";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -47,7 +49,7 @@ function HomeStack() {
           tabBarLabel: "Information",
           tabBarIcon: () => (
             <MaterialCommunityIcons
-              name="account-clock"
+              name="clipboard-clock-outline"
               color={"#003565"}
               size={26}
             />
@@ -138,6 +140,20 @@ function HomeStack() {
           ),
         }}
       />
+      <Tab.Screen
+        name="AccountDashboard"
+        component={AccountDashboardStack}
+        options={{
+          tabBarLabel: "Account",
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="clipboard-account"
+              color={"#003565"}
+              size={26}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -185,6 +201,20 @@ function PaymentDashboardStack() {
         name="PaymentVerification"
         component={PaymentVerificationPage}
       />
+    </Stack.Navigator>
+  );
+}
+
+function AccountDashboardStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+      }}
+    >
+      <Stack.Screen name="Account" component={AccountDashboard} />
+      {/* <Stack.Screen name="Park-In" component={ParkDashboardIn} /> */}
     </Stack.Navigator>
   );
 }
