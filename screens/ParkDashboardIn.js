@@ -13,16 +13,38 @@ import {
 
 const ParkDashboardIn = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
+  const [descPeta, setDescPeta] = useState("");
 
-  const handleRefresh = () => {
+  const componentDidMount = () => {
+    getParkirData();
+  };
+
+  async function handleRefresh() {
     setRefreshing(true);
 
-    // fetch or update data here
-    setTimeout(() => {
-      // setData(`updated data at ${new Date().toLocaleTimeString()}`);
-      setRefreshing(false);
-    }, 2000);
-  };
+    try {
+      const response = await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php/?op=getTextPeta&map_type=OUT"
+      );
+      const json = await response.json();
+      const descPeta = json.file_text;
+      setDescPeta(descPeta);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setRefreshing(false);
+  }
+
+  // const handleRefresh = () => {
+  //   setRefreshing(true);
+
+  //   // fetch or update data here
+  //   setTimeout(() => {
+  //     // setData(`updated data at ${new Date().toLocaleTimeString()}`);
+  //     setRefreshing(false);
+  //   }, 2000);
+  // };
 
   const handleIsExit = () => {
     // If leave detected, navigate to dashboard page screen
@@ -85,10 +107,11 @@ const ParkDashboardIn = ({ navigation }) => {
             paddingLeft: 23,
           }}
         >
-          1. Maju ke depan sejauh 1 meter.{"\n"}
+          {descPeta ? descPeta : "Loading..."}
+          {/* 1. Maju ke depan sejauh 1 meter.{"\n"}
           2. Belok ke kanan.{"\n"}
           3. Maju ke depan sejauh 4 meter.{"\n"}
-          4. Sudah sampai pintu keluar
+          4. Sudah sampai pintu keluar */}
         </Text>
 
         <View

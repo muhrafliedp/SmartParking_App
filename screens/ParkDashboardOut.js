@@ -13,53 +13,33 @@ import {
 
 const ParkDashboardOut = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
+  const [descPeta, setDescPeta] = useState("");
 
-  const handleRefresh = () => {
+  const componentDidMount = () => {
+    getParkirData();
+  };
+
+  async function handleRefresh() {
     setRefreshing(true);
 
-    // fetch or update data here
-    setTimeout(() => {
-      // setData(`updated data at ${new Date().toLocaleTimeString()}`);
-      setRefreshing(false);
-    }, 2000);
-  };
+    try {
+      const response = await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php/?op=getTextPeta&map_type=IN"
+      );
+      const json = await response.json();
+      const descPeta = json.file_text;
+      setDescPeta(descPeta);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setRefreshing(false);
+  }
 
   const handleIsEntered = () => {
     // If enter detected, navigate to dashboard page 2 screen
     navigation.navigate("Park-In");
   };
-
-  // const [parkMap, setParkMap] = useState([]);
-
-  // useEffect(() => {
-  //   fetch("http://127.0.0.1:5000/matrix")
-  //     .then((response) => response.json())
-  //     .then((data) => setMatrix(data))
-  //     .catch(function (error) {
-  //       console.log(
-  //         "There has been a problem with your fetch operation: " + error.message
-  //       );
-  //     });
-  // }, []);
-
-  // const [matrix, setMatrix] = useState([]);
-
-  // useEffect(() => {
-  //   fetch("https://jsonplaceholder.typicode.com/users")
-  //     .then((response) => console.log(response))
-  //     // .then((data) => setMatrix(data))
-  //     .catch(function (error) {
-  //       console.log("There has been a problem with your fetch operation: ");
-  //     });
-  // }, []);
-
-  // const renderCell = ({ item }) => (
-  //   <Text>
-  //     {item.map((value, index) => (
-  //       <Text key={index}>{value}</Text>
-  //     ))}
-  //   </Text>
-  // );
 
   return (
     <SafeAreaView
@@ -124,12 +104,13 @@ const ParkDashboardOut = ({ navigation }) => {
             paddingLeft: 23,
           }}
         >
-          1. Maju ke depan sejauh 4 meter.{"\n"}
+          {descPeta ? descPeta : "Loading..."}
+          {/* 1. Maju ke depan sejauh 4 meter.{"\n"}
           2. Belok ke kiri.{"\n"}
           3. Maju ke depan sejauh 2 meter.{"\n"}
           4. Belok ke kanan.{"\n"}
           5. Maju ke depan sejauh 1 meter.{"\n"}
-          6. Slot parkir ada di sebelah kiri.
+          6. Slot parkir ada di sebelah kiri. */}
         </Text>
 
         <View

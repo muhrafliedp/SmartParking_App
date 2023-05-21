@@ -8,9 +8,11 @@ import {
   ScrollView,
 } from "react-native";
 import moment from "moment";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DashboardPageIn = ({ navigation }) => {
   const [currentDate, setCurrentDate] = useState("");
+  const [idNumber, setIdNumber] = useState("");
   const [currentParkSlot, setCurrentParkSlot] = useState("");
   const [predictParkSlot, setPredictParkSlot] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
@@ -29,14 +31,19 @@ const DashboardPageIn = ({ navigation }) => {
       .format("dddd, DD MMMM YYYY | hh:mm:ss A");
 
     setCurrentDate(date);
-
+    const userInfoString = await AsyncStorage.getItem("userInfo");
+    if (userInfoString !== null) {
+      const userInfo = JSON.parse(userInfoString);
+      setIdNumber(userInfo.idNumber);
+    }
     try {
       const [response1, response2] = await Promise.all([
         fetch(
           "https://1parkingclub.000webhostapp.com/getData.php?op=getAreaParkir&parking_area=Parkir Timur Seni Rupa"
         ),
         fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php?op=getKendaraan&id_number=18219035"
+          "https://1parkingclub.000webhostapp.com/getData.php?op=getKendaraan&id_number=" +
+            idNumber
         ),
       ]);
       const json1 = await response1.json();

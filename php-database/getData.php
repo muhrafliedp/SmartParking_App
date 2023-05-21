@@ -8,6 +8,7 @@
         default:normal(); break;
         case 'createUser':createUser(); break;
         case 'getUser':searchUserByUsername();break;
+        case 'getDataUser':getDataUserByUsername();break;
         case 'createAreaParkir':createAreaParkir(); break;
         case 'getAreaParkir':getAreaParkir();break;
         case 'createKendaraan':createKendaraan();break;
@@ -15,6 +16,7 @@
         case 'createRiwayatParkir':createRiwayatParkir();break;
         case 'getRiwayatParkir':getRiwayatParkir();break;
         case 'getAllRiwayatParkir':getAllRiwayatParkir();break;
+        case 'postPeta':postPeta();break;
         case 'getTextPeta':getTextPeta();break;
     }
 
@@ -49,6 +51,26 @@
             $hasil = false;
             // echo "Username dan Password yang dimasukkan SALAH!";
         }
+        $data['data']['result'] = $hasil;
+        echo json_encode($data);
+    }
+    
+    function getDataUserByUsername(){
+        global $conn;
+        $username = $_GET['username'];
+        $password = $_GET['password'];
+
+        $sql1 = "SELECT * FROM Pengguna WHERE username = '$username' AND password = '$password'";
+        $q1 = mysqli_query($conn, $sql1);
+        $hasil = array();
+        while($r1 = mysqli_fetch_assoc($q1)){
+            $hasil[] = [
+                'id_number' => $r1['id_number'],
+                'username' => $r1['username'],
+                'password' => $r1['password'],
+                'civitas_type' => $r1['civitas_type'],
+            ];
+        } 
         $data['data']['result'] = $hasil;
         echo json_encode($data);
     }
@@ -223,21 +245,55 @@
         echo json_encode($hasil);
     }
 
-    function getTextPeta(){
+    function postPeta(){
         global $conn;
         
-        $sql = "SELECT file_map, file_text FROM FilePeta WHERE map_id = 1";
+        if (isset($_FILES['file_map']) && $_FILES['file_map']['error'] === UPLOAD_ERR_OK &&
+            isset($_FILES['file_text']) && $_FILES['file_text']['error'] === UPLOAD_ERR_OK) {
+            
+            // Mendapatkan isi file yang diupload
+            $file_map_name = $_POST['file_map_name'];
+            $file_text_name = $_POST['file_text_name'];
+            $map_type = $_POST['map_type'];
+            $file_map_content = file_get_contents($_FILES['file_map']['tmp_name']);
+            $file_text_content = file_get_contents($_FILES['file_text']['tmp_name']);
+    
+            // Menyimpan file ke database
+            $sql = 'INSERT INTO FilePeta (file_map, file_text, map_type) VALUES (?, ?, ?)';
+            $statement = $conn->prepare($sql);
+            $statement->bind_param('sss', $file_map_content, $file_text_content, $map_type);
+            $statement->execute();
+    
+            $statement = null;
+            
+            // Mendapatkan ID dari data yang baru saja dimasukkan
+            $map_id = $conn->insert_id;
+            
+            // Mengirim respons berhasil beserta ID file yang baru saja dimasukkan
+            echo json_encode(['success' => true, 'map_id' => $map_id]);
+        } else {
+            // Mengirim respons gagal
+            echo json_encode(['success' => false]);
+        }
+    }
+
+
+    function getTextPeta(){
+        global $conn;
+        $map_type = $_GET['map_type'];
+        
+        $sql = "SELECT file_map, file_text FROM FilePeta WHERE map_type = '$map_type' ORDER BY map_id DESC LIMIT 1";
         $result = mysqli_query($conn, $sql);
         
         if (mysqli_num_rows($result) > 0) {
             // Output data of each row
             while($row = mysqli_fetch_assoc($result)) {
-                $file_text = $row["file_text"];
+                $fileText = $row["file_text"];
             }
+            echo json_encode(['file_text' => $fileText]);
         } else {
-            echo "0 results";
+            echo json_encode(['file_text' => null]);
         }
-
     }
 
     mysqli_close($conn);

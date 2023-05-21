@@ -12,6 +12,7 @@ import {
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as Font from "expo-font";
 import { KeyboardAvoidingView } from "react-native-web";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // async getDataUser = () => {
 //   await fetch('https://1parkingclub.000webhostapp.com/getData.php?op=searchUserByUsername')
@@ -20,11 +21,24 @@ import { KeyboardAvoidingView } from "react-native-web";
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [idNumber, setIdNumber] = useState("");
+  const [civitasType, setCivitasType] = useState("");
 
   const [showPassword, setShowPassword] = useState(true);
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const saveUserInfo = async (userInfo) => {
+    try {
+      await AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
+      console.log("Informasi pengguna disimpan di AsyncStorage.");
+      // Navigasi ke halaman lainnya
+      // ...
+    } catch (error) {
+      console.log("Gagal menyimpan informasi pengguna di AsyncStorage:", error);
+    }
   };
 
   async function handleLogin() {
@@ -34,27 +48,36 @@ const LoginScreen = ({ navigation }) => {
     if (username == "" || password == "") {
       alert("Masukan username dan password terlebih dahulu!");
     } else {
-      await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php/?op=getUser&username=" +
-          username +
-          "&password=" +
-          password
-      )
-        .then((response) => response.json())
-        .then((json) => {
-          console.log(username);
-          console.log(password);
-          console.log(json.data.result);
-          valid = json.data.result;
-          setUsername(username);
-          setPassword(password);
-        });
-    }
-    if (await valid) {
-      alert("Akun pengguna berhasil Login!");
-      navigation.navigate("HomeStack");
-    } else {
-      alert("Username dan Password yang Anda masukkan SALAH!");
+      const [response1, response2] = await Promise.all([
+        fetch(
+          "https://1parkingclub.000webhostapp.com/getData.php/?op=getUser&username=" +
+            username +
+            "&password=" +
+            password
+        ),
+        fetch(
+          "https://1parkingclub.000webhostapp.com/getData.php/?op=getDataUser&username=" +
+            username +
+            "&password=" +
+            password
+        ),
+      ]);
+      const json1 = await response1.json();
+      const json2 = await response2.json();
+      valid = json1.data.result;
+      const idNumber = json2.data.result[0].id_number;
+      const civitasType = json2.data.result[0].civitas_type;
+      setIdNumber(idNumber);
+      setCivitasType(civitasType);
+
+      if (valid) {
+        const userInfo = { idNumber, username, password, civitasType };
+        saveUserInfo(userInfo);
+        alert("Akun pengguna berhasil Login!");
+        navigation.navigate("HomeStack");
+      } else {
+        alert("Username dan Password yang Anda masukkan SALAH!");
+      }
     }
   }
 

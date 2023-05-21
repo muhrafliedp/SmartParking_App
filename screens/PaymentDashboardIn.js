@@ -9,11 +9,12 @@ import {
 } from "react-native";
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import moment from "moment";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PaymentDashboardIn = ({ navigation }) => {
   const [currentDate, setCurrentDate] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-
+  const [idNumber, setIdNumber] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [enterTime, setEnterTime] = useState("");
   const [leaveTime, setLeaveTime] = useState("");
@@ -34,18 +35,27 @@ const PaymentDashboardIn = ({ navigation }) => {
 
     setCurrentDate(date);
 
+    const userInfoString = await AsyncStorage.getItem("userInfo");
+    if (userInfoString !== null) {
+      const userInfo = JSON.parse(userInfoString);
+      setIdNumber(userInfo.idNumber);
+    }
+
     try {
-      const [response1, response2] = await Promise.all([
-        fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php?op=getKendaraan&id_number=18219035"
-        ),
-        fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php?op=getRiwayatParkir&vehicle_number=B 1234 RAF"
-        ),
-      ]);
+      const response1 = await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php?op=getKendaraan&id_number=" +
+          idNumber
+      );
       const json1 = await response1.json();
-      const json2 = await response2.json();
       const vehicleNumber = json1.data.result[0].vehicle_number;
+
+      const response2 = await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php?op=getRiwayatParkir&vehicle_number=" +
+          vehicleNumber
+      );
+
+      const json2 = await response2.json();
+      console.log(json2);
       const enterTime = json2.data.result[0].enter_time;
       const leaveTime = json2.data.result[0].leave_time;
       const parkingLot = json2.data.result[0].parking_lot;

@@ -11,7 +11,7 @@ import {
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-const SignUpScreen = ({ navigation }) => {
+const SignUpPage = ({ navigation }) => {
   const [idNumber, setIdNumber] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -127,6 +127,7 @@ const SignUpScreen = ({ navigation }) => {
               onChangeText={(text) => {
                 setUsername(text);
               }}
+              testID="usernameInput"
             />
           </View>
 
@@ -140,6 +141,7 @@ const SignUpScreen = ({ navigation }) => {
               onChangeText={(text) => {
                 setPassword(text);
               }}
+              testID="passwordInput"
             />
             <TouchableOpacity
               style={{ marginLeft: -40 }}
@@ -168,6 +170,7 @@ const SignUpScreen = ({ navigation }) => {
                 setConfirmPassword(text);
                 // checkValidation();
               }}
+              testID="confirmPasswordInput"
             />
             <TouchableOpacity
               style={{ marginLeft: -40 }}
@@ -239,6 +242,7 @@ const SignUpScreen = ({ navigation }) => {
               onChangeText={(text) => {
                 setIdNumber(text);
               }}
+              testID="idNumberInput"
             />
           </View>
         </View>
@@ -262,6 +266,7 @@ const SignUpScreen = ({ navigation }) => {
             borderRadius: 10,
             alignItems: "center",
           }}
+          testID="registerButton"
         >
           <Text style={{ color: "white", fontWeight: 700, fontSize: 16 }}>
             Register
@@ -272,7 +277,7 @@ const SignUpScreen = ({ navigation }) => {
   );
 };
 
-export default SignUpScreen;
+export default SignUpPage;
 
 const styles = StyleSheet.create({
   input: {
