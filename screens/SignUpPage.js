@@ -18,8 +18,6 @@ const SignUpPage = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [civitasType, setCivitasType] = useState("");
 
-  // const [isError, setIsError] = useState("");
-
   const [showPassword, setShowPassword] = useState(true);
 
   const togglePassword = () => {
@@ -86,7 +84,7 @@ const SignUpPage = ({ navigation }) => {
           flex: 1,
           flexDirection: "column",
           backgroundColor: "#fff",
-          paddingVertical: "10%",
+          paddingVertical: "15%",
           paddingHorizontal: "3%",
         }}
       >

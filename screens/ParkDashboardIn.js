@@ -36,16 +36,6 @@ const ParkDashboardIn = ({ navigation }) => {
     setRefreshing(false);
   }
 
-  // const handleRefresh = () => {
-  //   setRefreshing(true);
-
-  //   // fetch or update data here
-  //   setTimeout(() => {
-  //     // setData(`updated data at ${new Date().toLocaleTimeString()}`);
-  //     setRefreshing(false);
-  //   }, 2000);
-  // };
-
   const handleIsExit = () => {
     // If leave detected, navigate to dashboard page screen
     navigation.goBack("Park-Out");
@@ -56,7 +46,7 @@ const ParkDashboardIn = ({ navigation }) => {
       style={{
         flex: 1,
         flexDirection: "column",
-        paddingTop: 30,
+        paddingTop: 50,
       }}
     >
       <ScrollView
@@ -108,10 +98,6 @@ const ParkDashboardIn = ({ navigation }) => {
           }}
         >
           {descPeta ? descPeta : "Loading..."}
-          {/* 1. Maju ke depan sejauh 1 meter.{"\n"}
-          2. Belok ke kanan.{"\n"}
-          3. Maju ke depan sejauh 4 meter.{"\n"}
-          4. Sudah sampai pintu keluar */}
         </Text>
 
         <View

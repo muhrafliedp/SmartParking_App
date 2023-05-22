@@ -48,20 +48,12 @@ const DashboardPageOut = ({ navigation }) => {
     navigation.navigate("User-In");
   };
 
-  // useEffect(() => {
-  //   var date = moment()
-  //     .utcOffset("+07:00")
-  //     .format("dddd, DD MMMM YYYY | hh:mm:ss A");
-
-  //   setCurrentDate(date);
-  // }, []);
-
   return (
     <SafeAreaView
       style={{
         flex: 1,
         flexDirection: "column",
-        paddingTop: 30,
+        paddingTop: 50,
       }}
     >
       <ScrollView

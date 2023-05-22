@@ -71,20 +71,12 @@ const DashboardPageIn = ({ navigation }) => {
     navigation.goBack("User-Out");
   };
 
-  // useEffect(() => {
-  //   var date = moment()
-  //     .utcOffset("+07:00")
-  //     .format("dddd, DD MMMM YYYY | hh:mm:ss A");
-
-  //   setCurrentDate(date);
-  // }, []);
-
   return (
     <SafeAreaView
       style={{
         flex: 1,
         flexDirection: "column",
-        paddingTop: 30,
+        paddingTop: 50,
       }}
     >
       <ScrollView

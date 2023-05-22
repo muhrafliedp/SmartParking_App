@@ -16,7 +16,7 @@ import {
   ParkDashboardIn,
   PaymentDashboardIn,
   PaymentVerificationPage,
-  SignUpScreen,
+  SignUpPage,
 } from "./screens";
 // import registerNNPushToken from "native-notify";
 import AccountDashboard from "./screens/AccountDashboard";
@@ -220,6 +220,7 @@ function AccountDashboardStack() {
 }
 
 const App = () => {
+  // registerNNPushToken(8037, "21JC8DtJmbLJiJHlbADJDi");
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -228,10 +229,26 @@ const App = () => {
           tabBarHideOnKeyboard: true,
         }}
       >
-        <Stack.Screen name="SplashScreen" component={SplashScreen} />
-        <Stack.Screen name="LoginPage" component={LoginScreen} />
-        <Stack.Screen name="SignUpPage" component={SignUpScreen} />
-        <Stack.Screen name="HomeStack" component={HomeStack} />
+        <Stack.Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          testID="splashScreen"
+        />
+        <Stack.Screen
+          name="LoginPage"
+          component={LoginScreen}
+          testID="loginPage"
+        />
+        <Stack.Screen
+          name="SignUpPage"
+          component={SignUpPage}
+          testID="signUpPage"
+        />
+        <Stack.Screen
+          name="HomeStack"
+          component={HomeStack}
+          testID="homeStack"
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

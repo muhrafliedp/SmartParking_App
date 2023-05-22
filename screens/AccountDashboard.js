@@ -66,10 +66,8 @@ const AccountDashboard = ({ navigation }) => {
         <StatusBar barStyle={"dark-content"} backgroundColor="#fff" />
         <View
           style={{
-            // flex: 1,
-            // flexDirection: "column",
             backgroundColor: "#fff",
-            paddingVertical: "27%",
+            paddingVertical: "30%",
             paddingHorizontal: "3%",
           }}
         >

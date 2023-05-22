@@ -34,8 +34,6 @@ const LoginScreen = ({ navigation }) => {
     try {
       await AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
       console.log("Informasi pengguna disimpan di AsyncStorage.");
-      // Navigasi ke halaman lainnya
-      // ...
     } catch (error) {
       console.log("Gagal menyimpan informasi pengguna di AsyncStorage:", error);
     }
@@ -95,7 +93,7 @@ const LoginScreen = ({ navigation }) => {
           flex: 1,
           flexDirection: "column",
           backgroundColor: "#fff",
-          paddingVertical: "15%",
+          paddingVertical: "20%",
           paddingHorizontal: "3%",
         }}
       >

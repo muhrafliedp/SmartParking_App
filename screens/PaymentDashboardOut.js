@@ -3,12 +3,10 @@ import { View, Text, Button } from "react-native";
 
 const PaymentDashboardOut = ({ navigation }) => {
   const handleIsClicked = () => {
-    // If enter detected, navigate to dashboard page 2 screen
     navigation.navigate("PaymentHistory");
   };
 
   const handleIsEntered = () => {
-    // If enter detected, navigate to dashboard page 2 screen
     navigation.navigate("Payment-In");
   };
 
@@ -17,7 +15,7 @@ const PaymentDashboardOut = ({ navigation }) => {
       style={{
         flex: 1,
         flexDirection: "column",
-        paddingTop: 310,
+        paddingTop: 330,
       }}
     >
       <View

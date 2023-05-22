@@ -14,7 +14,6 @@ export default class PaymentHistory extends Component {
     super(props);
 
     handleIsClicked = () => {
-      // If enter detected, navigate to dashboard page 2 screen
       navigation.navigate("Payment-Out");
     };
 
@@ -114,7 +113,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    paddingTop: 30,
+    paddingTop: 50,
     backgroundColor: "#ffffff",
   },
   head: {

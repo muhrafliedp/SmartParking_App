@@ -37,7 +37,6 @@ const ParkDashboardOut = ({ navigation }) => {
   }
 
   const handleIsEntered = () => {
-    // If enter detected, navigate to dashboard page 2 screen
     navigation.navigate("Park-In");
   };
 
@@ -46,7 +45,7 @@ const ParkDashboardOut = ({ navigation }) => {
       style={{
         flex: 1,
         flexDirection: "column",
-        paddingTop: 30,
+        paddingTop: 50,
       }}
     >
       <ScrollView
@@ -69,13 +68,6 @@ const ParkDashboardOut = ({ navigation }) => {
           </Text>
           <Text style={{ fontSize: 20 }}>diparkirkan</Text>
         </View>
-
-        {/* <FlatList
-          data={matrix}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderCell}
-        />
-        <Text>{JSON.stringify(matrix)}</Text> */}
 
         <Image
           source={require("../assets/images/in-example.png")}
@@ -105,12 +97,6 @@ const ParkDashboardOut = ({ navigation }) => {
           }}
         >
           {descPeta ? descPeta : "Loading..."}
-          {/* 1. Maju ke depan sejauh 4 meter.{"\n"}
-          2. Belok ke kiri.{"\n"}
-          3. Maju ke depan sejauh 2 meter.{"\n"}
-          4. Belok ke kanan.{"\n"}
-          5. Maju ke depan sejauh 1 meter.{"\n"}
-          6. Slot parkir ada di sebelah kiri. */}
         </Text>
 
         <View
