@@ -15,7 +15,7 @@ const PaymentDashboardOut = ({ navigation }) => {
       style={{
         flex: 1,
         flexDirection: "column",
-        paddingTop: 330,
+        paddingTop: 340,
       }}
     >
       <View
