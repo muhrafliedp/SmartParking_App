@@ -46,7 +46,7 @@ const ParkDashboardIn = ({ navigation }) => {
       style={{
         flex: 1,
         flexDirection: "column",
-        paddingTop: 50,
+        paddingTop: 30,
       }}
     >
       <ScrollView
@@ -120,7 +120,7 @@ const ParkDashboardIn = ({ navigation }) => {
           </Text>
         </View>
 
-        <View
+        {/* <View
           style={{
             columnGap: 15,
             flexDirection: "row",
@@ -142,13 +142,13 @@ const ParkDashboardIn = ({ navigation }) => {
           >
             Monitoring parkir via CCTV.
           </Text>
-        </View>
+        </View> */}
       </ScrollView>
       <View
         style={{
           flexDirection: "column",
           paddingHorizontal: "15%",
-          paddingTop: 8,
+          paddingTop: 10,
           paddingBottom: 20,
         }}
       >

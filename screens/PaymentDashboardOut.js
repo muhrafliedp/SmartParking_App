@@ -15,7 +15,7 @@ const PaymentDashboardOut = ({ navigation }) => {
       style={{
         flex: 1,
         flexDirection: "column",
-        paddingTop: 340,
+        paddingTop: 330,
       }}
     >
       <View
@@ -51,7 +51,7 @@ const PaymentDashboardOut = ({ navigation }) => {
         style={{
           flexDirection: "column",
           paddingHorizontal: "15%",
-          paddingTop: 302,
+          paddingTop: 282,
         }}
       >
         <Button title="enter" color="green" onPress={handleIsEntered} />

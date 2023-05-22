@@ -81,7 +81,7 @@ const PaymentDashboardIn = ({ navigation }) => {
       style={{
         flex: 1,
         flexDirection: "column",
-        paddingTop: 50,
+        paddingTop: 30,
       }}
     >
       <ScrollView

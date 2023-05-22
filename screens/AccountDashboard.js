@@ -67,7 +67,7 @@ const AccountDashboard = ({ navigation }) => {
         <View
           style={{
             backgroundColor: "#fff",
-            paddingVertical: "30%",
+            paddingVertical: "27%",
             paddingHorizontal: "3%",
           }}
         >
