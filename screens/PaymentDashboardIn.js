@@ -75,7 +75,14 @@ const PaymentDashboardIn = ({ navigation }) => {
   }, []);
 
   const handleIsVerified = () => {
-    navigation.navigate("PaymentVerification");
+    setRefreshing(true);
+
+    // Simulasi waktu refresh, di sini Anda dapat menggantinya dengan logika aktual
+    setTimeout(() => {
+      // Set refreshing kembali menjadi false setelah selesai refresh
+      // setRefreshing(false);
+      navigation.navigate("PaymentVerification");
+    }, 7000);
   };
 
   return (
@@ -277,7 +284,12 @@ const PaymentDashboardIn = ({ navigation }) => {
           paddingBottom: 20,
         }}
       >
-        <Button title="Bayar" color="green" onPress={handleIsVerified} />
+        <Button
+          title="Bayar"
+          color="green"
+          onPress={handleIsVerified}
+          disabled={refreshing}
+        />
       </View>
     </SafeAreaView>
   );
