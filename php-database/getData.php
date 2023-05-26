@@ -308,7 +308,7 @@
         $map_type = $_GET['map_type'];
         $filled_slot = $_GET['filled_slot'];
         
-        $sql = "SELECT lokasi_slot, file_map, file_text, gambar_map FROM FilePeta WHERE map_type = ? AND filled_slot = ? ORDER BY map_id DESC LIMIT 1";
+        $sql = "SELECT lokasi_slot, file_map, file_text, gambar_map FROM FilePeta WHERE map_type = ? AND filled_slot = ? ORDER BY map_id ASC LIMIT 1";
         $statement = $conn->prepare($sql);
         $statement->bind_param('ss', $map_type, $filled_slot);
         $statement->execute();
