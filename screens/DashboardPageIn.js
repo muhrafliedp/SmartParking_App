@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -20,12 +20,8 @@ const DashboardPageIn = ({ navigation }) => {
   const [vehicleEnterTime, setVehicleEnterTime] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
-  const componentDidMount = () => {
-    getParkirData();
-  };
-
-  async function getParkirData() {
-    setRefreshing(true);
+  const fetchData = async () => {
+    // setRefreshing(true);
     var date = moment()
       .utcOffset("+07:00")
       .format("dddd, DD MMMM YYYY | hh:mm:ss A");
@@ -63,8 +59,14 @@ const DashboardPageIn = ({ navigation }) => {
       console.log(error);
     }
 
+    // setRefreshing(false);
+  };
+
+  useEffect(() => {
+    setRefreshing(true);
+    fetchData();
     setRefreshing(false);
-  }
+  }, []);
 
   const handleIsExit = () => {
     // If leave detected, navigate to dashboard page screen
@@ -81,7 +83,7 @@ const DashboardPageIn = ({ navigation }) => {
     >
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={getParkirData} />
+          <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
         }
       >
         <View
@@ -216,7 +218,7 @@ const DashboardPageIn = ({ navigation }) => {
           </View>
 
           <Text style={{ paddingTop: 20, fontSize: 17 }}>
-            Lokasi Kendaraan di Parkiran :
+            Rekomendasi Lokasi Slot Parkir :
           </Text>
           <View
             style={{

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -12,29 +12,29 @@ import {
 } from "react-native";
 
 const ParkDashboardIn = ({ navigation }) => {
-  const [refreshing, setRefreshing] = useState(false);
-  const [descPeta, setDescPeta] = useState("");
+  // const [refreshing, setRefreshing] = useState(false);
+  const [gambarMap, setGambarMap] = useState("");
+  const [fileDesc, setFileDesc] = useState("");
 
-  const componentDidMount = () => {
-    getParkirData();
-  };
+  useEffect(() => {
+    // setRefreshing(true);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://1parkingclub.000webhostapp.com/getData.php/?op=getPeta&map_type=OUT&filled_slot=1"
+        );
+        const json = await response.json();
+        setGambarMap(json.gambar_map);
+        setFileDesc(json.file_text);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+    // setRefreshing(false);
+  }, []);
 
-  async function handleRefresh() {
-    setRefreshing(true);
-
-    try {
-      const response = await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php/?op=getTextPeta&map_type=OUT"
-      );
-      const json = await response.json();
-      const descPeta = json.file_text;
-      setDescPeta(descPeta);
-    } catch (error) {
-      console.log(error);
-    }
-
-    setRefreshing(false);
-  }
+  const gambarUri = `data:image/png;base64,${gambarMap}`;
 
   const handleIsExit = () => {
     // If leave detected, navigate to dashboard page screen
@@ -50,9 +50,9 @@ const ParkDashboardIn = ({ navigation }) => {
       }}
     >
       <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-        }
+      // refreshControl={
+      //   <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+      // }
       >
         <View
           style={{
@@ -71,10 +71,10 @@ const ParkDashboardIn = ({ navigation }) => {
         </View>
 
         <Image
-          source={require("../assets/images/out-example.png")}
+          source={{ uri: gambarUri }}
           style={{
             width: 360,
-            height: 436.72,
+            height: 522.2,
             marginHorizontal: 23,
           }}
         />
@@ -94,10 +94,10 @@ const ParkDashboardIn = ({ navigation }) => {
             fontSize: 18,
             fontWeight: 400,
             color: "black",
-            paddingLeft: 23,
+            paddingHorizontal: 23,
           }}
         >
-          {descPeta ? descPeta : "Loading..."}
+          {fileDesc ? fileDesc : "Loading..."}
         </Text>
 
         <View

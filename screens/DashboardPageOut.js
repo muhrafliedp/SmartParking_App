@@ -15,12 +15,8 @@ const DashboardPageOut = ({ navigation }) => {
   const [predictParkSlot, setPredictParkSlot] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
-  const componentDidMount = () => {
-    getParkirData();
-  };
-
-  async function getParkirData() {
-    setRefreshing(true);
+  const fetchData = async () => {
+    // setRefreshing(true);
     var date = moment()
       .utcOffset("+07:00")
       .format("dddd, DD MMMM YYYY | hh:mm:ss A");
@@ -40,8 +36,14 @@ const DashboardPageOut = ({ navigation }) => {
       console.log(error);
     }
 
+    // setRefreshing(false);
+  };
+
+  useEffect(() => {
+    setRefreshing(true);
+    fetchData();
     setRefreshing(false);
-  }
+  }, []);
 
   const handleIsEntered = () => {
     // If enter detected, navigate to dashboard page 2 screen
@@ -58,7 +60,7 @@ const DashboardPageOut = ({ navigation }) => {
     >
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={getParkirData} />
+          <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
         }
       >
         <View

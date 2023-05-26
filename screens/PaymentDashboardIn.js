@@ -22,12 +22,8 @@ const PaymentDashboardIn = ({ navigation }) => {
   const [feeBill, setFeeBill] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
-  const componentDidMount = () => {
-    getParkirData();
-  };
-
-  async function getParkirData() {
-    setRefreshing(true);
+  const fetchData = async () => {
+    // setRefreshing(true);
 
     var date = moment()
       .utcOffset("+07:00")
@@ -69,8 +65,14 @@ const PaymentDashboardIn = ({ navigation }) => {
       console.log(error);
     }
 
+    // setRefreshing(false);
+  };
+
+  useEffect(() => {
+    setRefreshing(true);
+    fetchData();
     setRefreshing(false);
-  }
+  }, []);
 
   const handleIsVerified = () => {
     navigation.navigate("PaymentVerification");
@@ -86,7 +88,7 @@ const PaymentDashboardIn = ({ navigation }) => {
     >
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={getParkirData} />
+          <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
         }
       >
         <View

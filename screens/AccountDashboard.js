@@ -22,12 +22,7 @@ const AccountDashboard = ({ navigation }) => {
   const [civitasType, setCivitasType] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
-  const componentDidMount = () => {
-    getUserInfo();
-  };
-
-  const getUserInfo = async () => {
-    setRefreshing(true);
+  const fetchData = async () => {
     try {
       const userInfoString = await AsyncStorage.getItem("userInfo");
       if (userInfoString !== null) {
@@ -45,8 +40,13 @@ const AccountDashboard = ({ navigation }) => {
         error
       );
     }
-    setRefreshing(false);
   };
+
+  useEffect(() => {
+    // setRefreshing(true);
+    fetchData();
+    // setRefreshing(false);
+  }, []);
 
   const handleSignOut = () => {
     // Authenticate user's credentials here
@@ -59,9 +59,9 @@ const AccountDashboard = ({ navigation }) => {
       style={{ flex: 1, backgroundColor: "#", flexDirection: "column" }}
     >
       <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={getUserInfo} />
-        }
+      // refreshControl={
+      //   <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
+      // }
       >
         <StatusBar barStyle={"dark-content"} backgroundColor="#fff" />
         <View
