@@ -12,11 +12,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DashboardPageIn = ({ navigation }) => {
   const [currentDate, setCurrentDate] = useState("");
-  const [idNumber, setIdNumber] = useState("");
+  // const [idNumber, setIdNumber] = useState("");
   const [currentParkSlot, setCurrentParkSlot] = useState("");
   const [predictParkSlot, setPredictParkSlot] = useState("");
+  const [maxParkSlot, setMaxParkSlot] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
-  const [vehicleLocationStatus, setVehicleLocationStatus] = useState("");
+  // const [vehicleLocationStatus, setVehicleLocationStatus] = useState("");
   const [vehicleEnterTime, setVehicleEnterTime] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
@@ -30,7 +31,7 @@ const DashboardPageIn = ({ navigation }) => {
     const userInfoString = await AsyncStorage.getItem("userInfo");
     if (userInfoString !== null) {
       const userInfo = JSON.parse(userInfoString);
-      setIdNumber(userInfo.idNumber);
+      setVehicleNumber(userInfo.vehicleNumber);
     }
     try {
       const [response1, response2] = await Promise.all([
@@ -38,22 +39,24 @@ const DashboardPageIn = ({ navigation }) => {
           "https://1parkingclub.000webhostapp.com/getData.php?op=getAreaParkir&parking_area=Parkir Timur Seni Rupa"
         ),
         fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php?op=getKendaraan&id_number=" +
-            idNumber
+          "https://1parkingclub.000webhostapp.com/getData.php?op=getKameraMasuk&vehicle_number=" +
+            vehicleNumber
         ),
       ]);
       const json1 = await response1.json();
       const json2 = await response2.json();
       const currentParkSlot = json1.data.result[0].current_park_slot;
       const predictParkSlot = json1.data.result[0].predict_park_slot;
-      const vehicleNumber = json2.data.result[0].vehicle_number;
-      const vehicleLocationStatus =
-        json2.data.result[0].vehicle_location_status;
-      const vehicleEnterTime = json2.data.result[0].vehicle_enter_time;
+      const maxParkSlot = json1.data.result[0].max_park_slot;
+      // const vehicleNumber = json2.data.result[0].vehicle_number;
+      // const vehicleLocationStatus =
+      //   json2.data.result[0].vehicle_location_status;
+      const vehicleEnterTime = json2.data.result[0].enter_time;
       setCurrentParkSlot(currentParkSlot);
       setPredictParkSlot(predictParkSlot);
-      setVehicleNumber(vehicleNumber);
-      setVehicleLocationStatus(vehicleLocationStatus);
+      setMaxParkSlot(maxParkSlot);
+      // setVehicleNumber(vehicleNumber);
+      // setVehicleLocationStatus(vehicleLocationStatus);
       setVehicleEnterTime(vehicleEnterTime);
     } catch (error) {
       console.log(error);
@@ -135,7 +138,9 @@ const DashboardPageIn = ({ navigation }) => {
                 marginLeft: -50,
               }}
             >
-              {currentParkSlot ? currentParkSlot : "Loading..."}
+              {currentParkSlot && maxParkSlot
+                ? `${currentParkSlot} / ${maxParkSlot}`
+                : "Loading..."}
             </Text>
           </View>
 
@@ -160,7 +165,9 @@ const DashboardPageIn = ({ navigation }) => {
                 marginLeft: -50,
               }}
             >
-              {predictParkSlot ? predictParkSlot : "Loading..."}
+              {predictParkSlot && maxParkSlot
+                ? `${predictParkSlot} / ${maxParkSlot}`
+                : "Loading..."}
             </Text>
           </View>
 
@@ -217,10 +224,10 @@ const DashboardPageIn = ({ navigation }) => {
             </Text>
           </View>
 
-          <Text style={{ paddingTop: 20, fontSize: 17 }}>
+          {/* <Text style={{ paddingTop: 20, fontSize: 17 }}>
             Rekomendasi Lokasi Slot Parkir :
-          </Text>
-          <View
+          </Text> */}
+          {/* <View
             style={{
               flex: 1,
               justifyContent: "center",
@@ -240,7 +247,7 @@ const DashboardPageIn = ({ navigation }) => {
             >
               {vehicleLocationStatus ? vehicleLocationStatus : "Loading..."}
             </Text>
-          </View>
+          </View> */}
         </View>
 
         <View
@@ -252,8 +259,8 @@ const DashboardPageIn = ({ navigation }) => {
           }}
         >
           <Text style={{ textAlign: "center", paddingTop: 20, fontSize: 17 }}>
-            Informasi visual lokasi parkir terdapat pada dashboard parking
-            aplikasi.
+            Informasi visual rekomendasi lokasi parkir terdapat pada dashboard
+            parking aplikasi.
           </Text>
         </View>
       </ScrollView>

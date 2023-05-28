@@ -10,22 +10,39 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ParkDashboardIn = ({ navigation }) => {
   // const [refreshing, setRefreshing] = useState(false);
   const [gambarMap, setGambarMap] = useState("");
   const [fileDesc, setFileDesc] = useState("");
+  const [vehicleNumber, setVehicleNumber] = useState("");
+  const [statusKerapian, setStatusKerapian] = useState("");
 
   useEffect(() => {
     // setRefreshing(true);
     const fetchData = async () => {
+      const userInfoString = await AsyncStorage.getItem("userInfo");
+      if (userInfoString !== null) {
+        const userInfo = JSON.parse(userInfoString);
+        setVehicleNumber(userInfo.vehicleNumber);
+      }
       try {
-        const response = await fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php/?op=getPeta&map_type=OUT&filled_slot=1"
-        );
-        const json = await response.json();
-        setGambarMap(json.gambar_map);
-        setFileDesc(json.file_text);
+        const [response1, response2] = await Promise.all([
+          fetch(
+            "https://1parkingclub.000webhostapp.com/getData.php/?op=getPeta&map_type=OUT&filled_slot=1"
+          ),
+          fetch(
+            "https://1parkingclub.000webhostapp.com/getData.php?op=getStatusParkir&vehicle_number=" +
+              vehicleNumber
+          ),
+        ]);
+        const json1 = await response1.json();
+        const json2 = await response2.json();
+        setGambarMap(json1.gambar_map);
+        setFileDesc(json1.file_text);
+        const statusKerapian = json2.data.result[0].status_kerapian;
+        setStatusKerapian(statusKerapian);
       } catch (error) {
         console.error(error);
       }
@@ -109,9 +126,9 @@ const ParkDashboardIn = ({ navigation }) => {
           }}
         >
           <Text style={{ fontSize: 20 }}>Kamu</Text>
-          <Text style={{ fontSize: 20, color: "green", fontWeight: 900 }}>
+          <Text style={{ fontSize: 20, color: "#003565", fontWeight: 900 }}>
             {" "}
-            SUDAH{" "}
+            {statusKerapian == 0 ? "BELUM" : "SUDAH"}{" "}
           </Text>
           <Text style={{ fontSize: 20 }}>parkir dengan</Text>
           <Text style={{ fontSize: 20, color: "#003565", fontWeight: 900 }}>

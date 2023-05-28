@@ -13,6 +13,7 @@ const DashboardPageOut = ({ navigation }) => {
   const [currentDate, setCurrentDate] = useState("");
   const [currentParkSlot, setCurrentParkSlot] = useState("");
   const [predictParkSlot, setPredictParkSlot] = useState("");
+  const [maxParkSlot, setMaxParkSlot] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchData = async () => {
@@ -30,8 +31,10 @@ const DashboardPageOut = ({ navigation }) => {
       const json = await response.json();
       const currentParkSlot = json.data.result[0].current_park_slot;
       const predictParkSlot = json.data.result[0].predict_park_slot;
+      const maxParkSlot = json.data.result[0].max_park_slot;
       setCurrentParkSlot(currentParkSlot);
       setPredictParkSlot(predictParkSlot);
+      setMaxParkSlot(maxParkSlot);
     } catch (error) {
       console.log(error);
     }
@@ -112,7 +115,9 @@ const DashboardPageOut = ({ navigation }) => {
                 marginLeft: -50,
               }}
             >
-              {currentParkSlot ? currentParkSlot : "Loading..."}
+              {currentParkSlot && maxParkSlot
+                ? `${currentParkSlot} / ${maxParkSlot}`
+                : "Loading..."}
             </Text>
           </View>
 
@@ -137,7 +142,9 @@ const DashboardPageOut = ({ navigation }) => {
                 marginLeft: -50,
               }}
             >
-              {predictParkSlot ? predictParkSlot : "Loading..."}
+              {predictParkSlot && maxParkSlot
+                ? `${predictParkSlot} / ${maxParkSlot}`
+                : "Loading..."}
             </Text>
           </View>
         </View>

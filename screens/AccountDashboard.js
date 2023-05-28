@@ -20,6 +20,7 @@ const AccountDashboard = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [civitasType, setCivitasType] = useState("");
+  const [vehicleNumber, setVehicleNumber] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchData = async () => {
@@ -33,6 +34,7 @@ const AccountDashboard = ({ navigation }) => {
         // setPassword(userInfo.password);
         setIdNumber(userInfo.idNumber);
         setCivitasType(userInfo.civitasType);
+        setVehicleNumber(userInfo.vehicleNumber);
       }
     } catch (error) {
       console.log(
@@ -67,7 +69,7 @@ const AccountDashboard = ({ navigation }) => {
         <View
           style={{
             backgroundColor: "#fff",
-            paddingVertical: "27%",
+            paddingVertical: "20%",
             paddingHorizontal: "3%",
           }}
         >
@@ -87,7 +89,7 @@ const AccountDashboard = ({ navigation }) => {
             </Text>
             <Text
               style={{
-                marginTop: 50,
+                marginTop: 30,
                 fontWeight: 700,
                 fontSize: 23,
                 color: "#000000",
@@ -154,12 +156,29 @@ const AccountDashboard = ({ navigation }) => {
                 {civitasType}
               </Text>
             </View>
+
+            <View style={styles.inputBox}>
+              <MaterialCommunityIcons
+                name="car-info"
+                color={"#818181"}
+                size={26}
+              />
+              <Text
+                style={{
+                  marginLeft: 18,
+                  fontSize: 18,
+                  color: "#818181",
+                }}
+              >
+                {vehicleNumber}
+              </Text>
+            </View>
           </View>
         </View>
 
         <View
           style={{
-            flex: 0.1,
+            // flex: 0.05,
             flexDirection: "column",
             paddingHorizontal: "15%",
             paddingTop: 20,

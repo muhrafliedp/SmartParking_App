@@ -8,6 +8,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { Table, TableWrapper, Row } from "react-native-table-component";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default class PaymentHistory extends Component {
   constructor({ props, navigation }) {
@@ -19,16 +20,16 @@ export default class PaymentHistory extends Component {
 
     this.state = {
       HeadTable: [
-        "No",
         "Waktu Masuk",
         "Waktu Keluar",
         "Plat",
         "Tempat Parkir",
         "Bill (Rp)",
       ],
-      widthArr: [30, 100, 100, 95, 100, 70],
+      widthArr: [100, 100, 95, 100, 70],
       DataTable: [],
       refreshing: false,
+      vehicleNumber: "",
     };
   }
 
@@ -36,9 +37,15 @@ export default class PaymentHistory extends Component {
     this.getDataParking();
   }
 
-  getDataParking() {
+  async getDataParking() {
+    const userInfoString = await AsyncStorage.getItem("userInfo");
+    if (userInfoString !== null) {
+      const userInfo = JSON.parse(userInfoString);
+      this.setState({ vehicleNumber: userInfo.vehicleNumber });
+    }
     fetch(
-      "https://1parkingclub.000webhostapp.com/getData.php?op=getAllRiwayatParkir"
+      "https://1parkingclub.000webhostapp.com/getData.php?op=getAllRiwayatParkir&vehicle_number=" +
+        this.state.vehicleNumber
     )
       .then((response) => response.json())
       .then((json) => {

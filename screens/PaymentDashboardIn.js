@@ -14,17 +14,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const PaymentDashboardIn = ({ navigation }) => {
   const [currentDate, setCurrentDate] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [idNumber, setIdNumber] = useState("");
+  // const [idNumber, setIdNumber] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [enterTime, setEnterTime] = useState("");
-  const [leaveTime, setLeaveTime] = useState("");
   const [parkingLot, setParkingLot] = useState("");
   const [feeBill, setFeeBill] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchData = async () => {
     // setRefreshing(true);
-
     var date = moment()
       .utcOffset("+07:00")
       .format("dddd, DD MMMM YYYY | hh:mm:ss A");
@@ -34,31 +32,28 @@ const PaymentDashboardIn = ({ navigation }) => {
     const userInfoString = await AsyncStorage.getItem("userInfo");
     if (userInfoString !== null) {
       const userInfo = JSON.parse(userInfoString);
-      setIdNumber(userInfo.idNumber);
+      setVehicleNumber(userInfo.vehicleNumber);
+      console.log(vehicleNumber);
     }
 
     try {
-      const response1 = await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php?op=getKendaraan&id_number=" +
-          idNumber
-      );
+      const [response1, response2] = await Promise.all([
+        fetch(
+          "https://1parkingclub.000webhostapp.com/getData.php?op=getKameraMasuk&vehicle_number=" +
+            vehicleNumber
+        ),
+        fetch(
+          "https://1parkingclub.000webhostapp.com/getData.php?op=getPembayaran&vehicle_number=" +
+            vehicleNumber
+        ),
+      ]);
       const json1 = await response1.json();
-      const vehicleNumber = json1.data.result[0].vehicle_number;
-
-      const response2 = await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php?op=getRiwayatParkir&vehicle_number=" +
-          vehicleNumber
-      );
-
       const json2 = await response2.json();
-      console.log(json2);
-      const enterTime = json2.data.result[0].enter_time;
-      const leaveTime = json2.data.result[0].leave_time;
-      const parkingLot = json2.data.result[0].parking_lot;
-      const feeBill = json2.data.result[0].fee_bill;
-      setVehicleNumber(vehicleNumber);
+      // console.log(json2);
+      const enterTime = json1.data.result[0].enter_time;
+      const parkingLot = "Parkir Timur Seni Rupa";
+      const feeBill = json2.data.result[0].bill;
       setEnterTime(enterTime);
-      setLeaveTime(leaveTime);
       setParkingLot(parkingLot);
       setFeeBill(feeBill);
     } catch (error) {
@@ -82,7 +77,7 @@ const PaymentDashboardIn = ({ navigation }) => {
       // Set refreshing kembali menjadi false setelah selesai refresh
       // setRefreshing(false);
       navigation.navigate("PaymentVerification");
-    }, 7000);
+    }, 5000);
   };
 
   return (
@@ -264,14 +259,15 @@ const PaymentDashboardIn = ({ navigation }) => {
               flexDirection: "row",
               textAlign: "center",
               paddingTop: 30,
+              paddingHorizontal: "8%",
             }}
           >
-            <Text style={{ fontSize: 17 }}>Tunjukkan</Text>
+            <Text style={{ fontSize: 17 }}>Silakan Tap</Text>
             <Text style={{ fontSize: 17, color: "#003565", fontWeight: 900 }}>
               {" "}
-              bukti bayar{" "}
+              Kartu Pembayaran{" "}
             </Text>
-            <Text style={{ fontSize: 17 }}>pada petugas parkir !</Text>
+            <Text style={{ fontSize: 17 }}>Anda !</Text>
           </View>
         </View>
       </ScrollView>

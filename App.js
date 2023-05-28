@@ -77,7 +77,7 @@ function HomeStack() {
           tabBarLabel: "Parking",
           tabBarIcon: () => (
             <MaterialCommunityIcons
-              name="car-info"
+              name="car-brake-parking"
               color={"#003565"}
               size={26}
             />

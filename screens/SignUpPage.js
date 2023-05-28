@@ -17,6 +17,7 @@ const SignUpPage = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [civitasType, setCivitasType] = useState("");
+  const [vehicleNumber, setVehicleNumber] = useState("");
 
   const [showPassword, setShowPassword] = useState(true);
 
@@ -28,7 +29,12 @@ const SignUpPage = ({ navigation }) => {
   const handleSignUp = () => {
     // Authenticate user's credentials here
     // If valid, navigate to main app screen
-    if (idNumber.length == 0 || username.length == 0 || password.length == 0) {
+    if (
+      idNumber.length == 0 ||
+      username.length == 0 ||
+      password.length == 0 ||
+      vehicleNumber.length == 0
+    ) {
       alert("Silakan masukan data dengan lengkap!");
     } else {
       fetch(
@@ -46,7 +52,9 @@ const SignUpPage = ({ navigation }) => {
             "&password=" +
             password +
             "&civitas_type=" +
-            civitasType,
+            civitasType +
+            "&vehicle_number=" +
+            vehicleNumber,
         }
       )
         .then((response) => response.json())
@@ -56,6 +64,7 @@ const SignUpPage = ({ navigation }) => {
           setPassword("");
           setConfirmPassword("");
           setCivitasType("");
+          setVehicleNumber("");
         })
         .then(alert("Pengguna berhasil terdaftarkan, silakan Login!"))
         .catch((error) => {
@@ -185,6 +194,40 @@ const SignUpPage = ({ navigation }) => {
             <Text style={{ color: "red" }}>{isError}</Text>
           </View> */}
 
+          <View style={styles.inputBox}>
+            <MaterialCommunityIcons
+              name="card-account-details-outline"
+              color={"#818181"}
+              size={26}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Masukan NIP/NIM Anda"
+              placeholderTextColor="#818181"
+              onChangeText={(text) => {
+                setIdNumber(text);
+              }}
+              testID="idNumberInput"
+            />
+          </View>
+
+          <View style={styles.inputBox}>
+            <MaterialCommunityIcons
+              name="car-info"
+              color={"#818181"}
+              size={26}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Masukan Nomor Kendaraan"
+              placeholderTextColor="#818181"
+              onChangeText={(text) => {
+                setVehicleNumber(text);
+              }}
+              testID="vehicleNumberInput"
+            />
+          </View>
+
           <View style={{ marginTop: 20 }}>
             <Text style={{ fontSize: 15, marginBottom: 15 }}>
               Jenis Civitas Kampus:{" "}
@@ -225,23 +268,6 @@ const SignUpPage = ({ navigation }) => {
                 }
               />
             </RadioButtonGroup>
-          </View>
-
-          <View style={styles.inputBox}>
-            <MaterialCommunityIcons
-              name="card-account-details-outline"
-              color={"#818181"}
-              size={26}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Masukan NIP/NIM Anda"
-              placeholderTextColor="#818181"
-              onChangeText={(text) => {
-                setIdNumber(text);
-              }}
-              testID="idNumberInput"
-            />
           </View>
         </View>
       </View>

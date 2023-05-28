@@ -10,8 +10,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import * as Font from "expo-font";
-import { KeyboardAvoidingView } from "react-native-web";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // async getDataUser = () => {
@@ -23,6 +21,7 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [civitasType, setCivitasType] = useState("");
+  const [vehicleNumber, setVehicleNumber] = useState("");
 
   const [showPassword, setShowPassword] = useState(true);
 
@@ -65,11 +64,19 @@ const LoginScreen = ({ navigation }) => {
       valid = json1.data.result;
       const idNumber = json2.data.result[0].id_number;
       const civitasType = json2.data.result[0].civitas_type;
+      const vehicleNumber = json2.data.result[0].vehicle_number;
       setIdNumber(idNumber);
       setCivitasType(civitasType);
+      setVehicleNumber(vehicleNumber);
 
       if (valid) {
-        const userInfo = { idNumber, username, password, civitasType };
+        const userInfo = {
+          idNumber,
+          username,
+          password,
+          civitasType,
+          vehicleNumber,
+        };
         saveUserInfo(userInfo);
         alert("Akun pengguna berhasil Login!");
         navigation.navigate("HomeStack");

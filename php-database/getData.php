@@ -19,6 +19,9 @@
         case 'getAllRiwayatParkir':getAllRiwayatParkir();break;
         case 'postPeta':postPeta();break;
         case 'getPeta':getPeta();break;
+        case 'getKameraMasuk':getKameraMasuk();break;
+        case 'getStatusParkir':getStatusParkir();break;
+        
     }
 
     function normal(){
@@ -70,6 +73,7 @@
                 'username' => $r1['username'],
                 'password' => $r1['password'],
                 'civitas_type' => $r1['civitas_type'],
+                'vehicle_number' => $r1['vehicle_number'],
             ];
         } 
         $data['data']['result'] = $hasil;
@@ -83,10 +87,11 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
         $civitas_type = $_POST['civitas_type'];
+        $vehicle_number = $_POST['vehicle_number'];
         
         $result = "Registrasi gagal dilakukan!";
-        if($id_number and $username and $password){
-            $sql1 = "INSERT INTO Pengguna(id_number,username,password,civitas_type) VALUES ('$id_number','$username','$password','$civitas_type')";
+        if($id_number and $username and $password and $vehicle_number){
+            $sql1 = "INSERT INTO Pengguna(id_number,username,password,civitas_type,vehicle_number) VALUES ('$id_number','$username','$password','$civitas_type','$vehicle_number')";
             $q1 = mysqli_query($conn, $sql1);
             if($q1){
                 $result = "Registrasi berhasil dilakukan!";
@@ -224,7 +229,7 @@
         global $conn;
         
         $vehicle_number = $_GET['vehicle_number'];
-        $sql1 = "SELECT * FROM Payment WHERE vehicle_number = '$vehicle_number'";
+        $sql1 = "SELECT * FROM Payment WHERE vehicle_number = '$vehicle_number' ORDER BY payment_time DESC LIMIT 1";
         $q1 = mysqli_query($conn,$sql1);
         $hasil = array();
         while($r1 = mysqli_fetch_assoc($q1)){
@@ -242,14 +247,15 @@
     function getAllRiwayatParkir(){
         global $conn;
         
-        $sql1 = "SELECT * FROM RiwayatParkir";
+        $vehicle_number = $_GET['vehicle_number'];
+        
+        $sql1 = "SELECT * FROM RiwayatParkir WHERE vehicle_number = '$vehicle_number'";
         $q1 = mysqli_query($conn,$sql1);
         $hasil = array();
         
         if($q1->num_rows > 0) {
             while($r1 = $q1->fetch_assoc()){
                 $hasil[] = [
-                    'id_park_history' => $r1['id_park_history'],
                     'enter_time' => $r1['enter_time'],
                     'leave_time' => $r1['leave_time'],
                     'vehicle_number' => $r1['vehicle_number'],
@@ -326,6 +332,42 @@
         // Mengirimkan data sebagai JSON
         header('Content-Type: application/json');
         echo json_encode($response);
+    }
+    
+    function getKameraMasuk(){
+        global $conn;
+        
+        $vehicle_number = $_GET['vehicle_number'];
+        
+        $sql1 = "SELECT * FROM KameraMasuk WHERE vehicle_number = '$vehicle_number' ORDER BY enter_time DESC";
+        $q1 = mysqli_query($conn,$sql1);
+        $hasil = array();
+        while($r1 = mysqli_fetch_assoc($q1)){
+            $hasil[] = [
+                'vehicle_number' => $r1['vehicle_number'],
+                'enter_time' => $r1['enter_time'],
+            ];
+        }
+        $data['data']['result'] = $hasil;
+        echo json_encode($data);
+    }
+    
+    function getStatusParkir(){
+        global $conn;
+        
+        $vehicle_number = $_GET['vehicle_number'];
+        
+        $sql1 = "SELECT * FROM StatusParkir WHERE vehicle_number = '$vehicle_number' ORDER BY readingtime DESC";
+        $q1 = mysqli_query($conn,$sql1);
+        $hasil = array();
+        while($r1 = mysqli_fetch_assoc($q1)){
+            $hasil[] = [
+                'vehicle_number' => $r1['vehicle_number'],
+                'status_kerapian' => $r1['status_kerapian'],
+            ];
+        }
+        $data['data']['result'] = $hasil;
+        echo json_encode($data);
     }
 
     mysqli_close($conn);
