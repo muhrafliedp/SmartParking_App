@@ -93,7 +93,7 @@ export default class PaymentHistory extends Component {
                     widthArr={this.state.widthArr}
                     style={[
                       styles.row,
-                      index % 2 && { backgroundColor: "#ffffff" },
+                      index % 2 === 1 && { backgroundColor: "#ffffff" },
                     ]}
                     textStyle={styles.text}
                   />

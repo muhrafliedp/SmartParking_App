@@ -12,64 +12,84 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DashboardPageIn = ({ navigation }) => {
   const [currentDate, setCurrentDate] = useState("");
-  // const [idNumber, setIdNumber] = useState("");
   const [currentParkSlot, setCurrentParkSlot] = useState("");
   const [predictParkSlot, setPredictParkSlot] = useState("");
   const [maxParkSlot, setMaxParkSlot] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
-  // const [vehicleLocationStatus, setVehicleLocationStatus] = useState("");
   const [vehicleEnterTime, setVehicleEnterTime] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchData = async () => {
-    // setRefreshing(true);
-    var date = moment()
-      .utcOffset("+07:00")
-      .format("dddd, DD MMMM YYYY | hh:mm:ss A");
-
-    setCurrentDate(date);
+  const fetchSaveState = async () => {
     const userInfoString = await AsyncStorage.getItem("userInfo");
     if (userInfoString !== null) {
       const userInfo = JSON.parse(userInfoString);
       setVehicleNumber(userInfo.vehicleNumber);
     }
+  };
+
+  const fetchTime = async () => {
+    var date = moment()
+      .utcOffset("+07:00")
+      .format("dddd, DD MMMM YYYY | hh:mm:ss A");
+    setCurrentDate(date);
+  };
+
+  const fetchDataKameraMasuk = async () => {
+    // setRefreshing(true);
     try {
-      const [response1, response2] = await Promise.all([
-        fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php?op=getAreaParkir&parking_area=Parkir Timur Seni Rupa"
-        ),
-        fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php?op=getKameraMasuk&vehicle_number=" +
-            vehicleNumber
-        ),
-      ]);
-      const json1 = await response1.json();
-      const json2 = await response2.json();
-      const currentParkSlot = json1.data.result[0].current_park_slot;
-      const predictParkSlot = json1.data.result[0].predict_park_slot;
-      const maxParkSlot = json1.data.result[0].max_park_slot;
-      // const vehicleNumber = json2.data.result[0].vehicle_number;
-      // const vehicleLocationStatus =
-      //   json2.data.result[0].vehicle_location_status;
-      const vehicleEnterTime = json2.data.result[0].enter_time;
-      setCurrentParkSlot(currentParkSlot);
-      setPredictParkSlot(predictParkSlot);
-      setMaxParkSlot(maxParkSlot);
-      // setVehicleNumber(vehicleNumber);
-      // setVehicleLocationStatus(vehicleLocationStatus);
-      setVehicleEnterTime(vehicleEnterTime);
+      const response = await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php?op=getKameraMasuk&vehicle_number=" +
+          vehicleNumber
+      );
+      if (response.ok) {
+        const json = await response.json();
+        const vehicleEnterTime = json.data.result[0].enter_time;
+        setVehicleEnterTime(vehicleEnterTime);
+      } else {
+        throw new Error("Request failed");
+      }
     } catch (error) {
       console.log(error);
     }
+    // setRefreshing(false);
+  };
 
+  const fetchDataAreaParkir = async () => {
+    // setRefreshing(true);
+    try {
+      const response1 = await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php?op=getAreaParkir&parking_area=Parkir Timur Seni Rupa"
+      );
+      if (response1.ok) {
+        const json1 = await response1.json();
+        const currentParkSlot = json1.data.result[0].current_park_slot;
+        const predictParkSlot = json1.data.result[0].predict_park_slot;
+        const maxParkSlot = json1.data.result[0].max_park_slot;
+        setCurrentParkSlot(currentParkSlot);
+        setPredictParkSlot(predictParkSlot);
+        setMaxParkSlot(maxParkSlot);
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
     // setRefreshing(false);
   };
 
   useEffect(() => {
-    setRefreshing(true);
-    fetchData();
-    setRefreshing(false);
-  }, []);
+    // setRefreshing(true);
+    fetchTime();
+    fetchSaveState();
+    fetchDataAreaParkir();
+    fetchDataKameraMasuk();
+    const interval = setInterval(() => {
+      fetchTime();
+      fetchDataAreaParkir();
+    }, 1000);
+    // setRefreshing(false);
+    return () => clearInterval(interval);
+  }, [vehicleNumber]);
 
   const handleIsExit = () => {
     // If leave detected, navigate to dashboard page screen
@@ -85,9 +105,9 @@ const DashboardPageIn = ({ navigation }) => {
       }}
     >
       <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
-        }
+      // refreshControl={
+      //   <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
+      // }
       >
         <View
           style={{
@@ -223,31 +243,6 @@ const DashboardPageIn = ({ navigation }) => {
               {vehicleEnterTime ? vehicleEnterTime : "Loading..."}
             </Text>
           </View>
-
-          {/* <Text style={{ paddingTop: 20, fontSize: 17 }}>
-            Rekomendasi Lokasi Slot Parkir :
-          </Text> */}
-          {/* <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                borderWidth: 2,
-                borderColor: "green",
-                borderRadius: 5,
-                padding: 10,
-                fontSize: 18,
-                marginTop: 10,
-                marginLeft: -50,
-              }}
-            >
-              {vehicleLocationStatus ? vehicleLocationStatus : "Loading..."}
-            </Text>
-          </View> */}
         </View>
 
         <View

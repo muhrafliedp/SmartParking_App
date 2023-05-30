@@ -21,7 +21,6 @@ const DashboardPageOut = ({ navigation }) => {
     var date = moment()
       .utcOffset("+07:00")
       .format("dddd, DD MMMM YYYY | hh:mm:ss A");
-
     setCurrentDate(date);
 
     try {
@@ -38,14 +37,17 @@ const DashboardPageOut = ({ navigation }) => {
     } catch (error) {
       console.log(error);
     }
-
     // setRefreshing(false);
   };
 
   useEffect(() => {
-    setRefreshing(true);
+    // setRefreshing(true);
     fetchData();
-    setRefreshing(false);
+    const interval = setInterval(() => {
+      fetchData();
+    }, 1000);
+    return () => clearInterval(interval);
+    // setRefreshing(false);
   }, []);
 
   const handleIsEntered = () => {
@@ -62,9 +64,9 @@ const DashboardPageOut = ({ navigation }) => {
       }}
     >
       <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
-        }
+      // refreshControl={
+      //   <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
+      // }
       >
         <View
           style={{

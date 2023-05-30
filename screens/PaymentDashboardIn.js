@@ -16,68 +16,161 @@ const PaymentDashboardIn = ({ navigation }) => {
   const [paymentMethod, setPaymentMethod] = useState("");
   // const [idNumber, setIdNumber] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
+  const [leaveTime, setLeaveTime] = useState("");
   const [enterTime, setEnterTime] = useState("");
   const [parkingLot, setParkingLot] = useState("");
   const [feeBill, setFeeBill] = useState("");
+  const [statusPayment, setStatusPayment] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchData = async () => {
-    // setRefreshing(true);
-    var date = moment()
-      .utcOffset("+07:00")
-      .format("dddd, DD MMMM YYYY | hh:mm:ss A");
-
-    setCurrentDate(date);
-
+  const fetchSaveState = async () => {
     const userInfoString = await AsyncStorage.getItem("userInfo");
     if (userInfoString !== null) {
       const userInfo = JSON.parse(userInfoString);
       setVehicleNumber(userInfo.vehicleNumber);
-      console.log(vehicleNumber);
     }
+  };
 
+  const fetchTime = async () => {
+    var date = moment()
+      .utcOffset("+07:00")
+      .format("dddd, DD MMMM YYYY | hh:mm:ss A");
+    setCurrentDate(date);
+  };
+
+  const fetchDataKameraMasuk = async () => {
+    // setRefreshing(true);
     try {
-      const [response1, response2] = await Promise.all([
-        fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php?op=getKameraMasuk&vehicle_number=" +
-            vehicleNumber
-        ),
-        fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php?op=getPembayaran&vehicle_number=" +
-            vehicleNumber
-        ),
-      ]);
-      const json1 = await response1.json();
-      const json2 = await response2.json();
-      // console.log(json2);
-      const enterTime = json1.data.result[0].enter_time;
-      const parkingLot = "Parkir Timur Seni Rupa";
-      const feeBill = json2.data.result[0].bill;
-      setEnterTime(enterTime);
-      setParkingLot(parkingLot);
-      setFeeBill(feeBill);
+      const response = await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php?op=getKameraMasuk&vehicle_number=" +
+          vehicleNumber
+      );
+      if (response.ok) {
+        const json = await response.json();
+        const enterTime = json.data.result[0].enter_time;
+        const parkingLot = "Parkir Timur Seni Rupa";
+        setEnterTime(enterTime);
+        setParkingLot(parkingLot);
+      } else {
+        throw new Error("Request failed");
+      }
     } catch (error) {
       console.log(error);
     }
+    // setRefreshing(false);
+  };
 
+  const fetchDataKameraKeluar = async () => {
+    // setRefreshing(true);
+    try {
+      const response = await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php?op=getKameraKeluar&vehicle_number=" +
+          vehicleNumber
+      );
+      if (response.ok) {
+        const json3 = await response.json();
+        const leaveTime = json3.data.result[0].leave_time;
+        setLeaveTime(leaveTime);
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // setRefreshing(false);
+  };
+
+  const fetchDataPembayaran = async () => {
+    // setRefreshing(true);
+    try {
+      const response = await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php?op=getPembayaran&vehicle_number=" +
+          vehicleNumber
+      );
+      if (response.ok) {
+        const json2 = await response.json();
+        const feeBill = json2.data.result[0].bill;
+        const statusPayment = json2.data.result[0].status_payment;
+        setFeeBill(feeBill);
+        setStatusPayment(statusPayment);
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
     // setRefreshing(false);
   };
 
   useEffect(() => {
-    setRefreshing(true);
-    fetchData();
-    setRefreshing(false);
-  }, []);
+    // setRefreshing(true);
+    fetchTime();
+    fetchSaveState();
+    fetchDataKameraMasuk();
+    fetchDataKameraKeluar();
+    if (leaveTime) {
+      fetchDataPembayaran();
+    }
+    const interval = setInterval(() => {
+      fetchTime();
+      fetchDataPembayaran();
+    }, 1000);
+    // setRefreshing(false);
+    return () => clearInterval(interval);
+  }, [vehicleNumber]);
 
   const handleIsVerified = () => {
-    setRefreshing(true);
-
+    // setRefreshing(true);
+    console.log(
+      `${enterTime}, ${leaveTime}, ${vehicleNumber}, ${parkingLot}, ${feeBill}`
+    );
+    if (
+      enterTime.length != 0 ||
+      leaveTime.length != 0 ||
+      vehicleNumber.length != 0 ||
+      parkingLot.length != 0 ||
+      feeBill.length != 0
+    ) {
+      fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php?op=createRiwayatParkir",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body:
+            "enter_time=" +
+            enterTime +
+            "&leave_time=" +
+            leaveTime +
+            "&vehicle_number=" +
+            vehicleNumber +
+            "&parking_lot=" +
+            parkingLot +
+            "&fee_bill=" +
+            feeBill,
+        }
+      )
+        .then((response) => response.json())
+        .then((json) => {
+          setEnterTime("");
+          setLeaveTime("");
+          setVehicleNumber("");
+          setParkingLot("");
+          setFeeBill("");
+        })
+        // .then(alert("Data transaksi parkir berhasil ditambahkan!"))
+        .catch((error) => {
+          alert("Error" + error);
+        });
+    }
     // Simulasi waktu refresh, di sini Anda dapat menggantinya dengan logika aktual
     setTimeout(() => {
       // Set refreshing kembali menjadi false setelah selesai refresh
-      // setRefreshing(false);
-      navigation.navigate("PaymentVerification");
-    }, 5000);
+      if (statusPayment == "1") {
+        navigation.navigate("PaymentVerification");
+      }
+    }, 7000);
   };
 
   return (
@@ -89,9 +182,12 @@ const PaymentDashboardIn = ({ navigation }) => {
       }}
     >
       <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
-        }
+      // refreshControl={
+      //   <RefreshControl
+      //     refreshing={refreshing}
+      //     onRefresh={fetchDataPembayaran}
+      //   />
+      // }
       >
         <View
           style={{
@@ -214,23 +310,38 @@ const PaymentDashboardIn = ({ navigation }) => {
               alignItems: "center",
             }}
           >
-            <Text
-              style={{
-                borderWidth: 2,
-                borderColor: "green",
-                borderRadius: 5,
-                padding: 10,
-                fontSize: 18,
-                marginTop: 10,
-                marginLeft: -50,
-              }}
-            >
-              {feeBill ? feeBill : "Loading..."}
-            </Text>
+            {feeBill ? (
+              <Text
+                style={{
+                  borderWidth: 2,
+                  borderColor: "green",
+                  borderRadius: 5,
+                  padding: 10,
+                  fontSize: 18,
+                  marginTop: 10,
+                  marginLeft: -50,
+                }}
+              >
+                {feeBill}
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  padding: 10,
+                  fontSize: 16,
+                  fontWeight: 600,
+                  marginTop: 10,
+                  marginLeft: -28,
+                  color: "red",
+                }}
+              >
+                Belum tersedia. Silakan menuju gerbang parkir!
+              </Text>
+            )}
           </View>
 
           <Text style={{ paddingTop: 25, paddingBottom: 5, fontSize: 16 }}>
-            Pilihan Metode Pembayaran (default)
+            Pilihan Metode Pembayaran
           </Text>
 
           <View style={{ marginTop: 20 }}>
@@ -258,7 +369,6 @@ const PaymentDashboardIn = ({ navigation }) => {
             style={{
               flexDirection: "row",
               textAlign: "center",
-              paddingTop: 30,
               paddingHorizontal: "8%",
             }}
           >
@@ -276,15 +386,16 @@ const PaymentDashboardIn = ({ navigation }) => {
         style={{
           flexDirection: "column",
           paddingHorizontal: "15%",
-          paddingTop: 50,
+          paddingTop: 30,
           paddingBottom: 20,
         }}
       >
         <Button
           title="Bayar"
           color="green"
+          // refreshing={refreshing}
           onPress={handleIsVerified}
-          disabled={refreshing}
+          // disabled={refreshing}
         />
       </View>
     </SafeAreaView>

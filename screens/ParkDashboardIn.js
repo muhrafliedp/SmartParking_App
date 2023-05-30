@@ -19,37 +19,56 @@ const ParkDashboardIn = ({ navigation }) => {
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [statusKerapian, setStatusKerapian] = useState("");
 
+  const fetchDataSaveState = async () => {
+    const userInfoString = await AsyncStorage.getItem("userInfo");
+    if (userInfoString !== null) {
+      const userInfo = JSON.parse(userInfoString);
+      setVehicleNumber(userInfo.vehicleNumber);
+    }
+  };
+
+  const fetchDataMap = async () => {
+    try {
+      const response = await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php/?op=getPeta&map_type=OUT&filled_slot=1"
+      );
+
+      if (response.ok) {
+        const json = await response.json();
+        setGambarMap(json.gambar_map);
+        setFileDesc(json.file_text);
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchDataStatusPark = async () => {
+    try {
+      const response = await fetch(
+        "https://1parkingclub.000webhostapp.com/getData.php?op=getStatusParkir&vehicle_number=" +
+          vehicleNumber
+      );
+      if (response.ok) {
+        const json = await response.json();
+        setStatusKerapian(json.data.result[0].status_kerapian);
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    // setRefreshing(true);
-    const fetchData = async () => {
-      const userInfoString = await AsyncStorage.getItem("userInfo");
-      if (userInfoString !== null) {
-        const userInfo = JSON.parse(userInfoString);
-        setVehicleNumber(userInfo.vehicleNumber);
-      }
-      try {
-        const [response1, response2] = await Promise.all([
-          fetch(
-            "https://1parkingclub.000webhostapp.com/getData.php/?op=getPeta&map_type=OUT&filled_slot=1"
-          ),
-          fetch(
-            "https://1parkingclub.000webhostapp.com/getData.php?op=getStatusParkir&vehicle_number=" +
-              vehicleNumber
-          ),
-        ]);
-        const json1 = await response1.json();
-        const json2 = await response2.json();
-        setGambarMap(json1.gambar_map);
-        setFileDesc(json1.file_text);
-        const statusKerapian = json2.data.result[0].status_kerapian;
-        setStatusKerapian(statusKerapian);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-    // setRefreshing(false);
-  }, []);
+    fetchDataSaveState();
+    fetchDataMap();
+    fetchDataStatusPark();
+    const interval = setInterval(fetchDataStatusPark, 3000);
+    return () => clearInterval(interval);
+  }, [vehicleNumber]);
 
   const gambarUri = `data:image/png;base64,${gambarMap}`;
 
@@ -121,15 +140,29 @@ const ParkDashboardIn = ({ navigation }) => {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            paddingHorizontal: "10%",
+            justifyContent: "center",
             paddingTop: 20,
           }}
         >
           <Text style={{ fontSize: 20 }}>Kamu</Text>
-          <Text style={{ fontSize: 20, color: "#003565", fontWeight: 900 }}>
-            {" "}
-            {statusKerapian == 0 ? "BELUM" : "SUDAH"}{" "}
-          </Text>
+          {statusKerapian ? (
+            statusKerapian == "0" ? (
+              <Text style={{ fontSize: 20, color: "red", fontWeight: 900 }}>
+                {" "}
+                BELUM{" "}
+              </Text>
+            ) : (
+              <Text style={{ fontSize: 20, color: "green", fontWeight: 900 }}>
+                {" "}
+                SUDAH{" "}
+              </Text>
+            )
+          ) : (
+            <Text style={{ fontSize: 20, color: "#003565", fontWeight: 900 }}>
+              {" "}
+              ...{" "}
+            </Text>
+          )}
           <Text style={{ fontSize: 20 }}>parkir dengan</Text>
           <Text style={{ fontSize: 20, color: "#003565", fontWeight: 900 }}>
             {" "}
