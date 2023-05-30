@@ -20,6 +20,7 @@
         case 'postPeta':postPeta();break;
         case 'getPeta':getPeta();break;
         case 'getKameraMasuk':getKameraMasuk();break;
+        case 'getKameraKeluar':getKameraKeluar();break;
         case 'getStatusParkir':getStatusParkir();break;
         
     }
@@ -187,14 +188,13 @@
         
         $enter_time = $_POST['enter_time'];
         $leave_time = $_POST['leave_time'];
-        $park_slot_location = $_POST['park_slot_location'];
         $parking_lot = $_POST['parking_lot'];
         $fee_bill = $_POST['fee_bill'];
         $vehicle_number = $_POST['vehicle_number'];
         
         $result = "Data Riwayat Parkir gagal ditambahkan, mohon diperiksa apakah Nomor Kendaraan tidak terdaftar?";
         if($vehicle_number and $parking_lot){
-            $sql1 = "INSERT INTO RiwayatParkir(enter_time,leave_time,park_slot_location,fee_bill,parking_lot,vehicle_number) VALUES ('$enter_time','$leave_time','$park_slot_location','$fee_bill','$parking_lot','$vehicle_number')";
+            $sql1 = "INSERT INTO RiwayatParkir(enter_time,leave_time,fee_bill,parking_lot,vehicle_number) VALUES ('$enter_time','$leave_time','$fee_bill','$parking_lot','$vehicle_number')";
             $q1 = mysqli_query($conn, $sql1);
             if($q1){
                 $result = "Data Riwayat Parkir berhasil ditambahkan!";
@@ -215,7 +215,6 @@
             $hasil[] = [
                 'enter_time' => $r1['enter_time'],
                 'leave_time' => $r1['leave_time'],
-                'park_slot_location' => $r1['park_slot_location'],
                 'parking_lot' => $r1['parking_lot'],
                 'fee_bill' => $r1['fee_bill'],
                 'vehicle_number' => $r1['vehicle_number'],
@@ -339,13 +338,31 @@
         
         $vehicle_number = $_GET['vehicle_number'];
         
-        $sql1 = "SELECT * FROM KameraMasuk WHERE vehicle_number = '$vehicle_number' ORDER BY enter_time DESC";
+        $sql1 = "SELECT * FROM KameraMasuk WHERE vehicle_number = '$vehicle_number' ORDER BY enter_time DESC LIMIT 1";
         $q1 = mysqli_query($conn,$sql1);
         $hasil = array();
         while($r1 = mysqli_fetch_assoc($q1)){
             $hasil[] = [
                 'vehicle_number' => $r1['vehicle_number'],
                 'enter_time' => $r1['enter_time'],
+            ];
+        }
+        $data['data']['result'] = $hasil;
+        echo json_encode($data);
+    }
+    
+    function getKameraKeluar(){
+        global $conn;
+        
+        $vehicle_number = $_GET['vehicle_number'];
+        
+        $sql1 = "SELECT * FROM KameraKeluar WHERE vehicle_number = '$vehicle_number' ORDER BY leave_time DESC LIMIT 1";
+        $q1 = mysqli_query($conn,$sql1);
+        $hasil = array();
+        while($r1 = mysqli_fetch_assoc($q1)){
+            $hasil[] = [
+                'vehicle_number' => $r1['vehicle_number'],
+                'leave_time' => $r1['leave_time'],
             ];
         }
         $data['data']['result'] = $hasil;
