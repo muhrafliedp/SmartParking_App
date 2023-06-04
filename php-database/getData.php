@@ -260,7 +260,6 @@
                     'vehicle_number' => $r1['vehicle_number'],
                     'parking_lot' => $r1['parking_lot'],
                     'fee_bill' => $r1['fee_bill'],
-                    'park_slot_location' => $r1['park_slot_location'],
                 ];
             }
         }
@@ -280,8 +279,8 @@
             move_uploaded_file($tmpGambar, $destination_path);
                     
             // Mendapatkan isi file yang diupload
-            $file_map_name = $_POST['file_map_name'];
-            $file_text_name = $_POST['file_text_name'];
+            // $file_map_name = $_POST['file_map_name'];
+            // $file_text_name = $_POST['file_text_name'];
             $file_map_content = file_get_contents($_FILES['file_map']['tmp_name']);
             $file_text_content = file_get_contents($_FILES['file_text']['tmp_name']);
                 

@@ -38,7 +38,7 @@ const SignUpPage = ({ navigation }) => {
       alert("Silakan masukan data dengan lengkap!");
     } else {
       fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php?op=createUser",
+        "https://newparkingclub.000webhostapp.com/getData.php?op=createUser",
         {
           method: "POST",
           headers: {

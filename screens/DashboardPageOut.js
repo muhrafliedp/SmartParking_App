@@ -20,12 +20,13 @@ const DashboardPageOut = ({ navigation }) => {
     // setRefreshing(true);
     var date = moment()
       .utcOffset("+07:00")
+      // .subtract({ hours: 50, minutes: 45 })
       .format("dddd, DD MMMM YYYY | hh:mm:ss A");
     setCurrentDate(date);
 
     try {
       const response = await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php/?op=getAreaParkir&parking_area=Parkir Timur Seni Rupa"
+        "https://newparkingclub.000webhostapp.com/getData.php/?op=getAreaParkir&parking_area=Parkir Timur Seni Rupa"
       );
       const json = await response.json();
       const currentParkSlot = json.data.result[0].current_park_slot;
@@ -121,6 +122,20 @@ const DashboardPageOut = ({ navigation }) => {
                 ? `${currentParkSlot} / ${maxParkSlot}`
                 : "Loading..."}
             </Text>
+            {currentParkSlot == 0 ? (
+              <Text
+                style={{
+                  padding: 5,
+                  fontSize: 16,
+                  fontWeight: 600,
+                  marginTop: 5,
+                  marginLeft: -28,
+                  color: "red",
+                }}
+              >
+                Kuota parkir penuh, silakan cari area parkir lainnya!
+              </Text>
+            ) : null}
           </View>
 
           <Text style={{ paddingTop: 20, fontSize: 17 }}>

@@ -44,7 +44,7 @@ export default class PaymentHistory extends Component {
       this.setState({ vehicleNumber: userInfo.vehicleNumber });
     }
     fetch(
-      "https://1parkingclub.000webhostapp.com/getData.php?op=getAllRiwayatParkir&vehicle_number=" +
+      "https://newparkingclub.000webhostapp.com/getData.php?op=getAllRiwayatParkir&vehicle_number=" +
         this.state.vehicleNumber
     )
       .then((response) => response.json())

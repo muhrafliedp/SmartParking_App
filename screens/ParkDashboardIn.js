@@ -30,7 +30,7 @@ const ParkDashboardIn = ({ navigation }) => {
   const fetchDataMap = async () => {
     try {
       const response = await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php/?op=getPeta&map_type=OUT&filled_slot=1"
+        "https://newparkingclub.000webhostapp.com/getData.php/?op=getPeta&map_type=OUT&filled_slot=1"
       );
 
       if (response.ok) {
@@ -48,7 +48,7 @@ const ParkDashboardIn = ({ navigation }) => {
   const fetchDataStatusPark = async () => {
     try {
       const response = await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php?op=getStatusParkir&vehicle_number=" +
+        "https://newparkingclub.000webhostapp.com/getData.php?op=getStatusParkir&vehicle_number=" +
           vehicleNumber
       );
       if (response.ok) {
@@ -66,7 +66,7 @@ const ParkDashboardIn = ({ navigation }) => {
     fetchDataSaveState();
     fetchDataMap();
     fetchDataStatusPark();
-    const interval = setInterval(fetchDataStatusPark, 3000);
+    const interval = setInterval(fetchDataStatusPark, 1000);
     return () => clearInterval(interval);
   }, [vehicleNumber]);
 

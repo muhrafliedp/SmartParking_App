@@ -13,7 +13,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // async getDataUser = () => {
-//   await fetch('https://1parkingclub.000webhostapp.com/getData.php?op=searchUserByUsername')
+//   await fetch('https://newparkingclub.000webhostapp.com/getData.php?op=searchUserByUsername')
 // }
 
 const LoginScreen = ({ navigation }) => {
@@ -47,13 +47,13 @@ const LoginScreen = ({ navigation }) => {
     } else {
       const [response1, response2] = await Promise.all([
         fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php/?op=getUser&username=" +
+          "https://newparkingclub.000webhostapp.com/getData.php/?op=getUser&username=" +
             username +
             "&password=" +
             password
         ),
         fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php/?op=getDataUser&username=" +
+          "https://newparkingclub.000webhostapp.com/getData.php/?op=getDataUser&username=" +
             username +
             "&password=" +
             password

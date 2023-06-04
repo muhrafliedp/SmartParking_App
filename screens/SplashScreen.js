@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text, StatusBar, Image } from "react-native";
 
 const SplashScreen = ({ navigation }) => {
+  console.log("splashScreen rendered");
   setTimeout(() => {
     navigation.replace("LoginPage");
   }, 3000);

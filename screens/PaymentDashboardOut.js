@@ -30,7 +30,7 @@ const PaymentDashboardOut = ({ navigation }) => {
           {" "}
           BELUM{" "}
         </Text>
-        <Text style={{ fontSize: 20 }}>masuk kawasan parkir</Text>
+        <Text style={{ fontSize: 20 }}>sampai gerbang parkir</Text>
       </View>
 
       <View
@@ -54,7 +54,7 @@ const PaymentDashboardOut = ({ navigation }) => {
           paddingTop: 282,
         }}
       >
-        <Button title="enter" color="green" onPress={handleIsEntered} />
+        <Button title="checkout" color="green" onPress={handleIsEntered} />
       </View>
     </View>
   );

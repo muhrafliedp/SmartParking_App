@@ -34,6 +34,7 @@ const PaymentDashboardIn = ({ navigation }) => {
   const fetchTime = async () => {
     var date = moment()
       .utcOffset("+07:00")
+      // .subtract({ hours: 21, minutes: 57 })
       .format("dddd, DD MMMM YYYY | hh:mm:ss A");
     setCurrentDate(date);
   };
@@ -42,7 +43,7 @@ const PaymentDashboardIn = ({ navigation }) => {
     // setRefreshing(true);
     try {
       const response = await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php?op=getKameraMasuk&vehicle_number=" +
+        "https://newparkingclub.000webhostapp.com/getData.php?op=getKameraMasuk&vehicle_number=" +
           vehicleNumber
       );
       if (response.ok) {
@@ -64,7 +65,7 @@ const PaymentDashboardIn = ({ navigation }) => {
     // setRefreshing(true);
     try {
       const response = await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php?op=getKameraKeluar&vehicle_number=" +
+        "https://newparkingclub.000webhostapp.com/getData.php?op=getKameraKeluar&vehicle_number=" +
           vehicleNumber
       );
       if (response.ok) {
@@ -84,7 +85,7 @@ const PaymentDashboardIn = ({ navigation }) => {
     // setRefreshing(true);
     try {
       const response = await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php?op=getPembayaran&vehicle_number=" +
+        "https://newparkingclub.000webhostapp.com/getData.php?op=getPembayaran&vehicle_number=" +
           vehicleNumber
       );
       if (response.ok) {
@@ -124,55 +125,56 @@ const PaymentDashboardIn = ({ navigation }) => {
     console.log(
       `${enterTime}, ${leaveTime}, ${vehicleNumber}, ${parkingLot}, ${feeBill}`
     );
-    if (
-      enterTime.length != 0 ||
-      leaveTime.length != 0 ||
-      vehicleNumber.length != 0 ||
-      parkingLot.length != 0 ||
-      feeBill.length != 0
-    ) {
-      fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php?op=createRiwayatParkir",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body:
-            "enter_time=" +
-            enterTime +
-            "&leave_time=" +
-            leaveTime +
-            "&vehicle_number=" +
-            vehicleNumber +
-            "&parking_lot=" +
-            parkingLot +
-            "&fee_bill=" +
-            feeBill,
-        }
-      )
-        .then((response) => response.json())
-        .then((json) => {
-          setEnterTime("");
-          setLeaveTime("");
-          setVehicleNumber("");
-          setParkingLot("");
-          setFeeBill("");
-        })
-        // .then(alert("Data transaksi parkir berhasil ditambahkan!"))
-        .catch((error) => {
-          alert("Error" + error);
-        });
-    }
-    // Simulasi waktu refresh, di sini Anda dapat menggantinya dengan logika aktual
-    setTimeout(() => {
-      // Set refreshing kembali menjadi false setelah selesai refresh
-      if (statusPayment == "1") {
-        navigation.navigate("PaymentVerification");
+    if (statusPayment == 0) {
+      alert("Kartu RFID tidak valid, silakan periksa kembali!");
+    } else {
+      if (
+        enterTime.length != 0 ||
+        leaveTime.length != 0 ||
+        vehicleNumber.length != 0 ||
+        parkingLot.length != 0 ||
+        feeBill.length != 0
+      ) {
+        fetch(
+          "https://newparkingclub.000webhostapp.com/getData.php?op=createRiwayatParkir",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body:
+              "enter_time=" +
+              enterTime +
+              "&leave_time=" +
+              leaveTime +
+              "&vehicle_number=" +
+              vehicleNumber +
+              "&parking_lot=" +
+              parkingLot +
+              "&fee_bill=" +
+              feeBill,
+          }
+        )
+          .then((response) => response.json())
+          .then((json) => {
+            setEnterTime("");
+            setLeaveTime("");
+            setVehicleNumber("");
+            setParkingLot("");
+            setFeeBill("");
+          })
+          // .then(alert("Data transaksi parkir berhasil ditambahkan!"))
+          .catch((error) => {
+            alert("Error" + error);
+          });
       }
-    }, 7000);
+      // Simulasi waktu refresh, di sini Anda dapat menggantinya dengan logika aktual
+      // setTimeout(() => {
+      // Set refreshing kembali menjadi false setelah selesai refresh
+      navigation.navigate("PaymentVerification");
+      // }, 5000);
+    }
   };
-
   return (
     <SafeAreaView
       style={{
@@ -201,7 +203,7 @@ const PaymentDashboardIn = ({ navigation }) => {
             {" "}
             TELAH{" "}
           </Text>
-          <Text style={{ fontSize: 20 }}>masuk kawasan parkir</Text>
+          <Text style={{ fontSize: 20 }}>sampai gerbang parkir</Text>
         </View>
 
         <View

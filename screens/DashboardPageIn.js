@@ -30,6 +30,7 @@ const DashboardPageIn = ({ navigation }) => {
   const fetchTime = async () => {
     var date = moment()
       .utcOffset("+07:00")
+      // .subtract({ hours: 21, minutes: 50 })
       .format("dddd, DD MMMM YYYY | hh:mm:ss A");
     setCurrentDate(date);
   };
@@ -38,7 +39,7 @@ const DashboardPageIn = ({ navigation }) => {
     // setRefreshing(true);
     try {
       const response = await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php?op=getKameraMasuk&vehicle_number=" +
+        "https://newparkingclub.000webhostapp.com/getData.php?op=getKameraMasuk&vehicle_number=" +
           vehicleNumber
       );
       if (response.ok) {
@@ -58,7 +59,7 @@ const DashboardPageIn = ({ navigation }) => {
     // setRefreshing(true);
     try {
       const response1 = await fetch(
-        "https://1parkingclub.000webhostapp.com/getData.php?op=getAreaParkir&parking_area=Parkir Timur Seni Rupa"
+        "https://newparkingclub.000webhostapp.com/getData.php?op=getAreaParkir&parking_area=Parkir Timur Seni Rupa"
       );
       if (response1.ok) {
         const json1 = await response1.json();

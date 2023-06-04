@@ -21,7 +21,7 @@ const ParkDashboardOut = ({ navigation }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://1parkingclub.000webhostapp.com/getData.php/?op=getPeta&map_type=IN&filled_slot=0"
+          "https://newparkingclub.000webhostapp.com/getData.php/?op=getPeta&map_type=IN&filled_slot=0"
         );
         const json = await response.json();
         setGambarMap(json.gambar_map);
