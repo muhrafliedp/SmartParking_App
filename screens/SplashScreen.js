@@ -7,15 +7,7 @@ const SplashScreen = ({ navigation }) => {
     navigation.replace("LoginPage");
   }, 3000);
   return (
-    <View
-      style={{
-        flex: 2,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#fff",
-      }}
-    >
+    <View style={styles.container}>
       <StatusBar
         barStyle="light-content"
         hidden={false}
@@ -23,18 +15,25 @@ const SplashScreen = ({ navigation }) => {
       />
       <Image
         source={require("../assets/images/Logo.png")}
-        style={{ width: 200, height: 200 }}
+        style={styles.image}
       />
-      <Text style={{ fontSize: 22, fontWeight: 900, color: "#003565" }}>
-        SMART PARKING SYSTEM
-      </Text>
-      <Text style={{ fontSize: 18, fontWeight: 300, color: "black" }}>
-        ~ by 1% Club ~
-      </Text>
+      <Text style={styles.textTitle}>SMART PARKING SYSTEM</Text>
+      <Text style={styles.textSubtitle}>~ by 1% Club ~</Text>
     </View>
   );
 };
 
 export default SplashScreen;
 
-const style = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 2,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  image: { width: 200, height: 200 },
+  textTitle: { fontSize: 22, fontWeight: 900, color: "#003565" },
+  textSubtitle: { fontSize: 18, fontWeight: 300, color: "black" },
+});

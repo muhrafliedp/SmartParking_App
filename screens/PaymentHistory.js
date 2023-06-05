@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import {
   StyleSheet,
   View,
@@ -7,7 +7,7 @@ import {
   RefreshControl,
   SafeAreaView,
 } from "react-native";
-import { Table, TableWrapper, Row } from "react-native-table-component";
+import { Table, Row } from "react-native-table-component";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default class PaymentHistory extends Component {
@@ -50,7 +50,6 @@ export default class PaymentHistory extends Component {
       .then((response) => response.json())
       .then((json) => {
         this.setState({ DataTable: json.map((row) => Object.values(row)) });
-        // console.log(json);
       })
       .catch((error) => {
         console.log(error);

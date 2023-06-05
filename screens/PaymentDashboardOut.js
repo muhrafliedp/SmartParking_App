@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
 
 const PaymentDashboardOut = ({ navigation }) => {
   const handleIsClicked = () => {
@@ -11,35 +11,14 @@ const PaymentDashboardOut = ({ navigation }) => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        paddingTop: 330,
-      }}
-    >
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          paddingHorizontal: "10%",
-        }}
-      >
+    <View style={styles.container}>
+      <View style={styles.viewTopText}>
         <Text style={{ fontSize: 20 }}>Kamu</Text>
-        <Text style={{ fontSize: 20, color: "red", fontWeight: 900 }}>
-          {" "}
-          BELUM{" "}
-        </Text>
+        <Text style={styles.textTopText}> BELUM </Text>
         <Text style={{ fontSize: 20 }}>sampai gerbang parkir</Text>
       </View>
 
-      <View
-        style={{
-          flexDirection: "column",
-          paddingHorizontal: "15%",
-          paddingTop: 50,
-        }}
-      >
+      <View style={styles.viewHistoryButton}>
         <Button
           title="Riwayat Pembayaran"
           color="#003565"
@@ -47,13 +26,7 @@ const PaymentDashboardOut = ({ navigation }) => {
         />
       </View>
 
-      <View
-        style={{
-          flexDirection: "column",
-          paddingHorizontal: "15%",
-          paddingTop: 282,
-        }}
-      >
+      <View style={styles.viewCheckoutButton}>
         <Button title="checkout" color="green" onPress={handleIsEntered} />
       </View>
     </View>
@@ -61,3 +34,27 @@ const PaymentDashboardOut = ({ navigation }) => {
 };
 
 export default PaymentDashboardOut;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    paddingTop: 330,
+  },
+  viewTopText: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: "10%",
+  },
+  textTopText: { fontSize: 20, color: "red", fontWeight: 900 },
+  viewHistoryButton: {
+    flexDirection: "column",
+    paddingHorizontal: "15%",
+    paddingTop: 50,
+  },
+  viewCheckoutButton: {
+    flexDirection: "column",
+    paddingHorizontal: "15%",
+    paddingTop: 282,
+  },
+});

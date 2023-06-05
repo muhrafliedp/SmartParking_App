@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   StatusBar,
   TouchableOpacity,
@@ -25,10 +24,7 @@ const SignUpPage = ({ navigation }) => {
     setShowPassword(!showPassword);
   };
 
-  // Belum ditambahin validasi idNumber yg sudah ada dari DB (fungsinya bisa samain dari LoginPage)
   const handleSignUp = () => {
-    // Authenticate user's credentials here
-    // If valid, navigate to main app screen
     if (
       idNumber.length == 0 ||
       username.length == 0 ||
@@ -74,53 +70,15 @@ const SignUpPage = ({ navigation }) => {
     }
   };
 
-  // const checkValidation = () => {
-  //   setConfirmPassword(confirmPassword);
-  //   if (password != confirmPassword) {
-  //     setIsError(
-  //       "Masukan konfirmasi password harus sama dengan masukan password!"
-  //     );
-  //   } else {
-  //     setIsError("");
-  //   }
-  // };
-
   return (
-    <View style={{ flex: 1, backgroundColor: "#", flexDirection: "column" }}>
+    <View style={styles.container}>
       <StatusBar barStyle={"dark-content"} backgroundColor="#fff" />
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          backgroundColor: "#fff",
-          paddingVertical: "15%",
-          paddingHorizontal: "3%",
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 30,
-              color: "#000000",
-            }}
-          >
-            Register Akun
-          </Text>
+      <View style={styles.viewContent}>
+        <View style={styles.viewTitle}>
+          <Text style={styles.textTitle}>Register Akun</Text>
         </View>
 
-        <View
-          style={{
-            flexDirection: "column",
-            paddingTop: 10,
-            paddingHorizontal: "15%",
-          }}
-        >
+        <View style={styles.viewInputBox}>
           <View style={styles.inputBox}>
             <MaterialCommunityIcons
               name="account"
@@ -175,7 +133,6 @@ const SignUpPage = ({ navigation }) => {
               placeholderTextColor="#818181"
               onChangeText={(text) => {
                 setConfirmPassword(text);
-                // checkValidation();
               }}
               testID="confirmPasswordInput"
             />
@@ -190,9 +147,6 @@ const SignUpPage = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
-          {/* <View>
-            <Text style={{ color: "red" }}>{isError}</Text>
-          </View> */}
 
           <View style={styles.inputBox}>
             <MaterialCommunityIcons
@@ -229,9 +183,7 @@ const SignUpPage = ({ navigation }) => {
           </View>
 
           <View style={{ marginTop: 20 }}>
-            <Text style={{ fontSize: 15, marginBottom: 15 }}>
-              Jenis Civitas Kampus:{" "}
-            </Text>
+            <Text style={styles.textPreRadio}>Jenis Civitas Kampus: </Text>
 
             <RadioButtonGroup
               containerStyle={{ marginBottom: 20 }}
@@ -241,24 +193,12 @@ const SignUpPage = ({ navigation }) => {
             >
               <RadioButtonItem
                 value="Dosen"
-                label={
-                  <Text
-                    style={{ marginBottom: 15, marginLeft: 15, fontSize: 15 }}
-                  >
-                    Dosen
-                  </Text>
-                }
+                label={<Text style={styles.textRadioItem}>Dosen</Text>}
                 style={{ marginBottom: 15 }}
               />
               <RadioButtonItem
                 value="Mahasiswa"
-                label={
-                  <Text
-                    style={{ marginBottom: 15, marginLeft: 15, fontSize: 15 }}
-                  >
-                    Mahasiswa
-                  </Text>
-                }
+                label={<Text style={styles.textRadioItem}>Mahasiswa</Text>}
                 style={{ marginBottom: 15 }}
               />
               <RadioButtonItem
@@ -271,30 +211,14 @@ const SignUpPage = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <View
-        style={{
-          flex: 0.1,
-          flexDirection: "column",
-          backgroundColor: "#ddd",
-          paddingHorizontal: "15%",
-          paddingTop: 15,
-          alignItems: "center",
-        }}
-      >
+
+      <View style={styles.viewButton}>
         <TouchableOpacity
           onPress={handleSignUp}
-          style={{
-            backgroundColor: "#003565",
-            width: "100%",
-            padding: 8,
-            borderRadius: 10,
-            alignItems: "center",
-          }}
+          style={styles.touchableOpacity}
           testID="registerButton"
         >
-          <Text style={{ color: "white", fontWeight: 700, fontSize: 16 }}>
-            Register
-          </Text>
+          <Text style={styles.textButton}>Register</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -319,4 +243,44 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     marginTop: 15,
   },
+  container: { flex: 1, backgroundColor: "#", flexDirection: "column" },
+  viewContent: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    paddingVertical: "15%",
+    paddingHorizontal: "3%",
+  },
+  viewTitle: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textTitle: {
+    fontSize: 30,
+    color: "#000000",
+  },
+  viewInputBox: {
+    flexDirection: "column",
+    paddingTop: 10,
+    paddingHorizontal: "15%",
+  },
+  textPreRadio: { fontSize: 15, marginBottom: 15 },
+  textRadioItem: { marginBottom: 15, marginLeft: 15, fontSize: 15 },
+  viewButton: {
+    flex: 0.1,
+    flexDirection: "column",
+    backgroundColor: "#ddd",
+    paddingHorizontal: "15%",
+    paddingTop: 15,
+    alignItems: "center",
+  },
+  touchableOpacity: {
+    backgroundColor: "#003565",
+    width: "100%",
+    padding: 8,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  textButton: { color: "white", fontWeight: 700, fontSize: 16 },
 });

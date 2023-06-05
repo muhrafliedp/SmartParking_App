@@ -3,17 +3,14 @@ import {
   View,
   StyleSheet,
   Text,
-  StatusBar,
   Image,
   Button,
-  RefreshControl,
   SafeAreaView,
   ScrollView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ParkDashboardIn = ({ navigation }) => {
-  // const [refreshing, setRefreshing] = useState(false);
   const [gambarMap, setGambarMap] = useState("");
   const [fileDesc, setFileDesc] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
@@ -73,135 +70,43 @@ const ParkDashboardIn = ({ navigation }) => {
   const gambarUri = `data:image/png;base64,${gambarMap}`;
 
   const handleIsExit = () => {
-    // If leave detected, navigate to dashboard page screen
     navigation.goBack("Park-Out");
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        paddingTop: 30,
-      }}
-    >
-      <ScrollView
-      // refreshControl={
-      //   <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-      // }
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            paddingHorizontal: "10%",
-            paddingBottom: 30,
-          }}
-        >
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View style={styles.viewTopText}>
           <Text style={{ fontSize: 20 }}>Kendaraan kamu</Text>
-          <Text style={{ fontSize: 20, color: "green", fontWeight: 900 }}>
-            {" "}
-            TELAH{" "}
-          </Text>
+          <Text style={styles.textTopText}> TELAH </Text>
           <Text style={{ fontSize: 20 }}>diparkirkan</Text>
         </View>
 
-        <Image
-          source={{ uri: gambarUri }}
-          style={{
-            width: 360,
-            height: 522.2,
-            marginHorizontal: 23,
-          }}
-        />
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: 600,
-            color: "black",
-            paddingTop: 30,
-            paddingLeft: 23,
-          }}
-        >
+        <Image source={{ uri: gambarUri }} style={styles.mapImage} />
+        <Text style={styles.textPreDesc}>
           Rekomendasi keluar lokasi parkir:
         </Text>
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: 400,
-            color: "black",
-            paddingHorizontal: 23,
-          }}
-        >
+        <Text style={styles.textMapDesc}>
           {fileDesc ? fileDesc : "Loading..."}
         </Text>
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            paddingTop: 20,
-          }}
-        >
+        <View style={styles.viewBottomText}>
           <Text style={{ fontSize: 20 }}>Kamu</Text>
           {statusKerapian ? (
             statusKerapian == "0" ? (
-              <Text style={{ fontSize: 20, color: "red", fontWeight: 900 }}>
-                {" "}
-                BELUM{" "}
-              </Text>
+              <Text style={styles.textNotNeat}> BELUM </Text>
             ) : (
-              <Text style={{ fontSize: 20, color: "green", fontWeight: 900 }}>
-                {" "}
-                SUDAH{" "}
-              </Text>
+              <Text style={styles.textNeat}> SUDAH </Text>
             )
           ) : (
-            <Text style={{ fontSize: 20, color: "#003565", fontWeight: 900 }}>
-              {" "}
-              ...{" "}
-            </Text>
+            <Text style={styles.textLoadNeat}> ... </Text>
           )}
           <Text style={{ fontSize: 20 }}>parkir dengan</Text>
-          <Text style={{ fontSize: 20, color: "#003565", fontWeight: 900 }}>
-            {" "}
-            RAPI
-          </Text>
+          <Text style={styles.textLoadNeat}> RAPI</Text>
         </View>
-
-        {/* <View
-          style={{
-            columnGap: 15,
-            flexDirection: "row",
-            paddingTop: 20,
-            paddingLeft: 23,
-          }}
-        >
-          <Image
-            source={require("../assets/images/CCTV_logo.png")}
-            style={{ width: 50, height: 50 }}
-          />
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 600,
-              paddingVertical: 13,
-              color: "black",
-            }}
-          >
-            Monitoring parkir via CCTV.
-          </Text>
-        </View> */}
       </ScrollView>
-      <View
-        style={{
-          flexDirection: "column",
-          paddingHorizontal: "15%",
-          paddingTop: 10,
-          paddingBottom: 20,
-        }}
-      >
+
+      <View style={styles.viewButton}>
         <Button title="tidak parkir" color="red" onPress={handleIsExit} />
       </View>
     </SafeAreaView>
@@ -210,4 +115,50 @@ const ParkDashboardIn = ({ navigation }) => {
 
 export default ParkDashboardIn;
 
-const style = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    paddingTop: 30,
+  },
+  viewTopText: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: "10%",
+    paddingBottom: 30,
+  },
+  textTopText: { fontSize: 20, color: "green", fontWeight: 900 },
+  mapImage: {
+    width: 360,
+    height: 522.2,
+    marginHorizontal: 23,
+  },
+  textPreDesc: {
+    fontSize: 18,
+    fontWeight: 600,
+    color: "black",
+    paddingTop: 30,
+    paddingLeft: 23,
+  },
+  textMapDesc: {
+    fontSize: 18,
+    fontWeight: 400,
+    color: "black",
+    paddingHorizontal: 23,
+  },
+  viewBottomText: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 20,
+  },
+  textNotNeat: { fontSize: 20, color: "red", fontWeight: 900 },
+  textNeat: { fontSize: 20, color: "green", fontWeight: 900 },
+  textLoadNeat: { fontSize: 20, color: "#003565", fontWeight: 900 },
+  viewButton: {
+    flexDirection: "column",
+    paddingHorizontal: "15%",
+    paddingTop: 10,
+    paddingBottom: 20,
+  },
+});

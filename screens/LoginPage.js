@@ -4,17 +4,12 @@ import {
   Text,
   Image,
   TextInput,
-  Button,
   StyleSheet,
   StatusBar,
   TouchableOpacity,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// async getDataUser = () => {
-//   await fetch('https://newparkingclub.000webhostapp.com/getData.php?op=searchUserByUsername')
-// }
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -39,8 +34,6 @@ const LoginScreen = ({ navigation }) => {
   };
 
   async function handleLogin() {
-    // Authenticate user's credentials here
-    // If valid, navigate to main app screen
     var valid = false;
     if (username == "" || password == "") {
       alert("Masukan username dan password terlebih dahulu!");
@@ -87,55 +80,23 @@ const LoginScreen = ({ navigation }) => {
   }
 
   const handleSignUp = () => {
-    // Authenticate user's credentials here
-    // If valid, navigate to main app screen
     navigation.navigate("SignUpPage");
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#", flexDirection: "column" }}>
+    <View style={styles.container}>
       <StatusBar barStyle={"dark-content"} backgroundColor="#fff" />
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          backgroundColor: "#fff",
-          paddingVertical: "20%",
-          paddingHorizontal: "3%",
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+      <View style={styles.viewContent}>
+        <View style={styles.viewTopContent}>
           <Image
             source={require("../assets/images/Logo.png")}
-            style={{ width: 120, height: 120, marginBottom: 10 }}
+            style={styles.image}
           />
-          <Text style={{ fontSize: 22, fontWeight: 900, color: "#003565" }}>
-            SMART PARKING SYSTEM
-          </Text>
-          <Text
-            style={{
-              marginTop: 50,
-              fontSize: 25,
-              color: "#000000",
-            }}
-          >
-            Masuk
-          </Text>
+          <Text style={styles.textTitle}>SMART PARKING SYSTEM</Text>
+          <Text style={styles.textMasuk}>Masuk</Text>
         </View>
 
-        <View
-          style={{
-            flexDirection: "column",
-            paddingTop: 20,
-            paddingHorizontal: "15%",
-          }}
-        >
+        <View style={styles.viewInputBox}>
           <View style={styles.inputBox}>
             <MaterialCommunityIcons
               name="account"
@@ -181,50 +142,20 @@ const LoginScreen = ({ navigation }) => {
         </View>
       </View>
 
-      <View
-        style={{
-          flex: 0.2,
-          flexDirection: "column",
-          backgroundColor: "#ddd",
-          paddingHorizontal: "15%",
-          paddingTop: 20,
-          alignItems: "center",
-        }}
-      >
+      <View style={styles.viewButton}>
         <TouchableOpacity
           onPress={handleLogin}
-          style={{
-            backgroundColor: "#003565",
-            width: "100%",
-            padding: 8,
-            borderRadius: 10,
-            alignItems: "center",
-          }}
+          style={styles.touchableOpacityLogin}
         >
-          <Text style={{ color: "white", fontWeight: 700, fontSize: 16 }}>
-            Login
-          </Text>
+          <Text style={styles.textButtonLogin}>Login</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={handleSignUp}
-          style={{
-            backgroundColor: "white",
-            width: "100%",
-            padding: 8,
-            borderRadius: 10,
-            marginTop: 10,
-            borderColor: "#003565",
-            borderWidth: 2,
-            alignItems: "center",
-          }}
+          style={styles.touchableOpacityRegister}
         >
-          <Text style={{ color: "#003565", fontWeight: 700, fontSize: 16 }}>
-            Register
-          </Text>
+          <Text style={styles.textButtonRegister}>Register</Text>
         </TouchableOpacity>
-        {/* <Button title="Login" color="#003565" onPress={handleLogin} />
-        <Button title="Register" color="grey" onPress={handleRegister} /> */}
       </View>
     </View>
   );
@@ -241,7 +172,6 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     flexDirection: "row",
-    // justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ededed",
     borderRadius: 10,
@@ -249,4 +179,56 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     marginBottom: 15,
   },
+  container: { flex: 1, backgroundColor: "#", flexDirection: "column" },
+  viewContent: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    paddingVertical: "20%",
+    paddingHorizontal: "3%",
+  },
+  viewTopContent: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: { width: 120, height: 120, marginBottom: 10 },
+  textTitle: { fontSize: 22, fontWeight: 900, color: "#003565" },
+  textMasuk: {
+    marginTop: 50,
+    fontSize: 25,
+    color: "#000000",
+  },
+  viewInputBox: {
+    flexDirection: "column",
+    paddingTop: 20,
+    paddingHorizontal: "15%",
+  },
+  viewButton: {
+    flex: 0.2,
+    flexDirection: "column",
+    backgroundColor: "#ddd",
+    paddingHorizontal: "15%",
+    paddingTop: 20,
+    alignItems: "center",
+  },
+  touchableOpacityLogin: {
+    backgroundColor: "#003565",
+    width: "100%",
+    padding: 8,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  textButtonLogin: { color: "white", fontWeight: 700, fontSize: 16 },
+  touchableOpacityRegister: {
+    backgroundColor: "white",
+    width: "100%",
+    padding: 8,
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: "#003565",
+    borderWidth: 2,
+    alignItems: "center",
+  },
+  textButtonRegister: { color: "#003565", fontWeight: 700, fontSize: 16 },
 });

@@ -3,12 +3,9 @@ import {
   View,
   Text,
   Image,
-  TextInput,
-  Button,
   StyleSheet,
   StatusBar,
   TouchableOpacity,
-  RefreshControl,
   SafeAreaView,
   ScrollView,
 } from "react-native";
@@ -17,21 +14,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AccountDashboard = ({ navigation }) => {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [civitasType, setCivitasType] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
-  const [refreshing, setRefreshing] = useState(false);
 
   const fetchData = async () => {
     try {
       const userInfoString = await AsyncStorage.getItem("userInfo");
       if (userInfoString !== null) {
         const userInfo = JSON.parse(userInfoString);
-        // Gunakan informasi pengguna di sini
         console.log("Informasi pengguna:", userInfo);
         setUsername(userInfo.username);
-        // setPassword(userInfo.password);
         setIdNumber(userInfo.idNumber);
         setCivitasType(userInfo.civitasType);
         setVehicleNumber(userInfo.vehicleNumber);
@@ -45,82 +38,35 @@ const AccountDashboard = ({ navigation }) => {
   };
 
   useEffect(() => {
-    // setRefreshing(true);
     fetchData();
-    // setRefreshing(false);
   }, []);
 
   const handleSignOut = () => {
-    // Authenticate user's credentials here
-    // If valid, navigate to main app screen
     navigation.navigate("LoginPage");
   };
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: "#", flexDirection: "column" }}
-    >
-      <ScrollView
-      // refreshControl={
-      //   <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
-      // }
-      >
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
         <StatusBar barStyle={"dark-content"} backgroundColor="#fff" />
-        <View
-          style={{
-            backgroundColor: "#fff",
-            paddingVertical: "20%",
-            paddingHorizontal: "3%",
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+        <View style={styles.view}>
+          <View style={styles.viewImage}>
             <Image
               source={require("../assets/images/account-icon.png")}
-              style={{ width: 120, height: 120, marginBottom: 10 }}
+              style={styles.image}
             />
-            <Text style={{ fontSize: 21, fontWeight: 900, color: "#003565" }}>
-              {username.toUpperCase()}
-            </Text>
-            <Text
-              style={{
-                marginTop: 30,
-                fontWeight: 700,
-                fontSize: 23,
-                color: "#000000",
-              }}
-            >
-              Data Pengguna
-            </Text>
+            <Text style={styles.textUsername}>{username.toUpperCase()}</Text>
+            <Text style={styles.textDataPengguna}>Data Pengguna</Text>
           </View>
 
-          <View
-            style={{
-              flexDirection: "column",
-              paddingTop: 20,
-              paddingHorizontal: "15%",
-            }}
-          >
+          <View style={styles.viewInputBox}>
             <View style={styles.inputBox}>
               <MaterialCommunityIcons
                 name="account"
                 color={"#818181"}
                 size={26}
               />
-              <Text
-                style={{
-                  marginLeft: 18,
-                  fontSize: 18,
-                  color: "#818181",
-                }}
-              >
-                {username}
-              </Text>
+              <Text style={styles.textInputBox}>{username}</Text>
             </View>
 
             <View style={styles.inputBox}>
@@ -129,15 +75,7 @@ const AccountDashboard = ({ navigation }) => {
                 color={"#818181"}
                 size={26}
               />
-              <Text
-                style={{
-                  marginLeft: 18,
-                  fontSize: 18,
-                  color: "#818181",
-                }}
-              >
-                {idNumber}
-              </Text>
+              <Text style={styles.textInputBox}>{idNumber}</Text>
             </View>
 
             <View style={styles.inputBox}>
@@ -146,15 +84,7 @@ const AccountDashboard = ({ navigation }) => {
                 color={"#818181"}
                 size={26}
               />
-              <Text
-                style={{
-                  marginLeft: 18,
-                  fontSize: 18,
-                  color: "#818181",
-                }}
-              >
-                {civitasType}
-              </Text>
+              <Text style={styles.textInputBox}>{civitasType}</Text>
             </View>
 
             <View style={styles.inputBox}>
@@ -163,41 +93,17 @@ const AccountDashboard = ({ navigation }) => {
                 color={"#818181"}
                 size={26}
               />
-              <Text
-                style={{
-                  marginLeft: 18,
-                  fontSize: 18,
-                  color: "#818181",
-                }}
-              >
-                {vehicleNumber}
-              </Text>
+              <Text style={styles.textInputBox}>{vehicleNumber}</Text>
             </View>
           </View>
         </View>
 
-        <View
-          style={{
-            // flex: 0.05,
-            flexDirection: "column",
-            paddingHorizontal: "15%",
-            paddingTop: 20,
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.viewButton}>
           <TouchableOpacity
             onPress={handleSignOut}
-            style={{
-              backgroundColor: "red",
-              width: "100%",
-              padding: 8,
-              borderRadius: 10,
-              alignItems: "center",
-            }}
+            style={styles.touchableOpacity}
           >
-            <Text style={{ color: "white", fontWeight: 700, fontSize: 16 }}>
-              Sign Out
-            </Text>
+            <Text style={styles.textButton}>Sign Out</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -223,4 +129,47 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     marginBottom: 15,
   },
+  container: { flex: 1, backgroundColor: "#", flexDirection: "column" },
+  view: {
+    backgroundColor: "#fff",
+    paddingVertical: "20%",
+    paddingHorizontal: "3%",
+  },
+  viewImage: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: { width: 120, height: 120, marginBottom: 10 },
+  textUsername: { fontSize: 21, fontWeight: 900, color: "#003565" },
+  textDataPengguna: {
+    marginTop: 30,
+    fontWeight: 700,
+    fontSize: 23,
+    color: "#000000",
+  },
+  viewInputBox: {
+    flexDirection: "column",
+    paddingTop: 20,
+    paddingHorizontal: "15%",
+  },
+  textInputBox: {
+    marginLeft: 18,
+    fontSize: 18,
+    color: "#818181",
+  },
+  viewButton: {
+    flexDirection: "column",
+    paddingHorizontal: "15%",
+    paddingTop: 20,
+    alignItems: "center",
+  },
+  touchableOpacity: {
+    backgroundColor: "red",
+    width: "100%",
+    padding: 8,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  textButton: { color: "white", fontWeight: 700, fontSize: 16 },
 });

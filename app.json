@@ -6,7 +6,9 @@
     "orientation": "portrait",
     "icon": "./assets/images/Logo.png",
     "userInterfaceStyle": "light",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -14,10 +16,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.muhraflie_dp.SmartParking_App"
     },
     "web": {
       "favicon": "./assets/images/Logo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0fe519a8-e218-4dff-9fdb-835736151ef0"
+      }
     }
   }
 }

@@ -1,7 +1,5 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -18,7 +16,7 @@ import {
   PaymentVerificationPage,
   SignUpPage,
 } from "./screens";
-// import registerNNPushToken from "native-notify";
+
 import AccountDashboard from "./screens/AccountDashboard";
 
 const Stack = createNativeStackNavigator();
@@ -32,16 +30,6 @@ function HomeStack() {
       activeColor="white"
       inactiveColor="#2E2E2E"
     >
-      {/* <Tab.Screen
-        name="User-Out"
-        component={DashboardPageOut}
-        options={{
-          tabBarLabel: "Inform- Out",
-          tabBarIcon: () => (
-            <MaterialCommunityIcons name="update" color={"#003565"} size={26} />
-          ),
-        }}
-      /> */}
       <Tab.Screen
         name="Information"
         component={InformationStack}
@@ -56,20 +44,6 @@ function HomeStack() {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="Park-Out"
-        component={ParkDashboardOut}
-        options={{
-          tabBarLabel: "Park- Out",
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="car-brake-parking"
-              color={"#003565"}
-              size={26}
-            />
-          ),
-        }}
-      /> */}
       <Tab.Screen
         name="ParkDashboard"
         component={ParkDashboardStack}
@@ -84,48 +58,6 @@ function HomeStack() {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="Payment-Out"
-        component={PaymentDashboardOut}
-        options={{
-          tabBarLabel: "Payment-Out",
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="credit-card-off-outline"
-              color={"#003565"}
-              size={26}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Payment-In"
-        component={PaymentDashboardIn}
-        options={{
-          tabBarLabel: "Payment-In",
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="credit-card-clock-outline"
-              color={"#003565"}
-              size={26}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="PaymentHistory"
-        component={PaymentHistory}
-        options={{
-          tabBarLabel: "Park-History",
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="billboard"
-              color={"#003565"}
-              size={26}
-            />
-          ),
-        }}
-      /> */}
       <Tab.Screen
         name="PaymentDashboard"
         component={PaymentDashboardStack}
@@ -214,13 +146,11 @@ function AccountDashboardStack() {
       }}
     >
       <Stack.Screen name="Account" component={AccountDashboard} />
-      {/* <Stack.Screen name="Park-In" component={ParkDashboardIn} /> */}
     </Stack.Navigator>
   );
 }
 
 const App = () => {
-  // registerNNPushToken(8037, "21JC8DtJmbLJiJHlbADJDi");
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -255,12 +185,3 @@ const App = () => {
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#25292e",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

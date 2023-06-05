@@ -3,7 +3,7 @@ import {
   View,
   Text,
   Button,
-  RefreshControl,
+  StyleSheet,
   SafeAreaView,
   ScrollView,
 } from "react-native";
@@ -17,7 +17,6 @@ const DashboardPageIn = ({ navigation }) => {
   const [maxParkSlot, setMaxParkSlot] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [vehicleEnterTime, setVehicleEnterTime] = useState("");
-  const [refreshing, setRefreshing] = useState(false);
 
   const fetchSaveState = async () => {
     const userInfoString = await AsyncStorage.getItem("userInfo");
@@ -30,13 +29,11 @@ const DashboardPageIn = ({ navigation }) => {
   const fetchTime = async () => {
     var date = moment()
       .utcOffset("+07:00")
-      // .subtract({ hours: 21, minutes: 50 })
       .format("dddd, DD MMMM YYYY | hh:mm:ss A");
     setCurrentDate(date);
   };
 
   const fetchDataKameraMasuk = async () => {
-    // setRefreshing(true);
     try {
       const response = await fetch(
         "https://newparkingclub.000webhostapp.com/getData.php?op=getKameraMasuk&vehicle_number=" +
@@ -52,11 +49,9 @@ const DashboardPageIn = ({ navigation }) => {
     } catch (error) {
       console.log(error);
     }
-    // setRefreshing(false);
   };
 
   const fetchDataAreaParkir = async () => {
-    // setRefreshing(true);
     try {
       const response1 = await fetch(
         "https://newparkingclub.000webhostapp.com/getData.php?op=getAreaParkir&parking_area=Parkir Timur Seni Rupa"
@@ -75,11 +70,9 @@ const DashboardPageIn = ({ navigation }) => {
     } catch (error) {
       console.log(error);
     }
-    // setRefreshing(false);
   };
 
   useEffect(() => {
-    // setRefreshing(true);
     fetchTime();
     fetchSaveState();
     fetchDataAreaParkir();
@@ -88,77 +81,32 @@ const DashboardPageIn = ({ navigation }) => {
       fetchTime();
       fetchDataAreaParkir();
     }, 1000);
-    // setRefreshing(false);
     return () => clearInterval(interval);
   }, [vehicleNumber]);
 
   const handleIsExit = () => {
-    // If leave detected, navigate to dashboard page screen
     navigation.goBack("User-Out");
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        paddingTop: 30,
-      }}
-    >
-      <ScrollView
-      // refreshControl={
-      //   <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
-      // }
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            paddingHorizontal: "10%",
-          }}
-        >
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View style={styles.viewTopText}>
           <Text style={{ fontSize: 20 }}>Kamu</Text>
-          <Text style={{ fontSize: 20, color: "green", fontWeight: 900 }}>
-            {" "}
-            TELAH{" "}
-          </Text>
+          <Text style={styles.textTopText}> TELAH </Text>
           <Text style={{ fontSize: 20 }}>masuk kawasan parkir</Text>
         </View>
 
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            paddingLeft: 30,
-          }}
-        >
-          <Text style={{ fontWeight: 900, fontSize: 20, paddingTop: 40 }}>
-            Informasi Parkir
-          </Text>
-          <Text style={{ fontWeight: 900, fontSize: 17, color: "green" }}>
+        <View style={styles.viewSubtitle}>
+          <Text style={styles.textInformasiParkir}>Informasi Parkir</Text>
+          <Text style={styles.textCurrentDate}>
             {currentDate ? currentDate : "Loading..."}
           </Text>
           <Text style={{ paddingTop: 25, fontSize: 17 }}>
             Kuota parkir saat ini :
           </Text>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                borderWidth: 2,
-                borderColor: "green",
-                borderRadius: 5,
-                padding: 10,
-                fontSize: 18,
-                marginTop: 10,
-                marginLeft: -50,
-              }}
-            >
+          <View style={styles.viewTextBox}>
+            <Text style={styles.textBox}>
               {currentParkSlot && maxParkSlot
                 ? `${currentParkSlot} / ${maxParkSlot}`
                 : "Loading..."}
@@ -168,107 +116,45 @@ const DashboardPageIn = ({ navigation }) => {
           <Text style={{ paddingTop: 20, fontSize: 17 }}>
             Prediksi kuota parkir 1 JAM mendatang :
           </Text>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                borderWidth: 2,
-                borderColor: "green",
-                borderRadius: 5,
-                padding: 10,
-                fontSize: 18,
-                marginTop: 10,
-                marginLeft: -50,
-              }}
-            >
+          <View style={styles.viewTextBox}>
+            <Text style={styles.textBox}>
               {predictParkSlot && maxParkSlot
                 ? `${predictParkSlot} / ${maxParkSlot}`
                 : "Loading..."}
             </Text>
           </View>
 
-          <Text style={{ fontWeight: 900, fontSize: 20, paddingTop: 30 }}>
+          <Text style={styles.textInformasiUserParkir}>
             Informasi User Parkir
           </Text>
-          <Text style={{ fontWeight: 900, fontSize: 17, color: "green" }}>
+          <Text style={styles.textCurrentDate}>
             {currentDate ? currentDate : "Loading..."}
           </Text>
 
           <Text style={{ paddingTop: 25, fontSize: 17 }}>Plat Kendaraan :</Text>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                borderWidth: 2,
-                borderColor: "green",
-                borderRadius: 5,
-                padding: 10,
-                fontSize: 18,
-                marginTop: 10,
-                marginLeft: -50,
-              }}
-            >
+          <View style={styles.viewTextBox}>
+            <Text style={styles.textBox}>
               {vehicleNumber ? vehicleNumber : "Loading..."}
             </Text>
           </View>
 
           <Text style={{ paddingTop: 20, fontSize: 17 }}>Waktu Masuk :</Text>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                borderWidth: 2,
-                borderColor: "green",
-                borderRadius: 5,
-                padding: 10,
-                fontSize: 18,
-                marginTop: 10,
-                marginLeft: -50,
-              }}
-            >
+          <View style={styles.viewTextBox}>
+            <Text style={styles.textBox}>
               {vehicleEnterTime ? vehicleEnterTime : "Loading..."}
             </Text>
           </View>
         </View>
 
-        <View
-          style={{
-            flex: 0.1,
-            flexDirection: "column",
-            paddingHorizontal: "10%",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ textAlign: "center", paddingTop: 20, fontSize: 17 }}>
+        <View style={styles.viewBottomText}>
+          <Text style={styles.textBottomText}>
             Informasi visual rekomendasi lokasi parkir terdapat pada dashboard
             parking aplikasi.
           </Text>
         </View>
       </ScrollView>
 
-      <View
-        style={{
-          flexDirection: "column",
-          paddingHorizontal: "15%",
-          paddingTop: 10,
-          paddingBottom: 20,
-        }}
-      >
+      <View style={styles.viewButton}>
         <Button title="exit" color="red" onPress={handleIsExit} />
       </View>
     </SafeAreaView>
@@ -276,3 +162,52 @@ const DashboardPageIn = ({ navigation }) => {
 };
 
 export default DashboardPageIn;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    paddingTop: 30,
+  },
+  viewTopText: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: "10%",
+  },
+  textTopText: { fontSize: 20, color: "green", fontWeight: 900 },
+  viewSubtitle: {
+    flex: 1,
+    flexDirection: "column",
+    paddingLeft: 30,
+  },
+  textInformasiParkir: { fontWeight: 900, fontSize: 20, paddingTop: 40 },
+  textCurrentDate: { fontWeight: 900, fontSize: 17, color: "green" },
+  viewTextBox: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textBox: {
+    borderWidth: 2,
+    borderColor: "green",
+    borderRadius: 5,
+    padding: 10,
+    fontSize: 18,
+    marginTop: 10,
+    marginLeft: -50,
+  },
+  textInformasiUserParkir: { fontWeight: 900, fontSize: 20, paddingTop: 30 },
+  viewBottomText: {
+    flex: 0.1,
+    flexDirection: "column",
+    paddingHorizontal: "10%",
+    alignItems: "center",
+  },
+  textBottomText: { textAlign: "center", paddingTop: 20, fontSize: 17 },
+  viewButton: {
+    flexDirection: "column",
+    paddingHorizontal: "15%",
+    paddingTop: 10,
+    paddingBottom: 20,
+  },
+});
