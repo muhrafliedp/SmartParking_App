@@ -55,14 +55,16 @@ const LoginScreen = ({ navigation }) => {
       const json1 = await response1.json();
       const json2 = await response2.json();
       valid = json1.data.result;
-      const idNumber = json2.data.result[0].id_number;
-      const civitasType = json2.data.result[0].civitas_type;
-      const vehicleNumber = json2.data.result[0].vehicle_number;
-      setIdNumber(idNumber);
-      setCivitasType(civitasType);
-      setVehicleNumber(vehicleNumber);
+      if (json2.data.result[0] != null) {
+        const idNumber = json2.data.result[0].id_number;
+        const civitasType = json2.data.result[0].civitas_type;
+        const vehicleNumber = json2.data.result[0].vehicle_number;
+        setIdNumber(idNumber);
+        setCivitasType(civitasType);
+        setVehicleNumber(vehicleNumber);
+      }
 
-      if (valid) {
+      if (valid && json2.data.result[0] != null) {
         const userInfo = {
           idNumber,
           username,
